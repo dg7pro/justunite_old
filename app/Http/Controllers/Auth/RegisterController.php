@@ -86,7 +86,9 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
         dispatch(new SendVerificationEmail($user));
-        return view('auth.verify');
+
+        $message = "You have successfully registered. An email is sent to you for verification.";
+        return view('auth.verify')->with('message',$message);
     }
     /**
      * Handle a registration request for the application.

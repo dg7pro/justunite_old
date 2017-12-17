@@ -20,3 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('verifyemail/{token}', 'Auth\RegisterController@verify');
+
+Route::get('change-password','AccountController@changePassword');
+Route::post('change-password','AccountController@postPasswordCredentials');
+Route::get('change-email','AccountController@changeEmail');
+Route::post('change-email','AccountController@postEmailCredentials');
+
+Route::get('my-account','AccountController@myAccount');
+
