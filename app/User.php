@@ -26,4 +26,39 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get all of the user's votes.
+     */
+    public function votes()
+    {
+        return $this->morphMany('App\Vote', 'votable');
+    }
+
+    public function group(){
+
+        return $this->belongsTo('App\Group');
+    }
+
+    public function roles(){
+
+        return $this->belongsToMany('App\Role');
+    }
+
+    public function assignRole($role){
+
+        $this->roles()->save(
+            Role::whereName($role)->firstOrFail()
+        );
+    }
+
+    public function hasRole($role){
+
+        if(is_string($role)){
+            return $this->roles->contains('name',$role);
+        }
+
+        return !!$role->intersect($this->roles)->count();
+    }
+
 }

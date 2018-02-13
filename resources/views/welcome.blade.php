@@ -79,17 +79,27 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Just Unite
+                </div>
+                <div>
+                    <b>Beginning the Era of New Leadership</b>
                 </div>
 
-                <div class="links">
+                {{--<div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                </div>--}}
             </div>
+        </div>
+
+        <div class="flex-center position-ref full-height">
+            <b>The page will contain architecture of JU in background with Know more.. and Register buttons.
+                <br>The list of 9 groups under JU with link buttons to group page.
+                <br>Facebook, Twitter, Linked In links and the footer at the last.
+            </b>
         </div>
     </body>
 </html>
