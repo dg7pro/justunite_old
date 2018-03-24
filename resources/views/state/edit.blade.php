@@ -4,10 +4,130 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h2>Edit Existing State</h2>
+                <br>
+                <br>
+                <h2>Edit Existing State
+                    @can('manage_site')
+                        <a href="{{url('states/'.$state->id)}}" role="button" class="btn btn-sm btn-outline-info">View</a>
+                    @endcan
+                </h2>
+                <form method="post" action="{{url('states/'.$state->id)}}">
 
-                <p>Display form to edit state model</p>
-                {{$state}}
+                    {{ method_field('PATCH') }}
+                    {{ csrf_field() }}
+
+                    <table class="table table-bordered table-striped">
+                        {{--<thead>
+                        <tr>
+                            <th scope="col" colspan="2">Edit: {{ $state->name2}}</th>
+
+                        </tr>
+                        </thead>--}}
+                        <tbody>
+                        <tr>
+                            <td colspan="2"><b>{{$state->name}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><label for="name2">Name:</label></td>
+                            <td><input type="text" name="name2" class="form-control" value="{{$state->name2}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="capital">Capital:</label></td>
+                            <td><input type="text" name="capital" class="form-control" value="{{$state->capital}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="language">language:</label></td>
+                            <td><input type="text" name="language" class="form-control" value="{{$state->language}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="literacy">literacy %:</label></td>
+                            <td><input type="text" name="literacy" class="form-control" value="{{$state->literacy}}"></td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td colspan="2"><b>Population Info:</b></td>
+                        </tr>
+                        <tr>
+                            <td><label for="population">Population:</label></td>
+                            <td><input type="text" name="population" class="form-control" value="{{$state->population}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="urbanp">Urban Population:</label></td>
+                            <td><input type="text" name="urbanp" class="form-control" value="{{$state->urbanp}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ruralp">Rural Population:</label></td>
+                            <td><input type="text" name="ruralp" class="form-control" value="{{$state->ruralp}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="prank">Population Rank:</label></td>
+                            <td><input type="text" name="prank" class="form-control" value="{{$state->prank}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="density">Density:</label></td>
+                            <td><input type="text" name="density" class="form-control" value="{{$state->density}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="sex_ratio">Sex Ratio:</label></td>
+                            <td><input type="text" name="sex_ratio" class="form-control" value="{{$state->sex_ratio}}"></td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td colspan="2"><b>Election Information:</b></td>
+                        </tr>
+                        <tr>
+                            <td><label for="pc">Parliamentary Seats:</label></td>
+                            <td><input type="text" name="pc" class="form-control" value="{{$state->pc}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ac">Assembly Seats:</label></td>
+                            <td><input type="text" name="ac" class="form-control" value="{{$state->ac}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="governor">Governor:</label></td>
+                            <td><input type="text" name="governor" class="form-control" value="{{$state->governor}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="cm">Chief Minister:</label></td>
+                            <td><input type="text" name="cm" class="form-control" value="{{$state->cm}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="wparty">Winner Party:</label></td>
+                            <td><input type="text" name="wparty" class="form-control" value="{{$state->wparty}}"></td>
+                        </tr>
+
+                       {{-- <tr>
+                            <td><label for="">:</label></td>
+                            <td><input type="text" name="" class="form-control" value="{{$state->}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="">:</label></td>
+                            <td><input type="text" name="" class="form-control" value="{{$state->}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="">:</label></td>
+                            <td><input type="text" name="" class="form-control" value="{{$state->}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="">:</label></td>
+                            <td><input type="text" name="" class="form-control" value="{{$state->}}"></td>
+                        </tr>--}}
+
+                        </tbody>
+                    </table>
+
+                    <button type="submit" class="btn btn-success">Update</button>
+
+                </form>
+
+                <br>
+                <br>
 
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Description & Notes:</h4>

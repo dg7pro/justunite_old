@@ -5,18 +5,17 @@
     <div class="jumbotron color5">
         <div class="container">
             <h1 class="display-3">India: The Union of States!</h1>
-            <p>The first article of the Constitution of India states that "India, that is Bharat, shall be a union of states. Presently India consists of 29 states and 7 Union Territories including Delhi </p>
-            <p><a class="btn btn-outline-dark btn-lg" href="{{url('states/'.Auth::User()->state_id)}}" role="button">Your State &raquo;</a></p>
-            {{--<div class="row">
-                <div class="col-md-8">
-                    <h1 class="display-3">India: The Union of States!</h1>
-                    <p>The first article of the Constitution of India states that "India, that is Bharat, shall be a union of states. Presently India consists of 29 states and 7 Union Territories including Delhi </p>
-                    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-                </div>
-                <div class="col-md-4">
-                    <img src="images/india.jpg" alt="India" height="300" >
-                </div>
-            </div>--}}
+            <p><b>
+                    The first article of the Constitution of India states that "India, that is Bharat, shall be a Union of States.
+                    Presently India consists of 29 states and 7 Union Territories including Delhi
+            </b></p>
+            @if(Auth::guest())
+                <p><a href="{{url('register')}}" role="button" class="btn btn-outline-dark btn-lg" >Register &raquo;</a></p>
+
+            @else
+                <p><a class="btn btn-outline-dark btn-lg" href="{{url('states/your-state')}}" role="button">Your State &raquo;</a></p>
+            @endif
+
         </div>
     </div>
     <div class="container">
@@ -30,14 +29,23 @@
                         <th scope="col">Id</th>
                         <th scope="col">Name of State</th>
                         <th scope="col">Loksabha Seats</th>
+                        @can('manage_site')
+                            <th scope="col">Edit</th>
+                        @endcan
+
                     </tr>
                     </thead>
                     <tbody>
                         @foreach($states as $state)
                         <tr>
-                            <th scope="row">{{$state->id}}</th>
-                            <td><a href="{{url('states/'.$state->id)}}">{{$state->name}}</a></td>
-                            <td>{{$state->constituencies_count}}</td>
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <th><a href="{{url('states/'.$state->id)}}">{{$state->name}}</a></th>
+                            <th>{{$state->constituencies_count}}</th>
+                            @can('manage_site')
+                                <th>
+                                    <a href="{{url('states/'.$state->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
+                                </th>
+                            @endcan
                         </tr>
                         @endforeach
 
@@ -57,7 +65,7 @@
                     <tbody>
                     @foreach($uts as $ut)
                         <tr>
-                            <th scope="row">{{$ut->id}}</th>
+                            <th scope="row">{{$loop->iteration}}</th>
                             <td><a href="{{url('states/'.$ut->id)}}">{{$ut->name}}</a></td>
                             <td>{{$ut->constituencies_count}}</td>
                         </tr>

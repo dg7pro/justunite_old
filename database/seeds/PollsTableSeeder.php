@@ -17,13 +17,8 @@ class PollsTableSeeder extends Seeder
         }*/
 
         App\Poll::query()->create([
-            'question'=>'Who will be next Prime Minister of India',
-            'description'=>'Who will be your choice as Prime Minister after 2019 General Elections'
-        ]);
-
-        App\Poll::query()->create([
-            'question'=>'Which party is best for India at National Level',
-            'description'=>'Which is the party of your choice at National Level'
+            'question'=>'Who will be next Prime Minister of India ?',
+            'description'=>'Who will be your choice of Prime Minister in 2019 General Elections?'
         ]);
     }
 }

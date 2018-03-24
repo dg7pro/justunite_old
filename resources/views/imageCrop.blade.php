@@ -1,10 +1,10 @@
 <html lang="en">
 <head>
     <title>Laravel - jquery ajax crop image before upload using croppie plugins</title>
-    {{--<script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
-    <script src="http://demo.itsolutionstuff.com/plugin/croppie.js"></script>--}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.5.0/croppie.min.js"></script>
+    <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
+    <script src="http://demo.itsolutionstuff.com/plugin/croppie.js"></script>
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.5.0/croppie.min.js"></script>--}}
    {{-- <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css">
     <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/croppie.css">--}}
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">

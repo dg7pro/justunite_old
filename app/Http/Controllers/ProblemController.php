@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use App\Problem;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Input;
 
 class ProblemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index','show','voting');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,18 +24,36 @@ class ProblemController extends Controller
      */
     public function index()
     {
-        $problems = Problem::all();
-        return view('problem.index',compact('problems'));
+        /*$problems = Problem::all();
+        return view('problem.index',compact('problems'));*/
+
+        $problems = Problem::with('votes')->withCount('votes')
+            ->orderBy('votes_count','desc')->get();
+
+        $receivedVoteProblemId = null;
+        foreach($problems as $problem){
+            foreach ($problem->votes as $vote){
+                if (Auth::id()==$vote->user_id){
+                    $receivedVoteProblemId = $problem->id;
+                }
+            }
+        }
+
+        //return $problems;
+        return view('problem.index2',compact('problems','receivedVoteProblemId'));
+
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $this->authorize('manage_site');
+        return view('problem.create');
     }
 
     /**
@@ -36,7 +64,22 @@ class ProblemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('manage_site');
+
+        // Validate Inputs
+        $this->validator($request->all())->validate();
+
+        $problem = new Problem();
+        $problem->title = $request->title;
+        $problem->image = $request->image;
+        $problem->notes = $request->notes;
+        $problem->save();
+
+        //Flash Message
+        Session::flash('message', 'Course added successfully!');
+
+        // Redirect Back
+        return redirect()->back();
     }
 
     /**
@@ -47,7 +90,8 @@ class ProblemController extends Controller
      */
     public function show(Problem $problem)
     {
-        return view('problem.show',compact('problem'));
+        $images = $problem->images()->get();
+        return view('problem.show',compact('problem','images'));
     }
 
     /**
@@ -58,6 +102,7 @@ class ProblemController extends Controller
      */
     public function edit(Problem $problem)
     {
+        $this->authorize('manage_site');
         return view('problem.edit',compact('problem'));
     }
 
@@ -65,12 +110,17 @@ class ProblemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Problem  $problem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Problem $problem)
     {
-        //
+        $this->authorize('manage_site');
+        $this->validator($request->all())->validate();
+        $problem->update($request->all());
+        //Flash Message
+        Session::flash('message', 'Problem updated successfully!');
+        return back();
     }
 
     /**
@@ -79,8 +129,151 @@ class ProblemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Problem $problem)
     {
-        //
+        $this->authorize('manage_site');
+        $problem->delete();
+        return redirect('problems');
+    }
+
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'title'=>'required',
+            'notes' => 'required',
+        ]);
+    }
+
+    public function voting(){
+
+        $problems = Problem::with('votes')->withCount('votes')
+            ->orderBy('votes_count','desc')->get();
+
+        $receivedVoteProblemId = null;
+        foreach($problems as $problem){
+            foreach ($problem->votes as $vote){
+                if (Auth::id()==$vote->user_id){
+                    $receivedVoteProblemId = $problem->id;
+                }
+            }
+        }
+
+        //return $problems;
+        return view('problem.poll',compact('problems','receivedVoteProblemId'));
+    }
+
+    public function vote(Request $request, $id){
+
+        // Retrieve the current vote
+        $currentOption = $request->currentOption;
+        if($currentOption==null){
+            $user = Auth::User();
+            $problem = Problem::query()->find($id);
+            $problem->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
+            return redirect()->back();
+        }else {
+            $problem = Problem::query()->find($currentOption);
+            $vote = $problem->votes()->where('user_id', Auth::id())->first();
+            $vote->update(['votable_id' => $id]);
+            return redirect()->back();
+        }
+
+
+        // Delete the current vote
+        /*$vote->delete();
+        return "Successfully Deleted";*/
+
+        // Or just update the current vote
+
+
+
+        // Create the new vote if not already present
+        /*$user = Auth::User();
+        $option = Option::query()->find($id);
+        $option->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
+        return redirect()->back();*/
+
+    }
+
+    public function vote2(Request $request){
+
+        // Retrieve the current vote
+        $currentOption = $request->currentOption;
+        $newOption = $request->newOption;
+        $problem = Problem::query()->find($currentOption);
+        $vote = $problem->votes()->where('user_id',Auth::id())->first();
+
+
+        // Delete the current vote
+        /*$vote->delete();
+        return "Successfully Deleted";*/
+
+        // Or just update the current vote
+        $vote->update(['votable_id'=>$newOption]);
+        return redirect()->back();
+
+
+        // Create the new vote if not already present
+        /*$user = Auth::User();
+        $option = Option::query()->find($id);
+        $option->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
+        return redirect()->back();*/
+
+    }
+
+    public function makeReady(){
+
+        //return redirect()->intended();
+        return redirect()->to('problems');
+        //return redirect()->back();
+
+    }
+
+    public function uploadImage(Problem $problem, Request $request){
+
+        //$file = $request->file('image');
+        //return $file->getClientOriginalName();
+        //return $file->getClientOriginalExtension();
+        //return $file->getClientMimeType();
+        //return $file->getClientSize();
+
+        //===========================================
+
+        // Understanding Path is important for JU
+        /*$path = $request->file('image')->store('public');
+        return $path;*/
+
+        /*$file = $request->file('image');
+        $filename = $file->getClientOriginalName();
+        $filename  = time() . '.' . $file->getClientOriginalExtension();
+        $filename  = time() . '_' . $file->getClientOriginalName();
+
+        $path = $file->storeAs('public/problems',$filename);
+        return $path;*/
+
+        //============================================
+
+        // Real Coding Begins
+
+        // Upload & save file to directory
+        $file = $request->file('image');
+        $filename  = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/problems',$filename);
+
+        $image = New Image();
+        $image->name = $filename;
+        $image->heading = $request->heading;
+        $image->caption = $request->caption;
+
+        $problem->images()->save($image);
+        return redirect()->back();
+
     }
 }

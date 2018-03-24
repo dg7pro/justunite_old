@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','email_token',
+        'name', 'email', 'password', 'uuid'
     ];
 
     /**
@@ -28,12 +28,29 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'last_login'
+    ];
+
+    /**
      * Get all of the user's votes.
      */
     public function votes()
     {
         return $this->morphMany('App\Vote', 'votable');
     }
+
+    public function images()
+    {
+        return $this->morphMany('App\Image', 'imagable');
+    }
+
 
     public function group(){
 
@@ -43,6 +60,16 @@ class User extends Authenticatable
     public function roles(){
 
         return $this->belongsToMany('App\Role');
+    }
+
+    public function knows(){
+
+        return $this->belongsToMany('App\User','know_user','user_id','know_id');
+    }
+
+    public function knownBy(){
+
+        return $this->belongsToMany('App\User','know_user','know_id','user_id');
     }
 
     public function assignRole($role){
@@ -59,6 +86,30 @@ class User extends Authenticatable
         }
 
         return !!$role->intersect($this->roles)->count();
+    }
+
+    public function constituency()
+    {
+        return $this->belongsTo('App\Constituency');
+    }
+
+    public function gender(){
+        return $this->belongsTo('App\Gender');
+    }
+    public function marital(){
+        return $this->belongsTo('App\Marital');
+    }
+    public function age(){
+        return $this->belongsTo('App\Age');
+    }
+    public function religion(){
+        return $this->belongsTo('App\Religion');
+    }
+    public function education(){
+        return $this->belongsTo('App\Education');
+    }
+    public function profession(){
+        return $this->belongsTo('App\Profession');
     }
 
 }

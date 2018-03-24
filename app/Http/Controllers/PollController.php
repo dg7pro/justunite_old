@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Poll;
+use Illuminate\Support\Facades\Auth;
+use App\Problem;
 use Illuminate\Http\Request;
 
 class PollController extends Controller
@@ -14,8 +16,19 @@ class PollController extends Controller
      */
     public function index()
     {
-        $polls = Poll::all();
-        return view('poll.index',compact('polls'));
+        /*$problems = Problem::with('votes')->withCount('votes')->orderBy('votes_count','desc')->get();
+
+        $receivedVoteProblemId = null;
+        foreach($problems as $problem){
+            foreach ($problem->votes as $vote){
+                if (Auth::id()==$vote->user_id){
+                    $receivedVoteProblemId = $problem->id;
+                }
+            }
+        }
+        return view('poll.index',compact('problems','receivedVoteProblemId'));*/
+
+        return view('poll.index');
     }
 
     /**

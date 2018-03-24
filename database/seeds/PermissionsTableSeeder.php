@@ -41,10 +41,5 @@ class PermissionsTableSeeder extends Seeder
             'name'=>'view_stats',
             'label'=>'View Statistics'
         ]);
-
-        App\Permission::query()->create([
-            'name'=>'view_notes',
-            'label'=>'View Notes'
-        ]);
     }
 }

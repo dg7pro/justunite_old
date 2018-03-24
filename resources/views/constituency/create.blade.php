@@ -5,6 +5,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                <br>
+                <br>
                 <h2>Create New Constituency</h2>
 
                 <p>Display form to create new constituency model</p>

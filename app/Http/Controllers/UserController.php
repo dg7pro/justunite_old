@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -45,8 +47,10 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
+        $user = User::where('id','=',$id)->with('gender','age','marital','religion','education','profession')->first();
+        //return $user;
         return view('user.show',compact('user'));
     }
 
@@ -70,7 +74,25 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validator($request->all())->validate();
+        $user = User::query()->where('id','=',$id)->first();
+
+        $user->state_id = $request->state;
+        $user->constituency_id = $request->constituency;
+        $user->gender_id = $request->gender;
+        $user->religion_id = $request->religion;
+        $user->marital_id = $request->marital;
+        $user->education_id = $request->education;
+        $user->age_id = $request->age;
+        $user->profession_id = $request->profession;
+        $user->group_id = $request->group;
+        $user->mobile = $request->mobile;
+        $user->update();
+
+        //Flash Message
+        Session::flash('message', 'Profile updated successfully!');
+        return back();
+
     }
 
     /**
@@ -84,12 +106,29 @@ class UserController extends Controller
         //
     }
 
-    public function voteUp(){
+    public function totalMembers(){
 
-        $user = Auth::User();
-
-
-
-
+        $usersCount = User::all()->count();
+        return view('user.members',compact('usersCount'));
     }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+           /* 'state'=>'required',
+            'constituency' => 'required',*/
+            /*'gender' => 'required',
+            'religion' => 'required',
+
+            'marital' => 'required',
+            'education' => 'required',
+            'age' => 'required',
+            'profession' => 'required',
+            'group' => 'required',
+            'mobile' => 'required'*/
+        ]);
+    }
+
+
+
 }

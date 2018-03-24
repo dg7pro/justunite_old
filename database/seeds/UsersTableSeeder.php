@@ -23,15 +23,7 @@ class UsersTableSeeder extends Seeder
             'name'=>'Dhananjay Gupta',
             'email'=>'dg7projects@gmail.com',
             'password'=>bcrypt('Venus*27'),
-            'group_id' => rand(1,10),
-            'state_id' => 5,
-
-            'constituency_id' => 27,
-            'credits' => rand(1,7),
-            'verified' => rand(0,1),
-            'email_token' => base64_encode('email'),
-
-            'remember_token' => str_random(10),
+            //'remember_token' => str_random(10),
         ]);
 
         // Correct method 1st
@@ -40,16 +32,15 @@ class UsersTableSeeder extends Seeder
             'name'=>'Kusum Rai',
             'email'=>'kusumrai@gmail.com',
             'password'=>bcrypt('Venus*27'),
-            'group_id' => rand(1,10),
+            /*'group_id' => rand(1,10),
             'state_id' => 7,
             'constituency_id' => 27,
             'credits' => rand(1,7),
             'verified' => rand(0,1),
             'email_token' => base64_encode('email'),
-
-            'remember_token' => str_random(10),
+            'remember_token' => str_random(10),*/
         ]);
 
-        factory('App\User',1000)->create();
+        factory('App\User',100)->create();
     }
 }

@@ -8,6 +8,7 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         * {
             box-sizing: border-box;
@@ -112,7 +113,7 @@
             }
         }
         .tab-content {
-            height: 100vh;
+            height: 70vh;
             will-change: transform;
             -webkit-perspective: 400px;
             perspective: 400px;
@@ -255,6 +256,7 @@
 
     @include('layouts.partials.nav')
     @yield('content')
+    @include('layouts.partials.footer')
 
 
 

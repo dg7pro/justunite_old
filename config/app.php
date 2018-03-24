@@ -176,7 +176,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Cornford\Googlmapper\MapperServiceProvider::class,
+        App\Providers\LinkServiceProvider::class,
 
     ],
 
@@ -227,7 +227,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Uuid' => Webpatser\Uuid\Uuid::class,
-        'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
     ],
 
 ];

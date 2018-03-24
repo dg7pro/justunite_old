@@ -5,31 +5,36 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <br><br>
-                <h2>Edit Problem</h2>
-
+                <h2>
+                    Edit Problem
+                    @can('manage_site')
+                        <a href="{{url('problems/'.$problem->id)}}" role="button" class="btn btn-sm btn-outline-info">View</a>
+                        <form method="POST" action="{{url('problems/'.$problem->id)}}" class="form-inline" onsubmit="return ConfirmDelete()">
+                            {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    @endcan
+                </h2>
                 <form method="post" action="{{url('problems/'.$problem->id)}}">
 
                     {{ method_field('PATCH') }}
                     {{ csrf_field() }}
 
                     <div class="form-group">
-                        <label for="answer">Title:</label>
-                        <input type="text" name="title" class="form-control" placeholder="Put your Option" value="{{$problem->title}}">
+                        <label for="title">Title:</label>
+                        <input type="text" name="title" class="form-control" placeholder="Put Title" value="{{$problem->title}}">
                     </div>
 
                     <div class="form-group">
                         <label for="notes">Notes:</label>
-                        <textarea name="notes" class="form-control" placeholder="Put your Option" >{{$problem->notes}}</textarea>
+                        <textarea name="notes" id="notes-content" class="form-control" placeholder="Put Notes" rows="10" >{{$problem->notes}}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-success">Update</button>
 
                 </form>
-
-
-
-                <p>Display form to edit state model</p>
-                {{$problem}}
+                <br>
 
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Description & Notes:</h4>
@@ -42,9 +47,23 @@
                 <br>
                 <br>
                 <br>
-
-
             </div>
         </div>
     </div>
+@endsection
+
+@section('extra-js')
+    <script>
+        CKEDITOR.replace( 'notes-content');
+
+        function ConfirmDelete(){
+
+            var x = confirm("Are you sure you want to delete?");
+            if (x)
+                return true;
+            else
+                return false;
+
+        }
+    </script>
 @endsection

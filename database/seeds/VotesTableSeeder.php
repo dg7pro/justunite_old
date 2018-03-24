@@ -23,8 +23,11 @@ class VotesTableSeeder extends Seeder
             $vote = App\User::where('id','<',1000)->inRandomOrder()->first();
             $vote->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
 
-            $option = App\Option::inRandomOrder()->first();
-            $option->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
+           /* $option = App\Option::inRandomOrder()->first();
+            $option->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);*/
+
+            $problem = App\Problem::inRandomOrder()->first();
+            $problem->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
 
         }
 

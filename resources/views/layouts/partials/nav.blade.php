@@ -35,8 +35,8 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                        <a class="dropdown-item" href="#">Dashboard</a>
-                        <a class="dropdown-item" href="#">My Profile</a>
+                        <a class="dropdown-item" href="{{url('home')}}">Dashboard</a>
+                        <a class="dropdown-item" href="{{url('users/'.Auth::User()->id)}}">My Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
@@ -46,8 +46,8 @@
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
-                        <div class="dropdown-divider"></div>
                         @can('manage_site')
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('admin') }}">Admin Section</a>
                         @endcan
                     </div>

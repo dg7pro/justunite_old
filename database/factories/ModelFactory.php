@@ -20,7 +20,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'group_id' => rand(1,10),
+        /*'group_id' => rand(1,10),
         'state_id' => function () {
             // Get random state id
             return $sid = App\State::inRandomOrder()->first()->id;
@@ -33,6 +33,6 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'verified' => rand(0,1),
         'email_token' => base64_encode('email'),
 
-        'remember_token' => str_random(10),
+        'remember_token' => str_random(10),*/
     ];
 });

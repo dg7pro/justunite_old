@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Session;
 
 class ConstituencyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index','show','voting');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +23,8 @@ class ConstituencyController extends Controller
      */
     public function index()
     {
-        $constituencies = Constituency::with('state')->get();
+        $constituencies = Constituency::with('state.stype','ctype')->get();
+        //return $constituencies;
         return view('constituency.index',compact('constituencies'));
     }
 
@@ -62,6 +68,7 @@ class ConstituencyController extends Controller
      */
     public function edit(Constituency $constituency)
     {
+        //$constituency = Constituency::where('id','=',$id)->with('state')->first();
         return view('constituency.edit',compact('constituency'));
     }
 
@@ -101,19 +108,35 @@ class ConstituencyController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'pc_name' => 'required',
+            'details' => 'required',
 
         ]);
     }
 
+    public function members($id){
 
-    public function users($id){
+        $members = User::all()->count();
+        $constituency = Constituency::find($id);
+        return view('constituency.members',compact('members','constituency'));
 
         //$users = User::query()->where('constituency_id',$id)->with('votes')->get();
-        $constituency = Constituency::find($id);
+        /*$constituency = Constituency::find($id);
         $users = User::query()->where('constituency_id',$id)
             ->has('votes')->withCount('votes')->with('votes')->orderBy('votes_count','desc')->get();
-        return view('constituency.users',compact('users','constituency'));
+        return view('constituency.users',compact('users','constituency'));*/
+    }
+
+    public function yourConstituency(){
+
+        if(Auth::user()->constituency_id == null){
+            Session::flash('message', 'Please select your Loksabha Constituency !');
+            return redirect('/home');
+           //return "Please select your Constituency";
+        }
+        else{
+            return redirect('constituencies/'.Auth::user()->constituency_id);
+            //return "Redirect to other";
+        }
     }
 
 

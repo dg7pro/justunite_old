@@ -4,8 +4,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            <br>
+            <br>
 
-            <h2>Login</h2>
+            <h2 style="padding-left: 10px">Login</h2>
+            <br>
 
             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
@@ -60,7 +63,7 @@
                     </div>
                 </div>
             </form>
-
+            <br>
         </div>
     </div>
 </div>

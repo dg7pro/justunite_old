@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Webpatser\Uuid\Uuid;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use App\Jobs\SendVerificationEmail;
 
 class RegisterController extends Controller
 {
@@ -61,47 +58,17 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param array $data
+     * @return $this|\Illuminate\Database\Eloquent\Model
+     * @throws \Exception
      */
     protected function create(array $data)
     {
         return User::create([
+            'uuid'=> Uuid::generate()->string,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'email_token' => base64_encode($data['email'])
         ]);
-    }
-
-
-    /**
-     * Handle a registration request for the application.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function register(Request $request)
-    {
-        $this->validator($request->all())->validate();
-        event(new Registered($user = $this->create($request->all())));
-        dispatch(new SendVerificationEmail($user));
-
-        $message = "You have successfully registered. An email is sent to you for verification.";
-        return view('auth.verify')->with('message',$message);
-    }
-    /**
-     * Handle a registration request for the application.
-     *
-     * @param $token
-     * @return \Illuminate\Http\Response
-     */
-    public function verify($token)
-    {
-        $user = User::where('email_token',$token)->first();
-        $user->verified = 1;
-        if($user->save()){
-            return view('auth.confirmed',['user'=>$user]);
-        }
     }
 }

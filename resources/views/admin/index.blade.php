@@ -1,156 +1,184 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
+
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                @include('admin.partials.breadcrumbs')
+
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>List of all Roles</h4>
+                <ul class="list-group">
+                    @foreach($roles as $role)
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {{$role->id.'. '}}{{$role->name}}
+                                </div>
+                                <div class="col-md-4">
+                                    {{$role->label}}
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
+
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Roles with Permissions</h4>
+                <div style="height: 60vh; overflow: auto">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Permissions</th>
+                            <th scope="col">Admin</th>
+                            <th scope="col">Manager</th>
+                            <th scope="col">User</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($permissions as $permission)
+                            <tr>
+                                <th scope="row">{{$permission->id}}</th>
+                                <td>{{$permission->name}}</td>
+                                <td><input type="checkbox" {{ $permission->isAssociatedWithRole('Admin') ? 'checked' : '' }} name=""></td>
+                                <td><input type="checkbox" {{ $permission->isAssociatedWithRole('Manager') ? 'checked' : '' }} name=""></td>
+                                <td><input type="checkbox" {{ $permission->isAssociatedWithRole('User') ? 'checked' : '' }} name=""></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            </div>
+            <div class="col-md-6">
+                <h4>All Users with Roles</h4>
+                <div style="height: 20vh; overflow: auto">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Users</th>
+                            <th scope="col">Admin</th>
+                            <th scope="col">Manager</th>
+                            <th scope="col">User</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($users as $user)
+                            <tr>
+                                <th scope="row">{{$user->id}}</th>
+                                <td>{{$user->email}}<input type="hidden" name="email" value="{{ $user->email }}"></td>
+                                <td><input type="checkbox" {{ $user->hasRole('Admin') ? 'checked' : '' }} name="role_admin"></td>
+                                <td><input type="checkbox" {{ $user->hasRole('Manager') ? 'checked' : '' }} name="role_manager"></td>
+                                <td><input type="checkbox" {{ $user->hasRole('User') ? 'checked' : '' }} name="role_user"></td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br>
         <div class="row">
 
-            @can('manage_roles')
-                <a href="{{url('/roles')}}">
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="offer offer-success">
-                        <div class="shape">
-                            <div class="shape-text">
-                                AWO
-                            </div>
-                        </div>
-                        <div class="offer-content">
-                            <h3 class="lead">
-                                Manage Roles & Permissions
-                            </h3>
-                        </div>
+            <div class="col-md-6">
+                {{--<h4>Attach Role to User</h4>--}}
+                <div class="card">
+                    <div class="card-header">
+                        Attach Role to User
                     </div>
-                    </div>
-                </a>
-            @endcan
-
-            @can('manage_users')
-                <a href="{{url('/users')}}">
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="offer offer-primary">
-                            <div class="shape">
-                                <div class="shape-text">
-                                    AWO
-                                </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{url('assign-role')}}">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" class="form-control" placeholder="Enter user email">
                             </div>
-                            <div class="offer-content">
-                                <h3 class="lead">
-                                    Manage & View Users
-                                </h3>
+                            <div class="form-group">
+                                <label for="poll">Select Role</label>
+                                <select name="poll" required="required" class="form-control">
+                                    <option disabled selected>Select Poll</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{$role->id}}" @if (old('role') == $role->id) selected="selected" @endif>{{$role->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </div>
-                    </div>
-                </a>
-            @endcan
-
-            @can('manage_site')
-                <a href="{{url('/courses/admin')}}">
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="offer offer-danger">
-                            <div class="shape">
-                                <div class="shape-text">
-                                    AWO
-                                </div>
-                            </div>
-                            <div class="offer-content">
-                                <h3 class="lead">
-                                    Courses & Study Materials
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            @endcan
-
-            @can('manage_site')
-                <a href="{{url('/polls')}}">
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="offer offer-warning">
-                            <div class="shape">
-                                <div class="shape-text">
-                                    AWO
-                                </div>
-                            </div>
-                            <div class="offer-content">
-                                <h3 class="lead">
-                                    Manage Polls & Options
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            @endcan
-
-           {{-- @can('manage_site')
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="offer offer-warning">
-                        <div class="shape">
-                            <div class="shape-text">
-                                AWO
-                            </div>
-                        </div>
-                        <div class="offer-content">
-                            <h3 class="lead">
-                                A warning offer
-                            </h3>
-                            <p>
-                                And a little description.
-                                <br> and so one
-                            </p>
-                        </div>
+                            <button type="submit" class="btn btn-default">Assign Role</button>
+                        </form>
                     </div>
                 </div>
-            @endcan
+                <br>
+            </div>
 
-            @can('manage_site')
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="offer offer-info">
-                        <div class="shape">
-                            <div class="shape-text">
-                                AWO
+            <div class="col-md-6">
+                {{--<h4>Detach Roles to Users</h4>--}}
+                <div class="card">
+                    <div class="card-header">
+                        Detach Roles to Users
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{url('de-assign-role')}}">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" class="form-control" placeholder="Enter user email">
                             </div>
-                        </div>
-                        <div class="offer-content">
-                            <h3 class="lead">
-                                An new info offer
-                            </h3>
-                            <p>
-                                And a little description.
-                                <br> and so one
-                            </p>
-                        </div>
+                            {{--<div class="form-group">
+                                <label for="poll">Select Role</label>
+                                <select name="poll" required="required" class="form-control">
+                                    <option disabled selected>Select Poll</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{$role->id}}" @if (old('role') == $role->id) selected="selected" @endif>{{$role->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>--}}
+                            <button type="submit" class="btn btn-default">De-Assign Role</button>
+                        </form>
                     </div>
                 </div>
-            @endcan
+            </div>
 
-
-
-            @can('manage_site')
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="offer offer-default">
-                        <div class="shape">
-                            <div class="shape-text">
-                                AWO
-                            </div>
-                        </div>
-                        <div class="offer-content">
-                            <h3 class="lead">
-                                A default offer
-                            </h3>
-                            <p>
-                                And a little description.
-                                <br> and so one
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            @endcan
---}}
         </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active">
+                        Cras justo odio
+                    </a>
+                    <a href="{{url('religions')}}" class="list-group-item list-group-item-action">Religions</a>
+                    <a href="{{url('educations')}}" class="list-group-item list-group-item-action">Education</a>
+                    <a href="{{url('professions')}}" class="list-group-item list-group-item-action">Profession</a>
+                    <a href="{{url('genders')}}" class="list-group-item list-group-item-action">Gender</a>
+                    <a href="{{url('maritals')}}" class="list-group-item list-group-item-action">Marital Status</a>
+                    <a href="{{url('ages')}}" class="list-group-item list-group-item-action">Age Group</a>
+                </div>
+                <br>
+            </div>
 
+            <div class="col-md-6">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active">
+                        Cras justo odio
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <br>
+    <br>
+    <br>
 @endsection

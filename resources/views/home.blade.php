@@ -1,369 +1,361 @@
 @extends('layouts.master')
 
+@section('extra-css')
+    <style>
+        .table-borderless td,
+        .table-borderless th {
+            border: 0;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container">
-        {{--<div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Dashboard</div>
-
-                    <div class="panel-body">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        You are logged in!
-                    </div>
-                </div>
-            </div>
-        </div>--}}
-
+        <br>
+        <br>
+        @include('layouts.alerts.success')
+        @include('layouts.alerts.error')
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Dashboard</div>
+            <div class="col-md-9">
 
-                    <div class="panel-body">
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                @if(file_exists(public_path().'/upload/'.Auth::User()->uuid.'.png'))
-                                    <img src="{{'upload/'.Auth::User()->uuid.'.png'}}" alt="Profile Pic" class="img-thumbnail" width="150" height="150">
-                                @else
-                                    <img data-name="{{ Auth::User()->name }}" class="demo img-thumbnail" width="150" height="150"/>
-                                    {{--<img src="images/profile-pic.png" alt="Profile Pic" class="img-thumbnail" width="150" height="150">--}}
-                                @endif
-                            </div>
-                            <div class="col-md-8">
-                                <h3>Welcome: {{Auth::User()->name}}</h3>
-                                <h5>Last Login: {{ Auth::user()->updated_at->diffForHumans() }}</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5>Email: {{Auth::User()->email}}</h5>
-                                        <h5>Mobile: 7565097233</h5>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5>Constituency: Varanasi</h5>
-                                        <h5>Association: Women Wing</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Profile Info:</div>
-
-                    <div class="panel-body">
-
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
-                            {{ csrf_field() }}
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <br>
-                                    <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                        <div class="col-md-10 col-md-offset-2">
-                                            <label for="gender" class="control-label">Select State first:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-map" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="gender" required="required" class="form-control input-lg" autofocus>
-                                                    <option disabled selected>State</option>
-                                                    <option value="m" @if (old('gender') == 'm') selected="selected" @endif>UP</option>
-                                                    <option value="f" @if (old('gender') == 'f') selected="selected" @endif>Bihar</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <br>
-                                    <div class="form-group{{ $errors->has('m_status') ? ' has-error' : '' }}">
-                                        <div class="col-md-10 col-md-offset-0">
-                                            <label for="m_status" class="control-label">Select Constituency</label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                </div>
-                                                <select name="m_status" required="required" class="form-control input-lg" autofocus>
-                                                    <option disabled selected>Constituency</option>
-                                                    <option value="m" @if (old('m_status') == 'm') selected="selected" @endif>Kausambhi</option>
-                                                    <option value="f" @if (old('m_status') == 'um') selected="selected" @endif>Varanasi</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="col-md-3 col-md-offset-6">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">
-                                                Save Data
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </form>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Profile Info:</div>
-
-                    <div class="panel-body">
-
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
-                            {{ csrf_field() }}
-
-
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <br>
-                                    <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                        {{--<label for="gender" class="col-md-4 control-label">Gender</label>--}}
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-venus-mars" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="gender" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>Gender</option>
-                                                    <option value="m" @if (old('gender') == 'm') selected="selected" @endif>Male</option>
-                                                    <option value="f" @if (old('gender') == 'f') selected="selected" @endif>Female</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('m_status') ? ' has-error' : '' }}">
-                                        {{--<label for="m_status" class="col-md-4 control-label">Martial Status</label>--}}
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="m_status" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>Martial Status</option>
-                                                    <option value="m" @if (old('m_status') == 'm') selected="selected" @endif>Married</option>
-                                                    <option value="f" @if (old('m_status') == 'um') selected="selected" @endif>Unmarried</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('age-group') ? ' has-error' : '' }}">
-                                        {{--<label for="age-group" class="col-md-4 control-label">Martial Status</label>--}}
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-users" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="age-group" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>Your Age Group</option>
-                                                    <option value="m" @if (old('age-group') == 'm') selected="selected" @endif>18 to 25years</option>
-                                                    <option value="f" @if (old('age-group') == 'um') selected="selected" @endif>25 to 35years</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-6">
-                                    <br>
-                                    <div class="form-group{{ $errors->has('religion') ? ' has-error' : '' }}">
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-flag" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="religion" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>Religion</option>
-                                                    <option value="m">Hindu</option>
-                                                    <option value="f">Muslim</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('education') ? ' has-error' : '' }}">
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="education" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>Education</option>
-                                                    <option value="1">High School</option>
-                                                    <option value="2">Intermediate</option>
-                                                    <option value="3">Under Graduate</option>
-                                                    <option value="4">Graduation</option>
-                                                    <option value="5">Masters</option>
-                                                    <option value="6">Doctorate</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('profession') ? ' has-error' : '' }}">
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-building" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="Profession" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>Profession</option>
-                                                    <option value="m">Government Service</option>
-                                                    <option value="f">Private Job</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    {{--<div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                                        --}}{{--<label for="gender" class="col-md-4 control-label">Gender</label>--}}{{--
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-map" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="gender" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>State</option>
-                                                    <option value="m" @if (old('gender') == 'm') selected="selected" @endif>UP</option>
-                                                    <option value="f" @if (old('gender') == 'f') selected="selected" @endif>Bihar</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('m_status') ? ' has-error' : '' }}">
-                                        --}}{{--<label for="m_status" class="col-md-4 control-label">Martial Status</label>--}}{{--
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                </div>
-
-                                                <select name="m_status" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>Constituency</option>
-                                                    <option value="m" @if (old('m_status') == 'm') selected="selected" @endif>Kausambhi</option>
-                                                    <option value="f" @if (old('m_status') == 'um') selected="selected" @endif>Varanasi</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('age-group') ? ' has-error' : '' }}">
-                                        --}}{{--<label for="age-group" class="col-md-4 control-label">Martial Status</label>--}}{{--
-                                        <div class="col-md-10 col-md-offset-1">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    --}}{{--<i class="fa fa-user" aria-hidden="true"></i>--}}{{--
-                                                    <span class="glyphicons glyphicons-family"></span>
-                                                </div>
-
-                                                <select name="age-group" required="required" class="form-control account" autofocus>
-                                                    <option disabled selected>Member Type</option>
-                                                    <option value="m" @if (old('age-group') == 'm') selected="selected" @endif>18 to 25years</option>
-                                                    <option value="f" @if (old('age-group') == 'um') selected="selected" @endif>25 to 35years</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>--}}
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="col-md-3 col-md-offset-6">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">
-                                                Save Data
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </form>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Level of Involvement</div>
-
-                    <div class="panel-body">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="sel1">I want to join as:</label>
-                                <select class="form-control input-lg" id="sel1">
-                                    <option disabled selected>Select</option>
-                                    <option>Commoner (Simple Member)</option>
-                                    <option>Volunteer</option>
-                                    <option>Women Wing</option>
-                                    <option>Youth Wing</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        @if(file_exists(public_path().'/upload/'.Auth::User()->uuid.'.png'))
+                            <img src="{{'upload/'.Auth::User()->uuid.'.png'}}" alt="Profile Pic" class="img-thumbnail" width="200" height="200">
                             <br>
-                            <a href="#">
-                                <img src="images/wikipedia-icon.png" alt="Profile Pic" class="img-thumbnail" width="50" height="50">
-                            </a>
-                            <h4>Learn More..</h4>
-                        </div>
+                        @else
+                            <img data-name="{{ Auth::User()->name }}" class="demo img-thumbnail" width="200" height="200"/>
+                            <br>
+                            {{--<img src="images/profile-pic.png" alt="Profile Pic" class="img-thumbnail" width="150" height="150">--}}
+                        @endif
+                        <br>
+                        <a href="{{url('image-crop')}}" role="button" class="btn btn-outline-primary">Upload a different pic</a>
+                    </div>
+                    <div class="col-md-8">
+                        <table class="table table-borderless">
+                            <thead>
+                            <tr>
+                                <th scope="col" colspan="2"><h3>Welcome: {{ Auth::User()->name }} </h3></th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Email:</td>
+                                <td>{{Auth::User()->email}}</td>
+                            </tr>
+                            <tr>
+
+                                <td>Mobile:</td>
+                                <td>{{Auth::User()->mobile}}</td>
+                            </tr>
+                            <tr>
+
+                                <td>Constituency:</td>
+                                <td>
+                                    @if($constituency)
+                                        {{$constituency->pc_name}}
+                                    @else
+                                        <i>{{'Unknown ...'}}</i>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td>Last Login:</td>
+                                <td>{{ Auth::user()->last_login->diffForHumans() }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form method="POST" action="{{url('users/'.Auth::User()->id)}}">
+                            {{ method_field('PATCH') }}
+                            {{ csrf_field() }}
+
+                            <br>
+                            <h4 class="text-primary" >Loksabha Seat:</h4>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="state">State:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-map" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="state" id="state" class="form-control">
+                                            <option value="">Select State...</option>
+                                            @foreach($states as $state)
+                                                @if(Auth::User()->state_id == $state->id)
+                                                    <option value="{{$state->id}}" selected>{{$state->name2}}</option>
+                                                @else
+                                                    <option value="{{$state->id}}">{{$state->name2}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="constituency">Constituency:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select id="constituency" name="constituency" class="form-control">
+                                            @if($constituency)
+                                                <option value="{{$constituency->id}}">{{$constituency->pc_name}}</option>
+                                            @else
+                                                <option value="">Select State first...</option>
+                                            @endif
+                                            {{--@foreach($constituencies as $constituency)
+                                                @if(Auth::User()->constituency_id == $constituency->id)
+                                                    <option value="{{$constituency->id}}" selected>{{$constituency->name}}</option>
+                                                @else
+                                                    <option value="{{$constituency->id}}">{{$constituency->name}}</option>
+                                                @endif
+                                            @endforeach--}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+
+                            <h4 class="text-primary">Profile Info:</h4>
+
+                            {{-- Gender--}}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="state">Gender:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-venus-mars" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="gender" id="gender" class="form-control">
+                                            <option selected value="">Select Gender...</option>
+                                            @foreach($genders as $gender)
+                                                <option value="{{$gender->id}}" {{ Auth::user()->gender_id == $gender->id ? 'selected="selected"' : '' }}>{{$gender->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {{--Religion--}}
+                                <div class="form-group col-md-6">
+                                    <label for="constituency">Religion:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-flag" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="religion" id="religion" class="form-control">
+                                            <option selected value="">Select Religion...</option>
+                                            @foreach($religions as $religion)
+                                                <option value="{{$religion->id}}" {{ Auth::user()->religion_id == $religion->id ? 'selected="selected"' : '' }}>{{$religion->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="mstatus">Marital Status:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-heart" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="marital" id="marital" class="form-control">
+                                            <option selected value="">Marital Status...</option>
+                                            @foreach($maritals as $marital)
+                                                <option value="{{$marital->id}}" {{ Auth::user()->marital_id == $marital->id ? 'selected="selected"' : '' }}>{{$marital->status}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="education">Education:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="education" id="education" class="form-control">
+                                            <option selected value="">Education</option>
+                                            @foreach($educations as $education)
+                                                <option value="{{$education->id}}" {{ Auth::user()->education_id == $education->id ? 'selected="selected"' : '' }}>{{$education->level}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="ages">Age:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="age" id="age" class="form-control">
+                                            <option selected value="">Your Age Group</option>
+                                            @foreach($ages as $age)
+                                                <option value="{{$age->id}}" {{ Auth::user()->age_id == $age->id ? 'selected="selected"' : '' }}>{{$age->group}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="profession">Profession:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-building" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="profession" id="profession" class="form-control">
+                                            <option selected value="">Profession</option>
+                                            @foreach($professions as $profession)
+                                                <option value="{{$profession->id}}" {{ Auth::user()->profession_id == $profession->id ? 'selected="selected"' : '' }}>{{$profession->category}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+
+                            {{--<h4 class="text-primary">Your Group:</h4>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-8">
+                                    <label for="group">Join as:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="group" id="group" class="form-control">
+                                            <option selected>Select</option>
+                                            @foreach($groups as $group)
+                                                <option value="{{$group->id}}" {{ Auth::user()->group_id == $group->id ? 'selected="selected"' : '' }}>{{$group->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <br>
+                                    <a href="#">
+                                        <img src="images/wikipedia-icon.png" alt="Profile Pic" class="img-thumbnail" width="45" height="45"><b> Learn More...</b>
+                                    </a>
+
+                                </div>
+                            </div>--}}
+
+                            <h4 class="text-primary">Other Info:</h4>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="group">Join as:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <select name="group" id="group" class="form-control">
+                                            <option selected value="">Select</option>
+                                            @foreach($groups as $group)
+                                                <option value="{{$group->id}}" {{ Auth::user()->group_id == $group->id ? 'selected="selected"' : '' }}>{{$group->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="group">Mobile No:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                        </span>
+                                        </div>
+                                        <input type="text" name="mobile" id="mobile" class="form-control" value="{{Auth::user()->mobile}}">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <br>
+                            <br>
+                            <div align="center">
+                                <button type="submit" class="btn btn-outline-success">Update Profile</button>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+                <br>
+
             </div>
         </div>
 
 
-        <br>
-        <br>
-        <br>
-        <br>
     </div>
 @endsection
 
 @section('extra-js')
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select[name="state"]').on('change', function() {
+                var stateID = $(this).val();
+                if(stateID) {
+                    $.ajax({
+                        url: 'states/ajax/'+stateID,
+                        type: "GET",
+                        dataType: "json",
+                        success:function(data) {
+
+                            //console.log(data);
+                            $('select[name="constituency"]').html('<option value="">Select Constituency</option>');
+                            $.each(data, function(key, value) {
+                                $('select[name="constituency"]').append('<option value="'+ key +'">'+ value +'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('select[name="constituency"]').empty();
+                }
+            });
+        });
+    </script>
 
     <script src="{{asset('js/initial.min.js')}}"></script>
     <script type="text/javascript">

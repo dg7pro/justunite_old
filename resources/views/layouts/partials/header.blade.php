@@ -19,9 +19,9 @@
             </a>
         </li>
         <li class="css-tab__item">
-            <a href="{{url('groups')}}" class="css-tab__link">
+            <a href="{{url('parties')}}" class="css-tab__link">
                 <div class="css-tab__thumb color4" data-letter="H"></div>
-                <p class="css-tab__label">Groups</p>
+                <p class="css-tab__label">Parties</p>
             </a>
         </li>
         <li class="css-tab__item">

@@ -2,6 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Age;
+use App\Content;
+use App\Education;
+use App\Gender;
+use App\Group;
+use App\Marital;
+use App\Profession;
+use App\Religion;
+use App\State;
+use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +25,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('newPage','design','index');
+        //$this->middleware('auth')->except('newPage','design','index','faq','newLogin');
     }
 
     /**
@@ -23,7 +35,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome2');
+        $contents = Content::query()->where('page','=','Frontpage')->get();
+        return view('welcome',compact('contents'));
     }
 
     /**
@@ -33,12 +46,30 @@ class HomeController extends Controller
      */
     public function home()
     {
-        return view('home');
+        $states = State::all();
+        $religions = Religion::all();
+        $ages = Age::all();
+        $educations = Education::all();
+        $professions = Profession::all();
+        $maritals = Marital::all();
+        $genders = Gender::all();
+        $groups = Group::all();
+        $constituency = Auth::User()->constituency()->first();
+
+        //Flash Message
+        //Session::flash('message', 'Please complete your Profile !');
+        return view('home2',compact('states','religions','ages','educations','professions','maritals','genders','groups','constituency'));
     }
 
     public function newPage()
     {
-        return view('new');
+        //return view('new');
+        return view('auth.one');
+    }
+
+    public function newLogin()
+    {
+        return view('newlogin');
     }
 
     public function design()
@@ -51,18 +82,9 @@ class HomeController extends Controller
         return view('map');
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function admin()
-    {
-        /*if(Gate::denies('manage_site')){
-            abort('403','Sorry not sorry!');
-        }*/
-        // Or authorize function does the same thing.
-        $this->authorize('manage_site');
-        return view('admin.index');
+    public function faq(){
+
+        return view('faq');
     }
 
 }
