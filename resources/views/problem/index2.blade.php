@@ -64,7 +64,7 @@
                                     <input name="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
                                     <button type="submit" class="btn btn-success btn-xs">Vote</button>
                                 </form>--}}
-                                <a class="btn btn-info" href="{{ url('loginToVote') }}">Vote</a>
+                                <a class="btn btn-info" href="{{ url('loginToVoteProblem') }}">Vote</a>
                             </td>
                         </tr>
                     @else
@@ -100,7 +100,7 @@
                                 </td>
                                 <td>{{$problem->votes_count}}</td>
                                 <td>
-                                    <form method="post" action="{{url('problems/vote/'.$problem->id)}}" class="form-inline" onsubmit="return ConfirmVoteChange()">
+                                    <form method="post" action="{{url('problems/vote/'.$problem->id)}}" class="form-inline" onsubmit="{{ $receivedVoteProblemId != null ? 'ConfirmVoteChange()' : ''}}">
                                         {{csrf_field()}}
                                         <input name="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
                                         <button type="submit" class="btn btn-info btn-xs">Vote</button>
@@ -126,6 +126,40 @@
 
                     </tbody>
                 </table>
+
+                <br>
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">Track your CONSTITUENCY:</h4>
+                    <br>
+                    <form method="POST" action="{{url('constituency/track')}}">
+                        {{ csrf_field() }}
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <select name="state" id="state" class="form-control">
+                                        <option value="">Select State...</option>
+                                        @foreach($states as $state)
+                                            <option value="{{$state->id}}">{{$state->name2}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+
+                                    <select id="constituency" name="constituency" class="form-control">
+                                        <option value="">Select State first...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Go to your Constituency</button>
+                    </form>
+                </div>
+
+                <br>
                 <br>
                 {{--<p><a href="{{url('problems/voting')}}" role="button" class="btn btn-outline-dark" >Most Serious Problem &raquo;</a></p>
                 <br>--}}
@@ -154,4 +188,32 @@
                 return false;
         }
     </script>
+
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select[name="state"]').on('change', function() {
+                var stateID = $(this).val();
+                if(stateID) {
+                    $.ajax({
+                        url: 'states/ajax/'+stateID,
+                        type: "GET",
+                        dataType: "json",
+                        success:function(data) {
+
+                            //console.log(data);
+                            $('select[name="constituency"]').html('<option value="">Select Constituency</option>');
+                            $.each(data, function(key, value) {
+                                $('select[name="constituency"]').append('<option value="'+ key +'">'+ value +'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('select[name="constituency"]').empty();
+                }
+            });
+        });
+    </script>
+
+
 @endsection

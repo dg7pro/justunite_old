@@ -266,6 +266,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.compatibility.js"></script>
 
+    <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5ad17dfabc190a0013e2a6dd&product=inline-share-buttons' async='async'></script>
 
     @yield('extra-js')
 

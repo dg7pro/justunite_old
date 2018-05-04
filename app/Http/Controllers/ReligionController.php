@@ -8,12 +8,22 @@ use Illuminate\Http\Request;
 class ReligionController extends Controller
 {
     /**
+     * ReligionController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('manage_site');
         $religions = Religion::all();
         return view('religion.index',compact('religions'));
     }

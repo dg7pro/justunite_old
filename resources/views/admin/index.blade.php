@@ -105,7 +105,7 @@
                             <div class="form-group">
                                 <label for="poll">Select Role</label>
                                 <select name="poll" required="required" class="form-control">
-                                    <option disabled selected>Select Poll</option>
+                                    <option disabled selected>Select Role</option>
                                     @foreach($roles as $role)
                                         <option value="{{$role->id}}" @if (old('role') == $role->id) selected="selected" @endif>{{$role->name}}</option>
                                     @endforeach
@@ -152,7 +152,7 @@
             <div class="col-md-6">
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action active">
-                        Cras justo odio
+                        CRUD Models
                     </a>
                     <a href="{{url('religions')}}" class="list-group-item list-group-item-action">Religions</a>
                     <a href="{{url('educations')}}" class="list-group-item list-group-item-action">Education</a>
@@ -167,10 +167,11 @@
             <div class="col-md-6">
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action active">
-                        Cras justo odio
+                        Content Models
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                    <a href="{{url('contents')}}" class="list-group-item list-group-item-action">Contents</a>
+                    <a href="{{url('constituencies')}}" class="list-group-item list-group-item-action">Constituencies</a>
+                    <a href="{{url('ctypes')}}" class="list-group-item list-group-item-action">C Types</a>
                     <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
                     <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
                 </div>

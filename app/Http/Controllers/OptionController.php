@@ -11,12 +11,22 @@ use Illuminate\Http\Request;
 class OptionController extends Controller
 {
     /**
+     * OptionController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('manage_site');
         $options = Option::all();
         return view('option.index',compact('options'));
     }

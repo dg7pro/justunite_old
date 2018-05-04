@@ -18,6 +18,21 @@
                         <input type="text" name="name" class="form-control" placeholder="Name..." value="{{$image->name}}">
                     </div>
 
+                    @if($image->association)
+                        <div class="form-group">
+                            <label for="heading">Heading:</label>
+                            <select name="profession" id="profession" class="form-control">
+                                <option selected value="">Profession</option>
+                                @foreach($professions as $profession)
+                                    <option value="{{$profession->id}}" {{ $image->association == $profession->id ? 'selected="selected"' : '' }}>{{$profession->category}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+
+                    @endif
+
                     <div class="form-group">
                         <label for="heading">Heading:</label>
                         <input type="text" name="heading" class="form-control" placeholder="Heading..." value="{{$image->heading}}">

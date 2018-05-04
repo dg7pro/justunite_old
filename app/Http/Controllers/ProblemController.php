@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Image;
 use App\Problem;
+Use App\State;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,9 @@ use Illuminate\Support\Facades\Input;
 
 class ProblemController extends Controller
 {
+    /**
+     * ProblemController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth')->except('index','show','voting');
@@ -39,8 +43,10 @@ class ProblemController extends Controller
             }
         }
 
+        $states = State::all();
+
         //return $problems;
-        return view('problem.index2',compact('problems','receivedVoteProblemId'));
+        return view('problem.index-ajax',compact('problems','receivedVoteProblemId','states'));
 
     }
 
@@ -202,6 +208,29 @@ class ProblemController extends Controller
 
     }
 
+
+    public function ajaxVote(Request $request, $id){
+
+        // Retrieve the current vote
+        //$newOption = $request->newOption;
+        $currentOption = $request->currentOption;
+
+        if($currentOption==null){
+            $user = Auth::User();
+            $u = Problem::query()->find($id);
+            $u->votes()->create(['user_id'=>$user->id]);
+            //return redirect()->back();
+            return response()->json(['message'=>'You have successfully voted','id'=>$id]);
+
+        }else {
+            $u = Problem::query()->find($currentOption);
+            $vote = $u->votes()->where('user_id', Auth::id())->first();
+            $vote->update(['votable_id' => $id]);
+            //return redirect()->back();
+            return response()->json(['message'=>'You have successfully voted','id'=>$id]);
+        }
+    }
+
     public function vote2(Request $request){
 
         // Retrieve the current vote
@@ -265,7 +294,7 @@ class ProblemController extends Controller
         // Upload & save file to directory
         $file = $request->file('image');
         $filename  = time() . '_' . $file->getClientOriginalName();
-        $file->storeAs('public/problems',$filename);
+        $file->storeAs('public/',$filename);
 
         $image = New Image();
         $image->name = $filename;

@@ -15,11 +15,16 @@ class CreateKnowsUsersTable extends Migration
     {
         Schema::create('know_user', function(Blueprint $table)
         {
-            $table->integer('know_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->integer('know_id')->unsigned()->comment('known by user_id');
+            $table->integer('user_id')->unsigned()->comment('knows know_id');
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('know_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('know_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
 
             $table->primary(array('user_id', 'know_id'));
         });

@@ -44,13 +44,13 @@
                             </td>
                             <td>{{$party->votes_count}}</td>
                             <td>
-                                <a class="btn btn-info" href="{{ url('loginToVote') }}">Vote</a>
+                                <a class="btn btn-info" href="{{ url('loginToVoteParty') }}">Vote</a>
                             </td>
-                            @can('manage_site')
+                            {{--@can('manage_site')
                                 <td>
                                     <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
                                 </td>
-                            @endcan
+                            @endcan--}}
 
                         </tr>
                         @else
@@ -79,10 +79,10 @@
                                     </td>
                                     <td>{{$party->votes_count}}</td>
                                     <td>
-                                        <form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="return ConfirmVoteChange()">
+                                        <form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="{{$receivedVotePartyId != null ? 'ConfirmVoteChange()' : ''}}">
                                             {{csrf_field()}}
                                             <input name="currentOption" type="hidden" value="{{$receivedVotePartyId}}">
-                                            <button type="submit" class="btn btn-info btn-xs">Vote</button>
+                                            <button type="submit" id="vote" class="btn btn-info btn-xs">Vote</button>
                                         </form>
                                     </td>
                                     @can('manage_site')
@@ -119,6 +119,14 @@
             else
                 return false;
 
+        }
+        function ConfirmVoteChange(){
+
+            var x = confirm("You have already voted, do you want to change your vote?");
+            if (x)
+                return true;
+            else
+                return false;
         }
     </script>
 @endsection

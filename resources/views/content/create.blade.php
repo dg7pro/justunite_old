@@ -29,10 +29,10 @@
 
                     <div class="form-group">
                         <label for="course">Write:</label>
-                        <textarea name="matter" id="matter" class="form-control" style="height: 50vh;">Put your content here...</textarea>
+                        <textarea name="matter" id="matter" class="form-control" style="height: 50vh;" placeholder="Put your content here..."></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-outline-info">Add Course</button>
+                    <button type="submit" class="btn btn-outline-info">Add Content</button>
                 </form>
 
 

@@ -20,6 +20,8 @@ class CreateImagesTable extends Migration
             $table->string('name');
             $table->string('heading');
             $table->string('caption');
+            $table->integer('profession_id')->unsigned()->nullable();
+            $table->foreign('profession_id')->references('id')->on('professions');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('votes');
+        Schema::dropIfExists('images');
     }
 }

@@ -12,9 +12,8 @@ use App\Profession;
 use App\Religion;
 use App\State;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
@@ -29,7 +28,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the index page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -57,14 +56,18 @@ class HomeController extends Controller
         $constituency = Auth::User()->constituency()->first();
 
         //Flash Message
-        //Session::flash('message', 'Please complete your Profile !');
-        return view('home2',compact('states','religions','ages','educations','professions','maritals','genders','groups','constituency'));
+        Session::flash('message', 'Please complete your Profile !');
+        return view('home',compact('states','religions','ages','educations','professions','maritals','genders','groups','constituency'));
     }
 
-    public function newPage()
-    {
-        //return view('new');
-        return view('auth.one');
+    /**
+     * Show the application faq.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function faq(){
+
+        return view('faq');
     }
 
     public function newLogin()
@@ -72,19 +75,6 @@ class HomeController extends Controller
         return view('newlogin');
     }
 
-    public function design()
-    {
-        return view('design');
-    }
 
-    public function map()
-    {
-        return view('map');
-    }
-
-    public function faq(){
-
-        return view('faq');
-    }
 
 }

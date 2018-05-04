@@ -20,7 +20,7 @@ class VotesTableSeeder extends Seeder
         $users=App\User::all();
         foreach ($users as $user){
 
-            $vote = App\User::where('id','<',1000)->inRandomOrder()->first();
+            $vote = App\User::where('id','<',100)->inRandomOrder()->first();
             $vote->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
 
            /* $option = App\Option::inRandomOrder()->first();

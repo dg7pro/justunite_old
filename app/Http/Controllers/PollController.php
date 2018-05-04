@@ -10,12 +10,22 @@ use Illuminate\Http\Request;
 class PollController extends Controller
 {
     /**
+     * PollController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('manage_site');
+
         /*$problems = Problem::with('votes')->withCount('votes')->orderBy('votes_count','desc')->get();
 
         $receivedVoteProblemId = null;

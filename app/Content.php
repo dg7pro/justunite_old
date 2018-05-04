@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Content extends Model
 {
+    /**
+     * @var array
+     */
     protected $fillable = ['page','slug','title','matter'];
 }

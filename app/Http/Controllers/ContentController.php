@@ -10,19 +10,23 @@ use Illuminate\Support\Facades\Validator;
 class ContentController extends Controller
 {
 
+    /**
+     * ContentController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
-        $this->authorize('manage_site');
     }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('manage_site');
         $contents = Content::all();
         return view('content.index',compact('contents'));
     }
@@ -31,9 +35,11 @@ class ContentController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('manage_site');
         return view('content.create');
     }
 
@@ -42,9 +48,12 @@ class ContentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
+        $this->authorize('manage_site');
+
         // Validate Inputs
         $this->validator($request->all())->validate();
 
@@ -68,10 +77,12 @@ class ContentController extends Controller
      *
      * @param  \App\Content  $content
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Content $content)
     {
-        //
+        return $content;
+        $this->authorize('manage_site');
     }
 
     /**
@@ -79,9 +90,11 @@ class ContentController extends Controller
      *
      * @param  \App\Content  $content
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Content $content)
     {
+        $this->authorize('manage_site');
         return view('content.edit',compact('content'));
     }
 
@@ -91,9 +104,12 @@ class ContentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Content  $content
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Content $content)
     {
+        $this->authorize('manage_site');
+
         $this->validator($request->all())->validate();
 
         $content->update($request->all());
@@ -109,10 +125,11 @@ class ContentController extends Controller
      *
      * @param  \App\Content  $content
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Content $content)
     {
-        //
+        $this->authorize('manage_site');
     }
 
     /**

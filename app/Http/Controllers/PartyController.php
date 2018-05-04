@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use App\Party;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,12 +12,22 @@ use Illuminate\Support\Facades\Session;
 class PartyController extends Controller
 {
     /**
+     * PartyController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index','show','voting');
+    }
+
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+
         $parties = Party::with('votes')->withCount('votes')
             ->orderBy('votes_count','desc')->get();
 
@@ -30,7 +41,7 @@ class PartyController extends Controller
         }
 
         //return $problems;
-        return view('party.index',compact('parties','receivedVotePartyId'));
+        return view('party.index-ajax',compact('parties','receivedVotePartyId'));
 
         /*$parties = Party::all();
         return view('party.index',compact('parties'));*/
@@ -65,7 +76,8 @@ class PartyController extends Controller
      */
     public function show(Party $party)
     {
-        return view('party.show',compact('party'));
+        $images = $party->images()->get();
+        return view('party.show',compact('party','images'));
     }
 
     /**
@@ -73,9 +85,11 @@ class PartyController extends Controller
      *
      * @param  \App\Party  $party
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Party $party)
     {
+        $this->authorize('manage_site');
         return view('party.edit',compact('party'));
     }
 
@@ -122,10 +136,6 @@ class PartyController extends Controller
             return redirect()->back();
         }
 
-
-
-
-
         // Create the new vote if not already present
         /*$user = Auth::User();
         $option = Option::query()->find($id);
@@ -134,11 +144,75 @@ class PartyController extends Controller
 
     }
 
+
+    public function ajaxVote(Request $request, $id){
+
+        // Retrieve the current vote
+        //$newOption = $request->newOption;
+        $currentOption = $request->currentOption;
+
+        if($currentOption==null){
+            $user = Auth::User();
+            $u = Party::query()->find($id);
+            $u->votes()->create(['user_id'=>$user->id]);
+            //return redirect()->back();
+            return response()->json(['message'=>'You have successfully voted','id'=>$id]);
+
+        }else {
+            $u = Party::query()->find($currentOption);
+            $vote = $u->votes()->where('user_id', Auth::id())->first();
+            $vote->update(['votable_id' => $id]);
+            //return redirect()->back();
+            return response()->json(['message'=>'You have successfully voted','id'=>$id]);
+        }
+    }
+
     public function makeReady(){
 
         //return redirect()->intended();
-        return redirect()->to('problems');
+        return redirect()->to('parties');
         //return redirect()->back();
+
+    }
+
+    public function uploadImage(Party $party, Request $request){
+
+        //$file = $request->file('image');
+        //return $file->getClientOriginalName();
+        //return $file->getClientOriginalExtension();
+        //return $file->getClientMimeType();
+        //return $file->getClientSize();
+
+        //===========================================
+
+        // Understanding Path is important for JU
+        /*$path = $request->file('image')->store('public');
+        return $path;*/
+
+        /*$file = $request->file('image');
+        $filename = $file->getClientOriginalName();
+        $filename  = time() . '.' . $file->getClientOriginalExtension();
+        $filename  = time() . '_' . $file->getClientOriginalName();
+
+        $path = $file->storeAs('public/problems',$filename);
+        return $path;*/
+
+        //============================================
+
+        // Real Coding Begins
+
+        // Upload & save file to directory
+        $file = $request->file('image');
+        $filename  = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/',$filename);
+
+        $image = New Image();
+        $image->name = $filename;
+        $image->heading = $request->heading;
+        $image->caption = $request->caption;
+
+        $party->images()->save($image);
+        return redirect()->back();
 
     }
 }

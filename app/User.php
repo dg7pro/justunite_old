@@ -105,11 +105,43 @@ class User extends Authenticatable
     public function religion(){
         return $this->belongsTo('App\Religion');
     }
+
+    /**
+     * User belongs to particular education level
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function education(){
         return $this->belongsTo('App\Education');
     }
     public function profession(){
         return $this->belongsTo('App\Profession');
     }
+
+    public function opinion(){
+        return $this->hasOne('App\Opinion');
+    }
+
+
+    /**
+     *
+     * User can like many Opinions
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function likeOpinions(){
+         return $this->belongsToMany('App\Opinion','opinion_user');
+    }
+
+
+    /**
+     *
+     * User can like many Professions
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function likeProfessions(){
+
+        return $this->belongsToMany('App\Profession');
+    }
+
+
 
 }

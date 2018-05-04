@@ -15,8 +15,18 @@
 
 <body>
 <div class="container">
+    <br>
+    <h2>Just Unite</h2>
+    <br>
     <div class="panel panel-default">
-        <div class="panel-heading">Laravel crop image before upload using croppie plugins</div>
+        <div class="panel-heading">
+            Upload your Profile Image
+            <div class="btn-group pull-right">
+                <a href="{{url('/home')}}" class="btn btn-info btn-sm">## Done</a>
+                <a href="{{url('/home')}}" class="btn btn-danger btn-sm">## Cancel</a>
+            </div>
+
+        </div>
         <div class="panel-body">
 
             <div class="row">
@@ -55,7 +65,7 @@
         viewport: {
             width: 200,
             height: 200,
-            type: 'circle'
+            type: 'square'
         },
         boundary: {
             width: 300,

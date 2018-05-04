@@ -15,7 +15,7 @@ class CreatePartiesTable extends Migration
     {
         Schema::create('parties', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('ptype_id');
+            $table->integer('ptype_id')->unsigned();
             $table->string('name');
             $table->string('abbreviation');
             $table->string('symbol');

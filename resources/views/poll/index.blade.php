@@ -4,8 +4,8 @@
     <div class="jumbotron color6">
         <div class="container">
             <h1 class="display-3">Problem vs Party !</h1>
-            <p>This page shows list of all the candidates running election from parliamentary constituency. The candidate which peoples of  select will be our candidate for 2019 General Elections from </p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+            <p><b>Thousand of parties not a single problem solved in 70 years after Independence</b></p>
+            <p><a href="{{$whatsapp}}" role="button" class="btn btn-success" ><i class="fa fa-whatsapp"> Join Whatsapp</i> </a></p>
         </div>
     </div>
     <div class="container">
@@ -22,15 +22,16 @@
                         </div>
 
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                            <div class="card-body">
+                            <div class="card-body"><b>
                                 Select which is the most serious problem of India or which problem has affected you
                                 and common public the most? And when these major problems will get solved ? We have listed
-                                all the major problems which India is currently facing ?
-                                <br>
-                                <a href="{{url('problems')}}" class="btn btn-outline-danger">All Problems</a>
+                                all the major problems which India is currently facing ?</b>
+                                <br><br>
+                                <a href="{{url('problems')}}" class="btn btn-danger">All Problems</a>
                             </div>
                         </div>
                     </div>
+                    <br><br>
                     <div class="card">
                         <div class="card-header" id="headingTwo">
                             <h5 class="mb-0">
@@ -39,16 +40,15 @@
                                 </button>
                             </h5>
                         </div>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                            <div class="card-body">
+                        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body"><b>
                                 There are more than 1800 political parties in India, of which only few are National parties,
                                 while some function at state level.
                                 Different states have different state level active parties. We have listed all the active
                                 parties at national as well as state levels in India. See the complete list of political parties
-                                in India and vote for your party to support it.
-                                <br>
-                                <br>
-                                <a href="{{url('parties')}}" class="btn btn-outline-success">All Parties</a>
+                                in India and vote for your party to support it.</b>
+                                <br><br>
+                                <a href="{{url('parties')}}" class="btn btn-success">All Parties</a>
                             </div>
                         </div>
                     </div>

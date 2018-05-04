@@ -16,7 +16,9 @@ class CreateVotesTable extends Migration
         Schema::create('votes', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->ondelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->integer('votable_id')->unsigned();
             $table->string('votable_type');
             $table->smallInteger('credits');
@@ -31,6 +33,8 @@ class CreateVotesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('votes');
+        Schema::enableForeignKeyConstraints();
     }
 }

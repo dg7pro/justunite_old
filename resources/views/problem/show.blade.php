@@ -35,7 +35,7 @@
                         @foreach($images as $image)
                             <div class="carousel-item {{ $loop->iteration == 1 ? 'active' : ''}}">
                                {{-- <img class="d-block w-100" src="{{asset('images/svg/'.$image->name)}}" alt="First slide">--}}
-                                <img class="d-block w-100" src="{{asset('storage/problems/'.$image->name)}}" alt="First slide">
+                                <img class="d-block w-100" src="{{asset('storage/'.$image->name)}}" alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>{{$image->heading}}</h5>
                                     <p>{{$image->caption}}</p>
@@ -100,13 +100,13 @@
                     </form>
                 </div>
                 <br><br>
+                    @if($images->count())
                 <div>
                     <table class="table table-striped table-bordered">
                         <thead>
                         <tr>
                             <th scope="col">Id</th>
                             <th scope="col">Images</th>
-                            <th scope="col">Active</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Del</th>
                         </tr>
@@ -116,9 +116,6 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <th scope="row">{{ $image->name }}</th>
-                                <td scope="row">
-                                    <a href="{{url('images/'.$image->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-success">Make</a>
-                                </td>
                                 <td scope="row">
                                     <a href="{{url('images/'.$image->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
                                 </td>
@@ -134,6 +131,7 @@
                         </tbody>
                     </table>
                 </div>
+                @endif
                 @endcan
             </div>
             @include('layouts.partials.sidemenu')

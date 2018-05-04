@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\State;
 use App\Party;
 use App\User;
+use App\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -15,12 +16,23 @@ use Illuminate\Support\Facades\DB;
 class StateController extends Controller
 {
     /**
+     * StateController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except('capitals','literacy','populations','cm','governor','rulingParty','gdp','seats');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('manage_site');
+
         //$states = State::all();
         $states = State::query()->where('stype_id','=',1)->withCount('constituencies')->get();
         $uts = State::query()->where('stype_id','=',2)->withCount('constituencies')->get();
@@ -59,7 +71,8 @@ class StateController extends Controller
     {
         //$constituencies = Constituency::where('state_id','=',$state->id)->get();
         //$parties = $state->parties()->get();
-        $state = State::where('id','=',$id)->with('languages')->first();
+
+        $state = State::where('id','=',$id)->with('languages','ruling','opposition')->first();
         return view('state.show',compact('state','constituencies','parties'));
     }
 
@@ -71,7 +84,8 @@ class StateController extends Controller
      */
     public function edit(State $state)
     {
-        return view('state.edit',compact('state'));
+        $parties = Party::where('ptype_id','<=',2)->get();
+        return view('state.edit',compact('state','parties'));
     }
 
     /**
@@ -169,6 +183,23 @@ class StateController extends Controller
         //return $request->parties_id;
     }
 
+    public function listLanguages(State $state){
+
+        $active_languages = $state->languages()->pluck('id')->toArray();
+
+        //return $active_parties;
+        $languages = Language::all();
+        return view('state.languages',compact('languages','state','active_languages'));
+    }
+
+    public function attachLanguages(Request $request, State $state){
+
+        $languages_id = $request->languages_id;
+        $state->languages()->sync($languages_id);
+        return redirect()->back();
+        //return $request->parties_id;
+    }
+
     public function members($id){
 
         $members = User::all()->count();
@@ -195,4 +226,65 @@ class StateController extends Controller
             //return "Redirect to other";
         }
     }
+
+    public function capitals(){
+
+        $states = State::select('id','name','capital')->get();
+        return view('state.capitals', compact('states'));
+        //return $states;
+    }
+
+    public function literacy(){
+
+        $states = State::select('id','name','literacy')->orderBy('literacy','desc')->get();
+        return view('state.literacy', compact('states'));
+        //return $states;
+    }
+
+    public function populations(){
+
+        $states = State::select('id','name','population','rank','upo','rpo','density','sex_ratio')->get();
+        return view('state.populations', compact('states'));
+        //return $states;
+
+    }
+
+    public function cm(){
+
+        $states = State::select('id','name','cm')->get();
+        return view('state.cm', compact('states'));
+        //return $states;
+    }
+
+    public function governor(){
+
+        $states = State::select('id','name','governor')->get();
+        return view('state.governor', compact('states'));
+        //return $states;
+    }
+
+    public function rulingParty(){
+
+
+        $states = State::with('ruling','opposition')->get();
+        return view('state.ruling', compact('states'));
+        //return $states;
+        //dd($states);
+    }
+
+    public function gdp(){
+
+        $states = State::select('id','name','gdp','income')->get();
+        return view('state.gdp', compact('states'));
+        //return $states;
+    }
+
+    public function seats(){
+
+        $states = State::select('id','name','pc','ac')->get();
+        return view('state.seats', compact('states'));
+        //return $states;
+    }
+
+
 }

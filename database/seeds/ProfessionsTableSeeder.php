@@ -18,23 +18,28 @@ class ProfessionsTableSeeder extends Seeder
         }
 
         App\Profession::query()->create([
-            'category'=>'Govt. Service'
+            'category'=>'Govt. Service',
+            'details'=>'Some details about profession'
         ]);
 
         App\Profession::query()->create([
-            'category'=>'Private Job'
+            'category'=>'Private Job',
+            'details'=>'Some details about profession'
         ]);
 
         App\Profession::query()->create([
-            'category'=>'Own Business'
+            'category'=>'Own Business',
+            'details'=>'Some details about profession'
         ]);
 
         App\Profession::query()->create([
-            'category'=>'Unemployed'
+            'category'=>'Unemployed',
+            'details'=>'Some details about profession'
         ]);
 
         App\Profession::query()->create([
-            'category'=>'Self Employed'
+            'category'=>'Self Employed',
+            'details'=>'Some details about profession'
         ]);
     }
 }

@@ -10,4 +10,9 @@ class Gender extends Model
 
         return $this->hasMany('App\User');
     }
+
+    public function contestants(){
+
+        return $this->hasMany('App\Contestant');
+    }
 }

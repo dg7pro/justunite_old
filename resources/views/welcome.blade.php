@@ -86,7 +86,7 @@
                 <h1 class="section__title" style="color: #989A9D">Just Unite</h1>
                 <p>Beginning the Era of New Leadership</p>
                 <p>
-                    <a href="#one" role="button" class="btn btn-outline-primary js-scroll-trigger">Know more...</a>
+                    <a href="#top" role="button" class="btn btn-outline-primary js-scroll-trigger">Know more...</a>
                     @if(Auth::guest())
                         <a href="{{url('register')}}" role="button" class="btn btn-outline-danger">Register</a>
                     @else
@@ -118,7 +118,7 @@
                     @if(Auth::guest())
                         <a href="{{url('constituencies')}}" role="button" class="btn btn-outline-dark">Constituencies/लोकसभा क्षेत्र </a>
                     @else
-                        <a href="{{url('constituencies/'.Auth::User()->constituency_id.'/users')}}" role="button" class="btn btn-outline-dark">Your Constituency/आपका क्षेत्र</a>
+                        <a href="{{url('constituencies/your-constituency')}}" role="button" class="btn btn-outline-dark">Your Constituency/आपका क्षेत्र</a>
                     @endif
                 </p>
             </article>
@@ -156,7 +156,7 @@
                 <p style="color: #000000">Your Opinion is of Utmost Importance for India</p>
                 <p>
                     {{--<a href="#six" role="button" class="btn btn-outline-danger">Polls Page</a>--}}
-                    <a href="" role="button" class="btn btn-outline-dark">Opinion Poll/ जनमत</a>
+                    <a href="{{url('polls')}}" role="button" class="btn btn-outline-dark">Opinion Poll/ जनमत</a>
                 </p>
             </article>
         </section>

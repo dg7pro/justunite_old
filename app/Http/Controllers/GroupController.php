@@ -10,12 +10,23 @@ use Illuminate\Http\Request;
 class GroupController extends Controller
 {
     /**
+     * GroupController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('manage_site');
+
         $groups = Group::all();
         return view('group.index',compact('groups'));
     }

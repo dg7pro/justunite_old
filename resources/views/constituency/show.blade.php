@@ -43,100 +43,45 @@
                     <p><b>Loksabha Seat: <i class="text-primary">{{$constituency->pc_name}}</i></b></p>
                     <p>
                         <b>Type: <i class="text-primary">{{$constituency->ctype->description}}</i></b>
-
-                       {{-- @if($constituency->pc_type == 2)
-                            <b>Type: <i class="text-primary">Reserved for SC</i></b>
-                        @elseif($constituency->pc_type == 3)
-                            <b>Type: <i class="text-primary">Reserved for ST</i></b>
-                        @else
-                            <b>Type: <i class="text-primary">Un-Categorized General Seat</i></b>
-                        @endif--}}
                     </p>
                     <p>
                         <b>{{$constituency->state->stype->name}}: <i class="text-primary">{{$constituency->state->name}}</i></b>
-                       {{-- @if($constituency->state->type == 1)
-                            <b>State:</b>
-                        @else
-                            <b>Union Territory:</b>
-                        @endif
-                        <b><i class="text-primary">{{$constituency->state->name}}</i></b>--}}
                     </p>
                 </div><br>
                 <div>
-                    <h4 class="text-primary">Some heading:</h4>
+                    <h4>About <span class="text-primary">{{$constituency->pc_name}}</span></h4>
                     {!! $constituency->details !!}
                 </div>
-               {{-- <p>
-                    <b>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                        It has survived not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                        like Aldus PageMaker including versions of Lorem Ipsum.
-                    </b>
-                </p>--}}
-                {{--<br>
-                <h3>Electroates: </h3>
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="list-group">
-                            <li class="list-group-item"><b><i>No. of Electroates: <span class="badge badge-pill badge-primary">{{number_format($constituency->total_electors)}}</span></i></b></li>
-                            <li class="list-group-item"><b><i>Female Electroates: <span class="badge badge-pill badge-danger"> {{number_format($constituency->female_electors)}} </span></i></b></li>
-                            <li class="list-group-item"><b><i>Male Electroates: <span class="badge badge-pill badge-success"> {{ number_format($constituency->male_electors) }}</span></i></b></li>
-                            --}}{{--<li class="list-group-item"><b>Vestibulum at eros<span class="badge badge-pill badge-primary"><i></i></span></b></li>--}}{{--
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="list-group">
-                            <li class="list-group-item"><b><i>No. of Electroates: <span class="badge badge-pill badge-primary">{{number_format($constituency->total_electors)}}</span></i></b></li>
-                            <li class="list-group-item"><b><i>Female Electroates: <span class="badge badge-pill badge-danger"> {{number_format($constituency->female_electors)}} </span></i></b></li>
-                            <li class="list-group-item"><b><i>Male Electroates: <span class="badge badge-pill badge-success"> {{ number_format($constituency->male_electors) }}</span></i></b></li>
-                            --}}{{--<li class="list-group-item"><b>Vestibulum at eros<span class="badge badge-pill badge-primary"><i></i></span></b></li>--}}{{--
-                        </ul>
-                    </div>
-                </div>
---}}
-
                 <br>
                 <h4 class="text-primary">Results of 2014 Elections:</h4>
                 <table class="table table-bordered table-condensed">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col">MP (Winner/RunnerUp)</th>
+                        <th scope="col">Rank</th>
                         <th scope="col">Name</th>
-                        {{--<th scope="col">Gender</th>--}}
+                        <th scope="col">Gender</th>
                         <th scope="col">Party</th>
                         <th scope="col">Votes</th>
                     </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">Winner: </th>
-                            <th scope="row">{{$constituency->winner}}</th>
-                            {{--<th scope="row">M</th>--}}
-                            <th scope="row">{{$constituency->wi_party}}</th>
-                            <th scope="row">{{$constituency->wi_votes}}</th>
-                        </tr>
-                        <tr>
-                            <th scope="row">RunnerUp: </th>
-                            <th scope="row">{{$constituency->rup}} </th>
-                            {{--<th scope="row">M </th>--}}
-                            <th scope="row">{{$constituency->rup_party}}</th>
-                            <th scope="row">{{$constituency->rup_votes}}</th>
-                        </tr>
+                        @foreach($contestants as $contestant)
+                            <tr>
+                                <th scope="row">{{$loop->iteration}}
+                                    @if($loop->iteration ==1)
+                                        <span class="badge badge-success">{{'Winner'}}</span>
+                                    @elseif($loop->iteration ==2)
+                                        <span class="badge badge-danger">{{'RunnerUp'}}</span>
+                                    @endif
+                                </th>
+                                <th scope="row">{{$contestant->name}}</th>
+                                <th scope="row">{{$contestant->gender->name}}</th>
+                                <th scope="row">{{$contestant->party}}</th>
+                                <th scope="row">{{$contestant->votes}}</th>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
-                {{--<div>
-                    <b><i> Total Electors: <label class="text-primary">{{number_format($constituency->total_electors)}}</label></i></b>  |
-                    <b><i> Total No. of Voters: <label class="text-primary">{{number_format($constituency->total_voters)}}</label></i></b>  |
-                    <b><i> Turnout: <label class="text-primary">{{($constituency->total_turnout*100).'%' }}</label></i></b>
-
-                    --}}{{--<b><i> Nominations: <label class="text-primary">{{$constituency->nominations}}</label></i></b>  |
-                    <b><i> Contestants: <label class="text-primary">{{$constituency->contestants}}</label></i></b>  |
-                    <b><i> Forfeit Candidates: <label class="text-primary">{{$constituency->forfeit }}</label></i></b>--}}{{--
-                </div>--}}
                 <br>
                 <h4 class="text-primary">Fact-file of 2014 Elections:</h4>
                 <div class="row">
@@ -144,13 +89,13 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item list-group-item-warning active">Electors</li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Total Electors: <label class="text-primary">{{number_format($constituency->total_electors)}}</label></i></b>
+                                <b><i> Total Electors: <label class="text-primary">{{number_format($election->pivot->electors)}}</label></i></b>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Total No. of Voters: <label class="text-primary">{{number_format($constituency->total_voters)}}</label></i></b>
+                                <b><i> Total No. of Voters: <label class="text-primary">{{number_format($election->pivot->voters)}}</label></i></b>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Turnout: <label class="text-primary">{{($constituency->total_turnout*100).'%' }}</label></i></b>
+                                <b><i> Turnout: <label class="text-primary">{{($election->pivot->turnout*100).'%' }}</label></i></b>
                             </li>
                         </ul>
                     </div>
@@ -159,13 +104,13 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item active">Contestants</li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Nominations: <label class="text-primary">{{$constituency->nominations}}</label></i></b>
+                                <b><i> Nominations: <label class="text-primary">{{$election->pivot->nominations}}</label></i></b>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Contestants: <label class="text-primary">{{$constituency->contestants}}</label></i></b>
+                                <b><i> Contestants: <label class="text-primary">{{$election->pivot->contestants}}</label></i></b>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Forfeit Candidates: <label class="text-primary">{{$constituency->forfeited }}</label></i></b>
+                                <b><i> Forfeit Candidates: <label class="text-primary">{{$election->pivot->forfeited }}</label></i></b>
                             </li>
                         </ul>
                     </div>

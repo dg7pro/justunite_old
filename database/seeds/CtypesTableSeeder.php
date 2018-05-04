@@ -18,8 +18,8 @@ class CtypesTableSeeder extends Seeder
         }
 
         App\Ctype::query()->create([
-            'name'=>'Gn',
-            'description'=>'Un-Categorized General Seat'
+            'name'=>'Gn', // Un-Categorized General Seat
+            'description'=>'General Seat'
         ]);
 
         App\Ctype::query()->create([

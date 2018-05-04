@@ -17,17 +17,17 @@ class PtypesTableSeeder extends Seeder
             DB::table($table)->truncate();
         }
 
-        App\Ctype::query()->create([
+        App\Ptype::query()->create([
             'name'=>'National Party',
             'description'=>'National Party'
         ]);
 
-        App\Ctype::query()->create([
+        App\Ptype::query()->create([
             'name'=>'State Party',
             'description'=>'State party'
         ]);
 
-        App\Ctype::query()->create([
+        App\Ptype::query()->create([
             'name'=>'Unrecognized Registered Party',
             'description'=>'Unrecognized Registered Party'
         ]);

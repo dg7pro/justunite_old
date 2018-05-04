@@ -34,16 +34,22 @@
                         <tr><th>Population: </th><th>{{number_format($state->population)}}</th></tr>
                         <tr><th>Language: </th><th>
                                 @foreach($state->languages as $language)
-                                    {{$language->name.' '}}
+                                   {{-- <a href="{{url('languages/'.$language->id)}}"></a>--}}
+                                    {{$language->name.',   '}}
                                 @endforeach
+                                {{'etc'}}
+                                @can('manage_site')
+                                    <a href="{{url('states/'.$state->id.'/list-languages')}}" role="button" class="btn btn-sm btn-outline-info">Attach</a>
+                                @endcan
+
                             </th></tr>
-                        <tr><th>Literacy: </th><th>{{$state->literacy}}</th></tr>
+                        <tr><th>Literacy: </th><th>{{$state->literacy. '%'}}</th></tr>
                         {{--<tr><th>Income: </th><th></th></tr>--}}
-                        <tr><th>Lok Sabha Seats(PC): </th><th>{{$state->pc}}</th></tr>
-                        <tr><th>Vidhan Sabha Seats(AC): </th><th>{{$state->ac}}</th></tr>
-                        {{--<tr><th>Ruling Party: </th><th></th></tr>
-                        <tr><th>Opposition Party: </th><th></th></tr>--}}
+                        <tr><th>Lok Sabha Seats(PC): </th><th>{{$state->pc.' seats'}}</th></tr>
+                        <tr><th>Vidhan Sabha Seats(AC): </th><th>{{$state->ac.' seats'}}</th></tr>
                         <tr><th>Chief Minister: </th><th>{{$state->cm}}</th></tr>
+                       {{-- <tr><th>Ruling Party: </th><th><a href="{{url('parties/'.$state->ruling->id)}}" class="text-primary">{{$state->ruling->name}}</a></th></tr>
+                        <tr><th>Opposition Party: </th><th><a href="{{url('parties/'.$state->ruling->id)}}" class="text-primary">{{$state->opposition->name}}</a></th></tr>--}}
                         <tr><th>Governor: </th><th>{{$state->governor}}</th></tr>
                         {{--<tr><th>CEO: </th><th></th></tr>--}}
                     </tbody>
@@ -55,13 +61,14 @@
                         <a href="{{url('states/'.$state->id.'/list-parties')}}" role="button" class="btn btn-sm btn-outline-info">Attach</a>
                     @endcan
                 </h3>
-                <div style="height: 30vh; overflow: auto">
+                <div style="height: 50vh; overflow: auto">
                     <table class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th scope="col">S.No</th>
-                            <th scope="col">Party Name</th>
+                            <th scope="col">S No.</th>
                             <th scope="col">Symbol</th>
+                            <th scope="col">Party Name</th>
+                            <th scope="col">Shortform</th>
                             @can('manage_site')
                                 <th scope="col">Edit</th>
                             @endcan
@@ -74,8 +81,9 @@
                             {{-- <tr style="background-color: #0d3625">--}}
                             <tr>
                                 <th scope="row">{{$loop->iteration}}</th>
-                                <td><a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a></td>
-                                <td>{{$party->symbol}}</td>
+                                <td><img src="{{asset('icons/'.$party->abbreviation.'.jpg')}}"></td>
+                                <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name}}</b></a></td>
+                                <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->abbreviation}}</b></a></td>
                                 @can('manage_site')
                                     <td>
                                         <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
@@ -95,7 +103,7 @@
                             <th scope="col">S.No</th>
                             <th scope="col">Constituency Name</th>
                             <th scope="col">Type</th>
-                            <th scope="col">State</th>
+                            {{--<th scope="col">State</th>--}}
                             @can('manage_site')
                                 <th scope="col">Edit</th>
                             @endcan
@@ -107,9 +115,9 @@
                             {{-- <tr style="background-color: #0d3625">--}}
                             <tr>
                                 <th scope="row">{{$loop->iteration}}</th>
-                                <td><a href="{{url('constituencies/'.$constituency->id)}}"> {{$constituency->pc_name}}</a></td>
-                                <td>{{$constituency->pc_type}}</td>
-                                <td><a href="{{url('states/'.$state->id)}}">{{$state->name2}}</a></td>
+                                <td><a href="{{url('constituencies/'.$constituency->id)}}"><b class="text-primary">{{$constituency->pc_name}}</b> </a></td>
+                                <td><b data-toggle="tooltip" title="{{$constituency->ctype->description}}" class="text-primary">{{$constituency->ctype->name}}</b></td>
+                                {{--<td><a href="{{url('states/'.$state->id)}}">{{$state->name2}}</a></td>--}}
                                 @can('manage_site')
                                     <td>
                                         <a href="{{url('constituencies/'.$constituency->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
@@ -140,4 +148,13 @@
             @include('layouts.partials.sidemenu')
         </div>
     </div>
+@endsection
+
+@section('extra-js')
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
 @endsection

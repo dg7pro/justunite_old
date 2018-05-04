@@ -6,12 +6,36 @@ use Illuminate\Database\Eloquent\Model;
 
 class Party extends Model
 {
-    //
 
+    /**
+     * Many to Many
+     * Party is active in many states
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function states()
     {
         return $this->belongsToMany('App\State');
     }
+
+    /**
+     * One to Many
+     * Party rules over many states
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rules(){
+
+        return $this->hasMany('App\State');
+    }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Get all of the user's votes.
@@ -30,6 +54,7 @@ class Party extends Model
     {
         return $this->belongsTo('App\Ptype');
     }
+
 
 
 }

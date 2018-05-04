@@ -10,12 +10,21 @@ use Illuminate\Support\Facades\Validator;
 class LinkController extends Controller
 {
     /**
+     * LinkController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('manage_site');
         $links = Link::all();
         return view('link.index',compact('links'));
     }

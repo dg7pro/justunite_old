@@ -47,27 +47,14 @@
                     </div>
 
                     <button type="submit" class="btn btn-success">Update</button>
-
-
                 </form>
-                {{--<p>
-                    <b>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                        It has survived not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                        like Aldus PageMaker including versions of Lorem Ipsum.
-                    </b>
-                </p>--}}
+
                 <br>
-                <h3>Electroates: </h3>
+                {{--<h3>Electroates: </h3>
                 <ul class="list-group">
                     <li class="list-group-item"><b><i>No. of Electroates: <span class="badge badge-pill badge-primary">{{number_format($constituency->total_electors)}}</span></i></b></li>
                     <li class="list-group-item"><b><i>Female Electroates: <span class="badge badge-pill badge-danger"> {{number_format($constituency->female_electors)}} </span></i></b></li>
                     <li class="list-group-item"><b><i>Male Electroates: <span class="badge badge-pill badge-success"> {{ number_format($constituency->male_electors) }}</span></i></b></li>
-                    {{--<li class="list-group-item"><b>Vestibulum at eros<span class="badge badge-pill badge-primary"><i></i></span></b></li>--}}
                 </ul>
                 <br>
                 <br>
@@ -85,28 +72,24 @@
                     <tbody>
                     <tr>
                         <th scope="row">Winner </th>
-                        <th scope="row">{{$constituency->winner}}</th>
-                        <th scope="row">M</th>
-                        <th scope="row">{{$constituency->wparty}}</th>
-                        <th scope="row">{{$constituency->wvotes}}</th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
                     </tr>
                     <tr>
                         <th scope="row">RunnerUp </th>
-                        <th scope="row">{{$constituency->runnerup}} </th>
-                        <th scope="row">M </th>
-                        <th scope="row">{{$constituency->rparty}}</th>
-                        <th scope="row">{{$constituency->rvotes}}</th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
+                        <th scope="row"></th>
                     </tr>
                     </tbody>
                 </table>
                 <div>
-                    <b><i> Total Electors: <label class="text-primary">{{number_format($constituency->total_electors)}}</label></i></b>  |
-                    <b><i> Total No. of Voters: <label class="text-primary">{{number_format($constituency->total_voters)}}</label></i></b>  |
-                    <b><i> Turnout: <label class="text-primary">{{($constituency->total_turnout*100).'%' }}</label></i></b>
-
-                    {{--<b><i> Nominations: <label class="text-primary">{{$constituency->nominations}}</label></i></b>  |
-                    <b><i> Contestants: <label class="text-primary">{{$constituency->contestants}}</label></i></b>  |
-                    <b><i> Forfeit Candidates: <label class="text-primary">{{$constituency->forfeit }}</label></i></b>--}}
+                    <b><i> Total Electors: <label class="text-primary"></label></i></b>  |
+                    <b><i> Total No. of Voters: <label class="text-primary"></label></i></b>  |
+                    <b><i> Turnout: <label class="text-primary"></label></i></b>
                 </div>
                 <br>
                 <br>
@@ -118,7 +101,7 @@
                         Like any women can be member of Women Wing as well as ETF her total voting power will be 2+3=5 </p>
                     <hr>
                     <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                </div>
+                </div>--}}
 
                 <br>
                 <br>
@@ -127,6 +110,7 @@
 
             @include('layouts.partials.sidemenu')
         </div>
+        <br>
     </div>
 @endsection
 

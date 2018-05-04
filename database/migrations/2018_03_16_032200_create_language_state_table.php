@@ -14,18 +14,19 @@ class CreateLanguageStateTable extends Migration
     public function up()
     {
         Schema::create('language_state', function (Blueprint $table) {
+
             $table->integer('language_id')->unsigned();
             $table->integer('state_id')->unsigned();
 
             $table->foreign('language_id')
                 ->references('id')
                 ->on('languages')
-                ->ondelete('cascade');
+                ->onDelete('cascade');
 
             $table->foreign('state_id')
                 ->references('id')
                 ->on('states')
-                ->ondelete('cascade');
+                ->onDelete('cascade');
 
             $table->primary(['language_id','state_id']);
         });
@@ -38,6 +39,8 @@ class CreateLanguageStateTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('language_state');
+        Schema::enableForeignKeyConstraints();
     }
 }

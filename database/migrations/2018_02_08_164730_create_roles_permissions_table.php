@@ -31,15 +31,15 @@ class CreateRolesPermissionsTable extends Migration
             $table->integer('permission_id')->unsigned();
             $table->integer('role_id')->unsigned();
 
-            /*$table->foreign('permission_id')
+            $table->foreign('permission_id')
                 ->references('id')
                 ->on('permissions')
-                ->ondelete('cascade');
+                ->onDelete('cascade');
 
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->ondelete('cascade');*/
+                ->onDelete('cascade');
 
             $table->primary(['permission_id','role_id']);
         });
@@ -48,15 +48,15 @@ class CreateRolesPermissionsTable extends Migration
             $table->integer('role_id')->unsigned();
             $table->integer('user_id')->unsigned();
 
-            /*$table->foreign('role_id')
+            $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->ondelete('cascade');
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->ondelete('cascade');*/
+                ->onDelete('cascade');
 
             $table->primary(['role_id','user_id']);
         });
@@ -70,10 +70,14 @@ class CreateRolesPermissionsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::dropIfExists('role_user');
         Schema::dropIfExists('permission_role');
 
         Schema::dropIfExists('permissions');
         Schema::dropIfExists('roles');
+
+        Schema::enableForeignKeyConstraints();
     }
 }

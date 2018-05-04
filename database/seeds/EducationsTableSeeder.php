@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 class EducationsTableSeeder extends Seeder
 {
-    protected $toTruncate = ['education'];
+    protected $toTruncate = ['educations'];
     /**
      * Run the database seeds.
      *
@@ -23,6 +23,10 @@ class EducationsTableSeeder extends Seeder
 
         App\Education::query()->create([
             'level'=>'Intermediate'
+        ]);
+
+        App\Education::query()->create([
+            'level'=>'Diploma'
         ]);
 
         App\Education::query()->create([

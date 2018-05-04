@@ -16,7 +16,9 @@ class CreateOptionsTable extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('poll_id')->unsigned();
-            $table->foreign('poll_id')->references('id')->on('polls')->onDelete('cascade');
+            $table->foreign('poll_id')
+                ->references('id')->on('polls')
+                ->onDelete('cascade');
             $table->string('answer');
             $table->timestamps();
         });
@@ -29,6 +31,8 @@ class CreateOptionsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('options');
+        Schema::enableForeignKeyConstraints();
     }
 }

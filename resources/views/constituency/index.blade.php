@@ -8,23 +8,12 @@
             <p>This page shows list of all the parliamentary constituency in India. Total their are 543 seats </p>
             @if(Auth::guest())
                 <p>
-                    <a href="{{url('register')}}" role="button" class="btn btn-outline-dark btn-lg" >Register &raquo;</a>
+                    <a href="{{url('register')}}" role="button" class="btn btn-outline-dark" >Register &raquo;</a>
                 </p>
-
             @else
-
                 <p>
-                    <a href="{{url('constituencies/your-constituency')}}" role="button" class="btn btn-outline-dark btn-lg" >Your Constituency &raquo;</a>
+                    <a href="{{url('constituencies/your-constituency')}}" role="button" class="btn btn-outline-dark" >Your Constituency &raquo;</a>
                 </p>
-                {{--@if(Auth::User()->constituency_id == null)
-                    <p>
-                        <a href="{{url('home')}}" role="button" class="btn btn-outline-dark btn-lg" >Your Constituency &raquo;</a>
-                    </p>
-                @else
-                    <p>
-                        <a href="{{url('constituencies/'.Auth::User()->constituency_id)}}" role="button" class="btn btn-outline-dark btn-lg" >Your Constituency &raquo;</a>
-                    </p>
-                @endif--}}
             @endif
 
         </div>
@@ -32,7 +21,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <h2>List of Constituencies</h2>
+                <h2>List of Constituencies: <i class="text-primary">{{ $constituencies->count()}}</i></h2>
                 {{--<div>
                  <p>
                     <b>

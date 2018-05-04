@@ -8,13 +8,23 @@ use Illuminate\Http\Request;
 class LanguageController extends Controller
 {
     /**
+     * LanguageController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $languages = Language::with('states')->get();
+        //return $languages;
+        return view('language.index',compact('languages'));
     }
 
     /**

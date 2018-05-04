@@ -18,13 +18,16 @@ class CreateStatesTable extends Migration
             $table->string('name');
             $table->string('name2');
             $table->string('capital');
-            $table->tinyInteger('type');
+            //$table->integer('stype_id')->unsigned();
             $table->smallInteger('pc');
             $table->smallInteger('ac');
             $table->decimal('literacy',4,2);
+            $table->integer('gdp');
+            $table->integer('income')->comment = "percapita GDP";;
             $table->string('governor');
             $table->string('cm');
-            $table->integer('party_id')->comment = "ruling party";
+            //$table->integer('ruling')->unsigned()->comment = "ruling party";
+            //$table->integer('opposition')->unsigned()->comment = "opposition party";
             $table->integer('population');
             $table->smallInteger('rank')->comment = "population rank";
             $table->integer('upo')->comment = "urban population";

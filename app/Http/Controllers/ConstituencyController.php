@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Constituency;
+use App\Election;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -11,9 +12,12 @@ use Illuminate\Support\Facades\Session;
 
 class ConstituencyController extends Controller
 {
+    /**
+     * ConstituencyController constructor.
+     */
     public function __construct()
     {
-        $this->middleware('auth')->except('index','show','voting');
+        $this->middleware('auth')->except('index','show','voting','track');
     }
 
     /**
@@ -23,9 +27,18 @@ class ConstituencyController extends Controller
      */
     public function index()
     {
-        $constituencies = Constituency::with('state.stype','ctype')->get();
+        /*$constituencies = Constituency::with('state.stype','ctype')->get();
+        return view('constituency.index',compact('constituencies'));*/
         //return $constituencies;
+
+        $election = Election::where('type','=',1)->latest('year')->first();
+        //return $election;
+
+        //$constituencies = Constituency::where('election_id','=',$election->id)->get();
+
+        $constituencies = $election->constituencies()->with('state','ctype')->get();
         return view('constituency.index',compact('constituencies'));
+        //return $constituencies;
     }
 
     /**
@@ -55,9 +68,22 @@ class ConstituencyController extends Controller
      * @param  \App\Constituency  $constituency
      * @return \Illuminate\Http\Response
      */
-    public function show(Constituency $constituency)
+    public function show($id)
     {
-        return view('constituency.show',compact('constituency'));
+        $constituency=Constituency::where('id','=',$id)->first();
+        $election = $constituency->elections()->where('election_id','=',1)->first();
+
+        //$constituency = Constituency::where('id','=',$id)->first();
+
+        //$constituency = $constituency->load('contestants.gender','election')->first();
+        $contestants = $constituency->contestants()->where('election_id','=',1)->with('gender','party')->orderBy('votes','dsc')->get();
+        //return $constituency;
+        //return $contestants;
+
+
+        return view('constituency.show',compact('constituency','election','contestants'));
+        //return $constituency;
+        //return $election;
     }
 
     /**
@@ -108,11 +134,15 @@ class ConstituencyController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'details' => 'required',
-
+            'details' => 'required'
         ]);
     }
 
+    /**
+     * Have to return members of particular constituency
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function members($id){
 
         $members = User::all()->count();
@@ -126,17 +156,28 @@ class ConstituencyController extends Controller
         return view('constituency.users',compact('users','constituency'));*/
     }
 
+    /**
+     * Redirect the user either to fill its constituency or to constituency page
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function yourConstituency(){
 
         if(Auth::user()->constituency_id == null){
             Session::flash('message', 'Please select your Loksabha Constituency !');
             return redirect('/home');
-           //return "Please select your Constituency";
         }
         else{
             return redirect('constituencies/'.Auth::user()->constituency_id);
-            //return "Redirect to other";
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function track(Request $request){
+
+        return $request->constituency;
     }
 
 

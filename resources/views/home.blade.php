@@ -43,12 +43,23 @@
                             <tbody>
                             <tr>
                                 <td>Email:</td>
-                                <td>{{Auth::User()->email}}</td>
+                                <td>
+                                    {{Auth::User()->email}}
+                                    <button type="submit" class="btn btn-outline-info btn-sm">Verify</button>
+                                </td>
                             </tr>
                             <tr>
 
                                 <td>Mobile:</td>
-                                <td>{{Auth::User()->mobile}}</td>
+                                <td>
+                                    @if(Auth::User()->mobile)
+                                        {{Auth::User()->mobile}}
+                                        <button type="submit" class="btn btn-outline-info btn-sm">Verify</button>
+                                    @else
+                                        <i>{{'Unknown ...'}}</i>
+                                        <button type="submit" class="btn btn-outline-info btn-sm">Add</button>
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
 
@@ -58,13 +69,20 @@
                                         {{$constituency->pc_name}}
                                     @else
                                         <i>{{'Unknown ...'}}</i>
+                                        <a href="#constituency" role="button" class="btn btn-outline-warning btn-sm js-scroll-trigger">Click to Add</a>
                                     @endif
                                 </td>
                             </tr>
                             <tr>
-
-                                <td>Last Login:</td>
-                                <td>{{ Auth::user()->last_login->diffForHumans() }}</td>
+                                <td>Group:</td>
+                                <td>
+                                    @if(Auth::User()->group)
+                                        {{Auth::User()->group->name}}
+                                    @else
+                                        <i>{{'Unknown ...'}}</i>
+                                        <button type="submit" class="btn btn-outline-warning btn-sm">Click to Add</button>
+                                    @endif
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -79,7 +97,7 @@
                             {{ csrf_field() }}
 
                             <br>
-                            <h4 class="text-primary" >Loksabha Seat:</h4>
+                            <h4 class="text-primary"  id="constituency" >Account Info:</h4>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -126,6 +144,36 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="group">Join as:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupPrepend">
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                    </span>
+                                        </div>
+                                        <select name="group" id="group" class="form-control">
+                                            <option selected value="">Select</option>
+                                            @foreach($groups as $group)
+                                                <option value="{{$group->id}}" {{ Auth::user()->group_id == $group->id ? 'selected="selected"' : '' }}>{{$group->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="group">Mobile No:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupPrepend">
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                    </span>
+                                        </div>
+                                        <input type="text" name="mobile" id="mobile" class="form-control" value="{{Auth::user()->mobile}}">
+                                    </div>
+                                </div>
+
                             </div>
 
                             <br>
@@ -272,49 +320,10 @@
 
                                 </div>
                             </div>--}}
-
-                            <h4 class="text-primary">Other Info:</h4>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="group">Join as:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fa fa-users" aria-hidden="true"></i>
-                                        </span>
-                                        </div>
-                                        <select name="group" id="group" class="form-control">
-                                            <option selected value="">Select</option>
-                                            @foreach($groups as $group)
-                                                <option value="{{$group->id}}" {{ Auth::user()->group_id == $group->id ? 'selected="selected"' : '' }}>{{$group->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="group">Mobile No:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend">
-                                            <i class="fa fa-phone" aria-hidden="true"></i>
-                                        </span>
-                                        </div>
-                                        <input type="text" name="mobile" id="mobile" class="form-control" value="{{Auth::user()->mobile}}">
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <br>
                             <br>
                             <div align="center">
                                 <button type="submit" class="btn btn-outline-success">Update Profile</button>
                             </div>
-
-
                         </form>
                     </div>
                 </div>
@@ -374,5 +383,96 @@
             });
         })
     </script>
+
+    <script>
+
+        // Select all links with hashes
+        $('a[href*="#"]')
+        // Remove links that don't actually link to anything
+            .not('[href="#"]')
+            .not('[href="#0"]')
+            .click(function(event) {
+                // On-page links
+                if (
+                    location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+                    &&
+                    location.hostname == this.hostname
+                ) {
+                    // Figure out element to scroll to
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    // Does a scroll target exist?
+                    if (target.length) {
+                        // Only prevent default if animation is actually gonna happen
+                        event.preventDefault();
+                        $('html, body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000, function() {
+                            // Callback after animation
+                            // Must change focus!
+                            var $target = $(target);
+                            $target.focus();
+                            if ($target.is(":focus")) { // Checking if the target was focused
+                                return false;
+                            } else {
+                                $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+                                $target.focus(); // Set focus again
+                            };
+                        });
+                    }
+                }
+            });
+
+    </script>
+
+    <!-- LOAD JQUERY-JEDITABLE -->
+   {{-- <script src="{{asset('js/jquery.jeditable.js')}}"></script>
+
+    <script>
+        /* data that will be sent along */
+        var submitdata = {}
+        /* this will make the save.php script take a long time so you can see the spinner ;) */
+        submitdata['slow'] = true;
+        submitdata['pwet'] = 'youpla';
+
+        $(".editable-text-full").editable("{{url('users/'.Auth::User()->id)}}", {
+            indicator : "<img src='{{asset('images/spinner.svg')}}' />",
+            type : "text",
+            // only limit to three letters example
+            //pattern: "[A-Za-z]{3}",
+            onedit : function() { console.log('If I return false edition will be canceled'); return true;},
+            before : function() { console.log('Triggered before form appears')},
+            callback : function(result, settings, submitdata) {
+                console.log('Triggered after submit');
+                console.log('Result: ' + result);
+                console.log('Settings.width: ' + settings.width);
+                console.log('Submitdata: ' + submitdata.pwet);
+            },
+            //cancel : 'Cnl',
+            cssclass : 'custom-class',
+            cancelcssclass : 'btn btn-danger btn-sm',
+            submitcssclass : 'btn btn-outline-success btn-sm',
+            maxlength : 200,
+            // select all text
+            select : true,
+            //label : 'This is a label',
+            onreset : function() { console.log('Triggered before reset') },
+            onsubmit : function() { console.log('Triggered before submit') },
+            showfn : function(elem) { elem.fadeIn('slow') },
+            submit : 'Save',
+            submitdata : submitdata,
+            /* submitdata as a function example
+            submitdata : function(revert, settings, submitdata) {
+                console.log("Revert text: " + revert);
+                console.log(settings);
+                console.log("User submitted text: " + submitdata.value);
+            },
+            */
+            tooltip : "Click to edit...",
+            width : 160
+        });
+    </script>--}}
+
+
 
 @endsection

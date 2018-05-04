@@ -8,13 +8,25 @@ use Illuminate\Http\Request;
 class CtypeController extends Controller
 {
     /**
+     * CtypeController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
-        //
+        $this->authorize('manage_site');
+
+        $ctypes = Ctype::all();
+        return view('ctype.index',compact('ctypes'));
     }
 
     /**

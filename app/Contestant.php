@@ -13,4 +13,19 @@ class Contestant extends Model
     {
         return $this->morphMany('App\Vote', 'votable');
     }
+
+    public function Constituency()
+    {
+        return $this->belongsTo('App\Constituency');
+    }
+
+    public function gender(){
+
+        return $this->belongsTo('App\Gender');
+    }
+
+    public function party(){
+
+        return $this->belongsTo('App\Party');
+    }
 }

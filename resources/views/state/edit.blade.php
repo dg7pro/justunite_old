@@ -37,7 +37,13 @@
                         </tr>
                         <tr>
                             <td><label for="language">language:</label></td>
-                            <td><input type="text" name="language" class="form-control" value="{{$state->language}}"></td>
+                            <td>
+                                @foreach($state->languages as $language)
+                                    {{$language->name.', '}}
+                                @endforeach
+                                <a href="{{url('states/'.$state->id.'/list-languages')}}" role="button" class="btn btn-sm btn-outline-info">Attach</a>
+
+                            </td>
                         </tr>
                         <tr>
                             <td><label for="literacy">literacy %:</label></td>
@@ -99,7 +105,15 @@
                         </tr>
                         <tr>
                             <td><label for="wparty">Winner Party:</label></td>
-                            <td><input type="text" name="wparty" class="form-control" value="{{$state->wparty}}"></td>
+                            <td>
+                                {{--<input type="text" name="wparty" class="form-control" value="{{$state->wparty}}">--}}
+                                <select name="wparty" class="form-control">
+                                    <option value="">Select Ruling party</option>
+                                    @foreach($parties as $party)
+                                        <option value="{{$party->id}}" {{ $state->party_id == $party->id ? 'selected="selected"' : '' }}>{{$party->name}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
                         </tr>
 
                        {{-- <tr>

@@ -9,4 +9,14 @@ class Profession extends Model
     public function users(){
         return $this->hasMany('App\User');
     }
+
+    /**
+     *
+     * Profession has many user likes
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function userLikes(){
+
+        return $this->belongsToMany('App\User');
+    }
 }
