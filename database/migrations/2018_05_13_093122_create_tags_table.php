@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateElectionsTable extends Migration
+class CreateTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateElectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('elections', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->tinyInteger('type')->comment('general/state');
-            $table->date('year');
-            //$table->integer('year',4);
+            $table->tinyInteger('order');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateElectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('elections');
+        Schema::dropIfExists('tags');
     }
 }

@@ -6,20 +6,21 @@
         <div class="row">
             <div class="col-md-8">
                 <br>
+                @include('layouts.alerts.error')
                 <br>
-                <h2>Write your Opinion</h2>
+                <h2>Advertise Yourself</h2>
 
-                <form method="POST" action="{{url('opinions')}}">
+                <form method="POST" action="{{url('adds')}}">
                     {{ csrf_field() }}
 
 
                     <div class="form-group">
                         <label for="course">Opinion/Views: maxlength=50</label>
-                        <textarea name="matter" maxlength="50" id="matter" class="form-control" style="height: 50vh;" placeholder="Put your content here..."></textarea>
+                        <textarea name="matter" maxlength="50" id="matter" class="form-control" style="height: 50vh;" placeholder="Put your add here..."></textarea>
                     </div>
 
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="active" name="active" value={{ 'checked' ? 1 : 0}}>
+                        <input type="checkbox" class="form-check-input" id="active" name="active" value=1>
                         <label class="form-check-label" for="exampleCheck1">Make active</label>
                     </div>
                     <br>

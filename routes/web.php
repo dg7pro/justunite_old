@@ -23,6 +23,11 @@ Auth::routes();
 
 Route::get('/admin','AdminController@index')->name('admin');
 
+Route::get('loginToVoteProblem','ProblemController@makeReady');
+Route::post('problems/ajax-vote/{id}','ProblemController@ajaxVote');
+Route::post('problems/vote/{id}','ProblemController@vote');
+Route::post('problems/{problem}/upload-image','ProblemController@uploadImage');
+
 Route::get('constituencies/{id}/members','ConstituencyController@members');
 Route::get('constituencies/your-constituency','ConstituencyController@yourConstituency');
 Route::post('constituency/track','ConstituencyController@track');
@@ -46,10 +51,15 @@ Route::post('parties/vote/{id}','PartyController@vote');
 Route::post('parties/ajax-vote/{id}','PartyController@ajaxVote');
 Route::post('parties/{party}/upload-image','PartyController@uploadImage');
 
-Route::get('loginToVoteProblem','ProblemController@makeReady');
-Route::post('problems/vote/{id}','ProblemController@vote');
-Route::post('problems/ajax-vote/{id}','ProblemController@ajaxVote');
-Route::post('problems/{problem}/upload-image','ProblemController@uploadImage');
+
+
+
+
+
+
+
+
+
 
 Route::post('assign-role','RoleController@assignRole');
 Route::post('de-assign-role','RoleController@deAssignRole');
@@ -78,20 +88,26 @@ Route::get('uuid/{uid}','UserController@getUserByUuid');
 Route::post('users/{user}/upload-image','UserController@uploadImage');
 Route::get('members','UserController@totalMembers');
 
+Route::get('loginToVoteUser/{id}','UserController@makeReady');
+Route::post('users/vote/{id}','UserController@vote');
+Route::post('users/ajax-vote/{id}','UserController@ajaxVote');
+
 Route::get('loginToLike/{id}','UserController@loginToLike');
 Route::post('users/like','UserController@like');
 Route::post('users/unlike','UserController@unlike');
+Route::get('constituencies/{id}/list-members','UserController@listMembers');
+
+Route::post('professions/like','ProfessionController@like');
 
 
+
+Route::get('opinions2','OpinionController@index2');
 //Route::post('users/like-profession/{id}','UserController@likeProfession');
 
 
 
+Route::get('test','UserController@test');
 
-
-//Route::get('problems/voting','ProblemController@voting');
-//Route::post('problems/castVote','ProblemController@vote2');
-//Route::get('parties/voting','PartyController@voting');
 
 
 
@@ -106,13 +122,15 @@ Route::post('users/unlike','UserController@unlike');
 | All the Resource Routing is done here
 |
  */
-
+Route::resource('adds','AddController');
 Route::resource('ages','AgeController');
+Route::resource('bearers','BearerController');
 Route::resource('constituencies','ConstituencyController');
 Route::resource('contents','ContentController');
 Route::resource('ctypes','CtypeController');
 Route::resource('educations','EducationController');
 Route::resource('elections','ElectionController');
+Route::resource('faqs','FaqController');
 Route::resource('genders','GenderController');
 Route::resource('groups','GroupController');
 Route::resource('images','ImageController');

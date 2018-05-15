@@ -41,7 +41,7 @@ class PartyController extends Controller
         }
 
         //return $problems;
-        return view('party.index-ajax',compact('parties','receivedVotePartyId'));
+        return view('party.index',compact('parties','receivedVotePartyId'));
 
         /*$parties = Party::all();
         return view('party.index',compact('parties'));*/
@@ -76,8 +76,9 @@ class PartyController extends Controller
      */
     public function show(Party $party)
     {
+        $partyCount = Party::all()->count();
         $images = $party->images()->get();
-        return view('party.show',compact('party','images'));
+        return view('party.show',compact('party','images','partyCount'));
     }
 
     /**

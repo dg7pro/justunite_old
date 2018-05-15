@@ -117,9 +117,24 @@ class User extends Authenticatable
         return $this->belongsTo('App\Profession');
     }
 
+    /**
+     * One to One Relation
+     * User has one opinion(user can write single opinion)
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function opinion(){
         return $this->hasOne('App\Opinion');
     }
+
+    /**
+     * One to One Relation
+     * User has one opinion(user can write single opinion)
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function add(){
+        return $this->hasOne('App\Add');
+    }
+
 
 
     /**

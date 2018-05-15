@@ -22,13 +22,8 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     @foreach ($users as $user)
-
-
-
-
-
-
                         <tr id="{{'row'.$user->id}}" style="{{$user->id == $receivedVoteUserId ? 'background-color: #06b0cf' : '' }}">
 
                             <th scope="row">{{ $loop->iteration }}</th>

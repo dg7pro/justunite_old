@@ -6,6 +6,7 @@ use App\Opinion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class OpinionController extends Controller
 {
@@ -25,14 +26,43 @@ class OpinionController extends Controller
      */
     public function index()
     {
-        $this->authorize('manage_site');
+        //$this->authorize('manage_site');
 
         $opinions = Opinion::with('user')
-            ->withCount('likedBy')
+            /*->withCount('likedBy')*/
             ->get();
         //return $opinions;
         return view('opinion.index',compact('opinions'));
     }
+
+    /*public function index2(Request $request)
+    {
+        $opinions = Opinion::with('user')->paginate(1);
+        $html='';
+        foreach ($opinions as $opinion) {
+            //$html.='<li>'.$opinion->id.' <strong>'.$opinion->name.'</strong> : '.'<br>'.$opinion->headquarter.'</li>';
+
+
+            $html.='<div class="alert alert-info" role="alert">
+                        <h4 class="alert-heading">' . $opinion->user->name . '\'s' . ' opinion' . '</h4>
+                        <p>' . $opinion->matter . '</p>
+                        <div class="text-right">
+                            <b class="pull-left" style="padding-top: 8px">' . $opinion->created_at->diffForHumans() . '</b>
+                            <b>' . ' 546 Likes' . '</b>
+                            <a href="" role="button" style="padding-right: 2em">
+                                <i class="'. "fa fa-thumbs-o-up fa-2x fa-flip-horizontal" . '" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>';
+
+        }
+        if ($request->ajax()) {
+            return $html;
+        }
+
+        return view('opinion.index2',compact('opinions'));
+    }*/
+
 
     /**
      * Show the form for creating a new resource.
@@ -41,7 +71,15 @@ class OpinionController extends Controller
      */
     public function create()
     {
-        return view('opinion.create');
+       /* $id = Auth::id();
+        $opinion = Opinion::where('user_id','=',$id)->first();*/
+
+        $opinion = Auth::user()->opinion()->first();
+        if($opinion){
+            return $this->edit($opinion);
+        }else {
+            return view('opinion.create');
+        }
     }
 
     /**
@@ -59,6 +97,7 @@ class OpinionController extends Controller
         $opinion = new Opinion();
         $opinion->user_id = Auth()->id();
         $opinion->matter = $request->matter;
+        $opinion->active = isset($request['active']);
         $opinion->save();
 
         //Flash Message
@@ -136,7 +175,7 @@ class OpinionController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'matter' => 'required'
+            'matter' => 'required|string'
         ]);
     }
 }

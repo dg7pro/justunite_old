@@ -89,13 +89,13 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item list-group-item-warning active">Electors</li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Total Electors: <label class="text-primary">{{number_format($election->pivot->electors)}}</label></i></b>
+                                <b><i> Total Electors: <label class="text-primary">{{number_format($constituency->electors)}}</label></i></b>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Total No. of Voters: <label class="text-primary">{{number_format($election->pivot->voters)}}</label></i></b>
+                                <b><i> Total No. of Voters: <label class="text-primary">{{number_format($constituency->voters)}}</label></i></b>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Turnout: <label class="text-primary">{{($election->pivot->turnout*100).'%' }}</label></i></b>
+                                <b><i> Turnout: <label class="text-primary">{{($constituency->turnout*100).'%' }}</label></i></b>
                             </li>
                         </ul>
                     </div>
@@ -104,53 +104,118 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item active">Contestants</li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Nominations: <label class="text-primary">{{$election->pivot->nominations}}</label></i></b>
+                                <b><i> Nominations: <label class="text-primary">{{$constituency->nominations}}</label></i></b>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Contestants: <label class="text-primary">{{$election->pivot->contestants}}</label></i></b>
+                                <b><i> Contestants: <label class="text-primary">{{$constituency->contestants}}</label></i></b>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <b><i> Forfeit Candidates: <label class="text-primary">{{$election->pivot->forfeited }}</label></i></b>
+                                <b><i> Forfeit Candidates: <label class="text-primary">{{$constituency->forfeited }}</label></i></b>
                             </li>
                         </ul>
                     </div>
 
                 </div>
-                {{--<br>
-                <br>
-                <h3>Members:</h3>
-                <div style="height: 30vh; overflow: auto">
+                @if($constituency->members->count())
+                    <br>
+                    <h3>
+                        Our Members
+                        <a href="{{url('constituencies/'.$constituency->id.'/list-members')}}" role="button" class="btn btn-sm btn-outline-info">
+                            <i class="fa fa-list" style="font-size:16px"></i> View list</a>
+                    </h3>
+                    <div {{--style="height: 30vh; overflow: auto"--}}>
+                        <table class="table table-striped table-bordered">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">S.No</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Opinion</th>
+                                <th scope="col">Vote</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            @foreach($members as $member)
+                                <tr>
+                                    <th scope="row">{{$loop->iteration}}</th>
+                                    <td>
+                                        @if(file_exists(public_path().'/upload/'.$member->uuid.'.png'))
+                                            <img src="{{asset('upload/'.$member->uuid.'.png')}}" alt="Profile Pic" class="img-circle" width="50" height="50">
+                                            <br>
+                                        @else
+                                            <img data-name="{{ $member->name }}" class="demo img-responsive" width="50" height="50"/>
+                                            <br>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{url('users/'.$member->id)}}" class="font-weight-bold text-primary">{{$member->name}}</a>
+                                        <div class="font-italic">Likes: {{$member->known_by_count or 'null'}}</div>
+                                    </td>
+                                    <td><a href="#" data-toggle="modal" data-target="#exampleModalCenter{{$member->id}}"><i class="fa fa-comments fa-2x"></i></a></td>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter{{$member->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{$member->opinion->matter or 'Not Written'}}
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    {{--<button type="button" class="btn btn-primary">Save changes</button>--}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <td>
+                                        @if(Auth::guest())
+                                            <a class="btn btn-info" href="{{ url('loginToVoteUser/'.$constituency->id) }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                        @else
+                                            <a class="btn btn-info" href="{{ url('constituencies/'.$constituency->id.'/list-members') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                        @endif
+                                        {{--<a href="{{url('users/'.$member->id)}}" role="button" class="btn btn-sm btn-outline-info">View</a>--}}
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                @endif
+
+                {{--<h4 class="text-primary">JU {{$constituency->pc_name}} Leadership:</h4>
+                <div --}}{{--style="height: 30vh; overflow: auto"--}}{{-->
                     <table class="table table-striped table-bordered">
-                        <thead>
+                        <thead class="thead-light">
                         <tr>
-                            <th scope="col">S.No</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Gender</th>
-                            @can('manage_site')
-                                <th scope="col">Profile</th>
-                            @endcan
+                            <th scope="col">S No.</th>
+                            <th scope="col">Position</th>
+                            <th scope="col">Office Bearer</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        @foreach($constituency->members as $member)
-                            --}}{{-- <tr style="background-color: #0d3625">--}}{{--
+                        @foreach($constituency->bearers as $bearer)
                             <tr>
-                                <th scope="row">{{$loop->iteration}}</th>
-                                <td><a href="{{url('users/'.$member->id)}}">{{$member->name}}</a></td>
-                                <td>{{$member->gender}}</td>
-                                @can('manage_site')
-                                    <td>
-                                        <a href="{{url('users/'.$member->id)}}" role="button" class="btn btn-sm btn-outline-info">View</a>
-                                    </td>
-                                @endcan
+                                <td>{{$loop->iteration}}</td>
+                                <td><b class="text-primary">{{$bearer->name}}</b></td>
+                                <td>{{$bearer->pivot->user_id or 'vacant'}}</td>
+
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-                </div>--}}
+                </div>
                 <br>
-
+                <br>
+                --}}
 
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Description & Notes:</h4>
@@ -168,4 +233,28 @@
             @include('layouts.partials.sidemenu')
         </div>
     </div>
+@endsection
+
+@section('extra-js')
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="{{asset('js/initial.min.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.demo').initial({
+                name: 'Name', // Name of the user
+                charCount: 1, // Number of characherts to be shown in the picture.
+                textColor: '#ffffff', // Color of the text
+                seed: 1, // randomize background color
+                height: 100,
+                width: 100,
+                fontSize: 70,
+                fontWeight: 500,
+                fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+                radius: 50,
+            });
+        })
+    </script>
+
+
 @endsection

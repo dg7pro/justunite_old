@@ -6,8 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profession extends Model
 {
+
+    protected $fillable = ['category','details','image'];
+
     public function users(){
         return $this->hasMany('App\User');
+    }
+
+
+    public function images()
+    {
+        return $this->morphMany('App\Image', 'imagable');
     }
 
     /**

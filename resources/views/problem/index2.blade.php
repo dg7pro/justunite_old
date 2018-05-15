@@ -26,7 +26,7 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th scope="col">Id</th>
+                        <th scope="col">Rank</th>
                         <th scope="col">Problems</th>
                         <th scope="col">Votes</th>
                         <th scope="col">Select</th>
@@ -55,16 +55,16 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>
-                                <a href="{{url('problems/'.$problem->id)}}"><b>{{$problem->title}}</b></a>
+                                <a href="{{url('problems/'.$problem->id)}}"><b class="text-primary">{{$problem->title}}</b></a>
                             </td>
-                            <td>{{$problem->votes_count}}</td>
+                            <td><b class="text-primary">{{$problem->votes_count}}</b></td>
                             <td>
                                 {{--<form method="post" action="{{url('makeReadyForVoting')}}" class="form-inline">
                                     {{csrf_field()}}
                                     <input name="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
                                     <button type="submit" class="btn btn-success btn-xs">Vote</button>
                                 </form>--}}
-                                <a class="btn btn-info" href="{{ url('loginToVoteProblem') }}">Vote</a>
+                                <a class="btn btn-info" href="{{ url('loginToVoteProblem') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                             </td>
                         </tr>
                     @else
@@ -73,11 +73,11 @@
                             <tr style="background-color: #06b0cf">
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>
-                                    <a href="{{url('problems/'.$problem->id)}}"><b>{{$problem->title}}</b></a>
+                                    <a href="{{url('problems/'.$problem->id)}}"><b class="text-default">{{$problem->title}}</b></a>
                                 </td>
-                                <td>{{$problem->votes_count}}</td>
+                                <td><b>{{$problem->votes_count}}</b></td>
                                 <td >
-                                    <button type="submit" class="btn btn-default btn-xs disabled">Vote</button>
+                                    <button type="submit" class="btn btn-default btn-xs disabled">{{--<i class="fa fa-thumbs-up" style="font-size:16px"></i>--}} Voted</button>
                                 </td>
                                 @can('manage_site')
                                     <td>
@@ -96,14 +96,14 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>
-                                    <a href="{{url('problems/'.$problem->id)}}"><b>{{$problem->title}}</b></a>
+                                    <a href="{{url('problems/'.$problem->id)}}"><b class="text-primary">{{$problem->title}}</b></a>
                                 </td>
-                                <td>{{$problem->votes_count}}</td>
+                                <td><b class="text-primary">{{$problem->votes_count}}</b></td>
                                 <td>
                                     <form method="post" action="{{url('problems/vote/'.$problem->id)}}" class="form-inline" onsubmit="{{ $receivedVoteProblemId != null ? 'ConfirmVoteChange()' : ''}}">
                                         {{csrf_field()}}
                                         <input name="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
-                                        <button type="submit" class="btn btn-info btn-xs">Vote</button>
+                                        <button type="submit" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
                                     </form>
                                 </td>
                                 @can('manage_site')
@@ -171,15 +171,13 @@
 @endsection
 
 @section('extra-js')
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+
     <script>
-        function ConfirmDelete(){
-            var x = confirm("Are you sure you want to delete?");
-            if (x)
-                return true;
-            else
-                return false;
-        }
-        function ConfirmVoteChange(){
+        function ConfirmVoteChange() {
 
             var x = confirm("You have already voted, do you want to change your vote?");
             if (x)
@@ -188,7 +186,15 @@
                 return false;
         }
     </script>
-
+    <script>
+        function ConfirmDelete(){
+            var x = confirm("Are you sure you want to delete?");
+            if (x)
+                return true;
+            else
+                return false;
+        }
+    </script>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {

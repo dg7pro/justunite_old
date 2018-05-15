@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Input;
 
 class ProblemController extends Controller
 {
@@ -28,9 +27,6 @@ class ProblemController extends Controller
      */
     public function index()
     {
-        /*$problems = Problem::all();
-        return view('problem.index',compact('problems'));*/
-
         $problems = Problem::with('votes')->withCount('votes')
             ->orderBy('votes_count','desc')->get();
 
@@ -42,13 +38,14 @@ class ProblemController extends Controller
                 }
             }
         }
-
         $states = State::all();
 
-        //return $problems;
-        return view('problem.index-ajax',compact('problems','receivedVoteProblemId','states'));
+        return view('problem.index2',compact('problems','receivedVoteProblemId','states'));
 
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -157,63 +154,13 @@ class ProblemController extends Controller
         ]);
     }
 
-    public function voting(){
-
-        $problems = Problem::with('votes')->withCount('votes')
-            ->orderBy('votes_count','desc')->get();
-
-        $receivedVoteProblemId = null;
-        foreach($problems as $problem){
-            foreach ($problem->votes as $vote){
-                if (Auth::id()==$vote->user_id){
-                    $receivedVoteProblemId = $problem->id;
-                }
-            }
-        }
-
-        //return $problems;
-        return view('problem.poll',compact('problems','receivedVoteProblemId'));
-    }
-
-    public function vote(Request $request, $id){
-
-        // Retrieve the current vote
-        $currentOption = $request->currentOption;
-        if($currentOption==null){
-            $user = Auth::User();
-            $problem = Problem::query()->find($id);
-            $problem->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
-            return redirect()->back();
-        }else {
-            $problem = Problem::query()->find($currentOption);
-            $vote = $problem->votes()->where('user_id', Auth::id())->first();
-            $vote->update(['votable_id' => $id]);
-            return redirect()->back();
-        }
-
-
-        // Delete the current vote
-        /*$vote->delete();
-        return "Successfully Deleted";*/
-
-        // Or just update the current vote
-
-
-
-        // Create the new vote if not already present
-        /*$user = Auth::User();
-        $option = Option::query()->find($id);
-        $option->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
-        return redirect()->back();*/
-
-    }
-
-
     public function ajaxVote(Request $request, $id){
 
         // Retrieve the current vote
         //$newOption = $request->newOption;
         $currentOption = $request->currentOption;
+
+        //return response()->json(['co'=>$currentOption,'newo'=>$id]);
 
         if($currentOption==null){
             $user = Auth::User();
@@ -231,30 +178,22 @@ class ProblemController extends Controller
         }
     }
 
-    public function vote2(Request $request){
+
+    public function vote(Request $request, $id){
 
         // Retrieve the current vote
         $currentOption = $request->currentOption;
-        $newOption = $request->newOption;
-        $problem = Problem::query()->find($currentOption);
-        $vote = $problem->votes()->where('user_id',Auth::id())->first();
-
-
-        // Delete the current vote
-        /*$vote->delete();
-        return "Successfully Deleted";*/
-
-        // Or just update the current vote
-        $vote->update(['votable_id'=>$newOption]);
-        return redirect()->back();
-
-
-        // Create the new vote if not already present
-        /*$user = Auth::User();
-        $option = Option::query()->find($id);
-        $option->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
-        return redirect()->back();*/
-
+        if($currentOption==null){
+            $user = Auth::User();
+            $problem = Problem::query()->find($id);
+            $problem->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
+            return redirect()->back();
+        }else {
+            $problem = Problem::query()->find($currentOption);
+            $vote = $problem->votes()->where('user_id', Auth::id())->first();
+            $vote->update(['votable_id' => $id]);
+            return redirect()->back();
+        }
     }
 
     public function makeReady(){

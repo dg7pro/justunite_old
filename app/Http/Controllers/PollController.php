@@ -14,7 +14,7 @@ class PollController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index');
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class PollController extends Controller
      */
     public function index()
     {
-        $this->authorize('manage_site');
+        //$this->authorize('manage_site');
 
         /*$problems = Problem::with('votes')->withCount('votes')->orderBy('votes_count','desc')->get();
 

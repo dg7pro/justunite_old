@@ -46,7 +46,7 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function logout(Request $request)
+    /*public function logout(Request $request)
     {
         // Recording of last online
         $user = Auth::User();
@@ -58,5 +58,5 @@ class LoginController extends Controller
         $this->guard()->logout();
         $request->session()->invalidate();
         return redirect('/');
-    }
+    }*/
 }

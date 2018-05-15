@@ -4,7 +4,7 @@
 
     <div class="jumbotron color4">
         <div class="container">
-            <h1 class="display-3">Parties</h1>
+            <h1 class="display-3">Parties Ajax</h1>
             <p>This page shows list of all the important political parties in India.</p>
             <p>
                 <a href="{{$whatsapp}}" role="button" class="btn btn-outline-warning" ><i class="fa fa-whatsapp"> Join Whatsapp</i></a>
@@ -92,6 +92,8 @@
 @section('extra-js')
 
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
     <script>
 
         function ConfirmDelete(){

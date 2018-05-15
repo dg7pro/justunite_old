@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
 
         // Correct method 1st
         DB::table('users')->insert([
-            'uuid'=> '8b127f10-f20a-11e7-9ee2-e1f2f243742a',
+            'uuid'=> '8c127f10-f20a-11e7-9ee2-e1f2f243742e',
             'name'=>'Kusum Rai',
             'email'=>'kusumrai@gmail.com',
             'password'=>bcrypt('Venus*27'),

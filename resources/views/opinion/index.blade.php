@@ -48,7 +48,7 @@
 
                 <div class="alert alert-info" role="alert">
                     <h4 class="alert-heading">
-                        Well done!
+                        {{$opinion->user->name.'\'s'.' opinion'}}
                         @can('manage_site')
                             <a href="{{url('opinions/'.$opinion->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
                         @endcan
@@ -56,12 +56,20 @@
                     </h4>
                     <p>{!! $opinion->matter  !!}</p>
                     <hr>
-                    <div>
-                        <b>Submitted by ~ {{$opinion->user->name}}</b>
-                        <b style="text-align:right">{{' |   '. $opinion->liked_by_count}} likes</b>
-                        <a href="{{url('opinions/'.$opinion->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Like</a>
 
+                    <div class="text-right">
+
+                        <b class="pull-left" style="padding-top: 8px">{{ $opinion->created_at->diffForHumans() }}</b>
+                        {{--<b>Submitted by ~ {{$opinion->user->name}}</b>--}}
+                        {{--<a href="{{url('opinions/'.$opinion->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Like</a>--}}
+                        {{--<b style="text-align:right">{{' |   '. $opinion->liked_by_count }} likes</b>--}}
+
+                        <b>{{546 .' Likes '}}</b>
+                        <a href="{{url('opinions/'.$opinion->id.'/edit')}}" role="button" style="padding-right: 2em">
+                            <i class="fa fa-thumbs-o-up fa-2x fa-flip-horizontal" aria-hidden="true"> </i>
+                        </a>
                     </div>
+
                 </div>
 
                 @endforeach

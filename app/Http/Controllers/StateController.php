@@ -20,7 +20,8 @@ class StateController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('capitals','literacy','populations','cm','governor','rulingParty','gdp','seats');
+        $this->middleware('auth')
+            ->except('index','show','capitals','literacy','populations','cm','governor','rulingParty','gdp','seats','stateAjax');
     }
 
     /**
@@ -31,7 +32,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        $this->authorize('manage_site');
+        //$this->authorize('manage_site');
 
         //$states = State::all();
         $states = State::query()->where('stype_id','=',1)->withCount('constituencies')->get();
@@ -145,7 +146,7 @@ class StateController extends Controller
     }
 
     /**
-     * Get Ajax Request and restun Data
+     * Get Ajax Request and return Data
      *
      * @return \Illuminate\Http\Response
      */

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Constituency;
+use App\Content;
 use App\User;
 use App\Image;
 use App\Profession;
+use App\Vote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -18,7 +21,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('show');
+        $this->middleware('auth')->except('show','listMembers');
     }
 
     /**
@@ -64,9 +67,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $engMsg = Content::query()->where('page','=','profilepage')->first();
+        $hiMsg = Content::query()->where([
+            ['page','=','profilepage'],
+            ['slug','=','hindi']
+        ])->first();
         $user = User::where('id','=',$id)
             ->withCount('knownBy')
-            ->with('gender','age','marital','religion','education','profession','opinion')
+            ->with('gender','age','marital','religion','education','profession','opinion','add','opinion')
             ->first();
 
         $professions = Profession::all();
@@ -85,14 +93,14 @@ class UserController extends Controller
         }
 
         $images = DB::table('images')->where([
-            ['imagable_type','=','App\User'],
-            ['association','=',$user->profession_id]
+            ['imagable_type','=','App\Profession'],
+            ['imagable_id','=',$user->profession_id]
         ])->get();
 
         //return $user;
         //return $i_know_already;
         //return $knownBys;
-        return view('user.show-ajax',compact('user','i_know_already','images','professions'));
+        return view('user.show-ajax2',compact('user','i_know_already','images','professions','engMsg','hiMsg'));
     }
 
     /**
@@ -116,7 +124,17 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validator($request->all())->validate();
-        $user = User::query()->where('id','=',$id)->first();
+        $user = User::query()->where('id', '=', $id)->first();
+
+
+            if ($user->constituency_id != $request->constituency) {
+                $vote = Vote::query()->where(['user_id' => Auth::id()],['votable_type' => 'App\User'])->first();
+                if(isset($vote)){
+                    $vote->delete();
+                }
+            }
+
+
 
         $user->state_id = $request->state;
         $user->constituency_id = $request->constituency;
@@ -147,11 +165,109 @@ class UserController extends Controller
         //
     }
 
+/*
+|--------------------------------------------------------------------------
+| Other Important Functions
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+
+    public function ajaxVote(Request $request, $id){
+
+        // Retrieve the current vote
+        //$newOption = $request->newOption;
+        $currentOption = $request->currentOption;
+
+        if($currentOption==null){
+            $user = Auth::User();
+            $u = User::query()->find($id);
+            $u->votes()->create(['user_id'=>$user->id]);
+            //return redirect()->back();
+            return response()->json(['message'=>'You have successfully voted','id'=>$id]);
+
+        }else {
+            $u = User::query()->find($currentOption);
+            $vote = $u->votes()->where('user_id', Auth::id())->first();
+            $vote->update(['votable_id' => $id]);
+            //return redirect()->back();
+            return response()->json(['message'=>'You have successfully changed vote','id'=>$id]);
+        }
+    }
+
+
+    public function vote(Request $request, $id){
+
+        // Retrieve the current vote
+        $currentOption = $request->currentOption;
+
+        if($currentOption==null){
+            $authUser = Auth::User();
+            $user = User::query()->find($id);
+            $user->votes()->create(['user_id'=>$authUser->id,'credits'=>$authUser->credits]);
+            return redirect()->back();
+        }else {
+            $user = User::query()->find($currentOption);
+            $vote = $user->votes()->where('user_id', Auth::id())->first();
+            $vote->update(['votable_id' => $id]);
+            return redirect()->back();
+        }
+    }
+
+
+
+
     public function totalMembers(){
 
         $usersCount = User::all()->count();
-        return view('user.members',compact('usersCount'));
+        return view('user.total-members',compact('usersCount'));
     }
+
+
+
+    public function listMembers($id){
+
+        //$constituency = Constituency::find($id);
+        $constituency = Constituency::where('id','=',$id)->with('members')->first();
+        //return $constituency->pc_name;
+
+        //return $constituency;
+
+        /*$users =  $constituency->members()->all();
+        return $users;*/
+
+        $users = User::where('constituency_id','=',$id)
+            ->with('votes')
+            ->withCount('knownBy')
+            ->orderBy('known_by_count','desc')->get();
+
+        /*$users = User::with('votes')
+            ->withCount('knownBy')
+            ->orderBy('known_by_count','desc')->get();*/
+
+
+        $receivedVoteUserId = null;
+        foreach($users as $user){
+            foreach ($user->votes as $vote){
+                if (Auth::id()==$vote->user_id){
+                    $receivedVoteUserId = $user->id;
+                }
+            }
+        }
+        //return $users;
+        return view('user.list-members',compact('users','receivedVoteUserId','constituency'));
+    }
+
+
+
+
+
+
+
 
     public function getUserByUuid($uid){
 
@@ -230,7 +346,7 @@ class UserController extends Controller
 
         $image = New Image();
         $image->name = $filename;
-        $image->association = $request->profession;
+        //$image->profession_id = $request->profession;
         $image->heading = $request->heading;
         $image->caption = $request->caption;
 
@@ -270,7 +386,15 @@ class UserController extends Controller
         return response()->json(['message'=>'You have successfully Un-liked ', 'id'=>$id, 'kbc'=>$known_by_count]);
     }
 
+    public function makeReady($id){
 
+        return $this->listMembers($id);
 
+    }
+
+    public function test(){
+
+        return $users = DB::table('users')->select('name', 'email as user_email')->get();
+    }
 
 }

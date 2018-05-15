@@ -28,8 +28,8 @@ class CreateContestantsTable extends Migration
             $table->integer('constituency_id')->unsigned()->nullable();
             $table->foreign('constituency_id')->references('id')->on('constituencies');
 
-            $table->integer('election_id')->unsigned()->nullable();
-            $table->foreign('election_id')->references('id')->on('elections');
+            /*$table->integer('election_id')->unsigned()->nullable();
+            $table->foreign('election_id')->references('id')->on('elections');*/
 
             $table->integer('votes');
             $table->timestamps();
@@ -43,6 +43,8 @@ class CreateContestantsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('contestants');
+        Schema::enableForeignKeyConstraints();
     }
 }

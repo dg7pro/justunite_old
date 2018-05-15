@@ -6,29 +6,37 @@
         <div class="row">
             <div class="col-md-8">
                 <br>
+                @include('layouts.alerts.error')
                 <br>
-                <h2>Write your Opinion</h2>
+                <h2>Edit Opinion</h2>
 
-                <form method="POST" action="{{url('opinions')}}">
+                <form method="POST" action="{{url('adds/'.$add->id)}}">
+                    {{ method_field('PATCH') }}
                     {{ csrf_field() }}
 
-
                     <div class="form-group">
-                        <label for="course">Opinion/Views: maxlength=50</label>
-                        <textarea name="matter" maxlength="50" id="matter" class="form-control" style="height: 50vh;" placeholder="Put your content here..."></textarea>
+                        <label for="course">Opinion: maxlength=50</label>
+                        <textarea name="matter" id="matter"  maxlength="50" class="form-control" style="height: 50vh;">{{$add->matter}}</textarea>
                     </div>
 
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="active" name="active" value={{ 'checked' ? 1 : 0}}>
+                        <input type="checkbox" class="form-check-input" id="active" name="active" {{$add->active==1 ? 'checked' : ''}}>
                         <label class="form-check-label" for="exampleCheck1">Make active</label>
                     </div>
                     <br>
 
-                    <button type="submit" class="btn btn-outline-info">Submit</button>
+                    <button type="submit" class="btn btn-outline-info">Update</button>
                 </form>
+
+
 
                 <br>
                 <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
 
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Description & Notes:</h4>

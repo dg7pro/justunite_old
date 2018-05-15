@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\State;
 use App\Constituency;
-use App\Election;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -27,17 +27,18 @@ class ConstituencyController extends Controller
      */
     public function index()
     {
-        /*$constituencies = Constituency::with('state.stype','ctype')->get();
-        return view('constituency.index',compact('constituencies'));*/
+        $constituencies = Constituency::with('state.stype','ctype')->get();
+        $states = State::all();
+        return view('constituency.index',compact('constituencies','states'));
         //return $constituencies;
 
-        $election = Election::where('type','=',1)->latest('year')->first();
+        //$election = Election::where('type','=',1)->latest('year')->first();
         //return $election;
 
         //$constituencies = Constituency::where('election_id','=',$election->id)->get();
 
-        $constituencies = $election->constituencies()->with('state','ctype')->get();
-        return view('constituency.index',compact('constituencies'));
+        /*$constituencies = $election->constituencies()->with('state','ctype')->get();
+        return view('constituency.index',compact('constituencies'));*/
         //return $constituencies;
     }
 
@@ -70,20 +71,31 @@ class ConstituencyController extends Controller
      */
     public function show($id)
     {
-        $constituency=Constituency::where('id','=',$id)->first();
+        /*$constituency=Constituency::where('id','=',$id)->first();
         $election = $constituency->elections()->where('election_id','=',1)->first();
+        $contestants = $constituency->contestants()->where('election_id','=',1)
+            ->with('gender','party')->orderBy('votes','dsc')->get();
+        return view('constituency.show',compact('constituency','election','contestants'));*/
 
-        //$constituency = Constituency::where('id','=',$id)->first();
 
         //$constituency = $constituency->load('contestants.gender','election')->first();
-        $contestants = $constituency->contestants()->where('election_id','=',1)->with('gender','party')->orderBy('votes','dsc')->get();
-        //return $constituency;
-        //return $contestants;
 
 
-        return view('constituency.show',compact('constituency','election','contestants'));
-        //return $constituency;
-        //return $election;
+
+        $constituency = Constituency::where('id','=',$id)->first();
+        //$members = $constituency->members()->withCount('knownBy');
+
+        $members = User::where('constituency_id','=',$id)
+            ->withCount('knownBy')
+            ->orderBy('known_by_count','desc')->get();
+
+        $contestants = $constituency->contestants()
+            ->with('gender','party')
+            ->orderBy('votes','dsc')->get();
+
+
+        return view('constituency.show',compact('constituency','contestants','members'));
+
     }
 
     /**
@@ -177,7 +189,10 @@ class ConstituencyController extends Controller
      */
     public function track(Request $request){
 
-        return $request->constituency;
+        //return $request->constituency;
+
+        return $this->show($request->constituency);
+
     }
 
 

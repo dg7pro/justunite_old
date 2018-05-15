@@ -6,6 +6,7 @@
         <div class="row">
             <div class="col-md-8">
                 <br>
+                @include('layouts.alerts.error')
                 <br>
                 <h2>Edit Opinion</h2>
 
@@ -13,24 +14,9 @@
                     {{ method_field('PATCH') }}
                     {{ csrf_field() }}
 
-                  {{--  <div class="form-group">
-                        <label for="course">Page:</label>
-                        <input type="text" name="page" class="form-control" value="{{$content->page}}">
-                    </div>
-
                     <div class="form-group">
-                        <label for="course">Page:</label>
-                        <input type="text" name="slug" class="form-control" value="{{$content->slug}}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="course">Title:</label>
-                        <input type="text" name="title" class="form-control" placeholder="Enter title" value="{{$content->title}}">
-                    </div>--}}
-
-                    <div class="form-group">
-                        <label for="course">Opinion:</label>
-                        <textarea name="matter" id="matter" class="form-control" style="height: 50vh;">{{$opinion->matter}}</textarea>
+                        <label for="course">Opinion: maxlength=50</label>
+                        <textarea name="matter" id="matter"  maxlength="50" class="form-control" style="height: 50vh;">{{$opinion->matter}}</textarea>
                     </div>
 
                     <div class="form-check">
@@ -71,8 +57,10 @@
 @endsection
 
 @section('extra-js')
+    <script src="{{asset('js/jquery.maxlength.min.js')}}"></script>
     <script>
-        CKEDITOR.replace( 'matter');
+        $("#matter").maxlength();
+        //CKEDITOR.replace( 'matter');
 
 
     </script>

@@ -16,11 +16,44 @@ class CreateConstituenciesTable extends Migration
         Schema::create('constituencies', function (Blueprint $table) {
 
             $table->increments('id');
+
             $table->integer('state_id')->unsigned()->nullable();
             $table->foreign('state_id')
                 ->references('id')->on('states');
-            $table->integer('pc_no');  // pc - Parliamentary constituency
+
+            /* pc - parliamentary constituency */
+            $table->integer('pc_no');
             $table->string('pc_name');
+
+            /* Changes with different Elections */
+            $table->integer('electors');
+            $table->integer('voters');
+            $table->decimal('turnout',5,4);
+            $table->smallInteger('pst')->comment = "polling stations";
+            $table->smallInteger('ael')->comment = "average electors";
+            $table->smallInteger('nominations');
+            $table->smallInteger('contestants');
+            $table->smallInteger('forfeited');
+            /* End changes with different elections */
+
+            /* ac - assembly constituencies */
+            $table->tinyInteger('ac_count');
+            $table->text('details');
+            $table->timestamps();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             //$table->integer('ctype_id')->unsigned(); // Reserved for General SC or ST
 
             /*$table->integer('male_electors');
@@ -43,16 +76,14 @@ class CreateConstituenciesTable extends Migration
             $table->integer('rup_party');
             $table->integer('rup_votes');*/
 
-            $table->tinyInteger('no_of_ac');  // ac - assembly constituencies
+
             /*$table->smallInteger('pst')->comment = "polling stations";
             $table->smallInteger('ael')->comment = "average electors";
             $table->smallInteger('nominations');
             $table->smallInteger('contestants');
             $table->smallInteger('forfeited');*/
 
-            $table->text('details');
 
-            $table->timestamps();
         });
     }
 

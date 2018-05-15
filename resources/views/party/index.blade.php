@@ -38,13 +38,10 @@
                         @if(Auth::guest())
                             <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
+                            <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name}}</b></a></td>
+                            <td><b class="text-primary">{{$party->votes_count}}</b></td>
                             <td>
-                                <a href="{{url('parties/'.$party->id)}}"><b>{{$party->name}}</b></a>
-
-                            </td>
-                            <td>{{$party->votes_count}}</td>
-                            <td>
-                                <a class="btn btn-info" href="{{ url('loginToVoteParty') }}">Vote</a>
+                                <a class="btn btn-info" href="{{ url('loginToVoteParty') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                             </td>
                             {{--@can('manage_site')
                                 <td>
@@ -59,11 +56,11 @@
                                 <tr style="background-color: #06b0cf">
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>
-                                        <a href="{{url('parties/'.$party->id)}}"><b>{{$party->name}}</b></a>
+                                        <a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name}}</b></a>
                                     </td>
-                                    <td>{{$party->votes_count}}</td>
+                                    <td><b class="text-primary">{{$party->votes_count}}</b></td>
                                     <td >
-                                        <button type="submit" class="btn btn-default btn-xs disabled">Vote</button>
+                                        <button type="submit" class="btn btn-default btn-xs disabled">{{--<i class="fa fa-thumbs-up" style="font-size:16px"></i>--}} Voted</button>
                                     </td>
                                     @can('manage_site')
                                         <td>
@@ -75,14 +72,14 @@
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>
-                                        <a href="{{url('parties/'.$party->id)}}"><b>{{$party->name}}</b></a>
+                                        <a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name}}</b></a>
                                     </td>
-                                    <td>{{$party->votes_count}}</td>
+                                    <td><b class="text-primary">{{$party->votes_count}}</b></td>
                                     <td>
                                         <form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="{{$receivedVotePartyId != null ? 'ConfirmVoteChange()' : ''}}">
                                             {{csrf_field()}}
                                             <input name="currentOption" type="hidden" value="{{$receivedVotePartyId}}">
-                                            <button type="submit" id="vote" class="btn btn-info btn-xs">Vote</button>
+                                            <button type="submit" id="vote" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
                                         </form>
                                     </td>
                                     @can('manage_site')

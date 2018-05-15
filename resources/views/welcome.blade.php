@@ -174,7 +174,8 @@
         @foreach($contents as $content)
 
             <h3 id="{{$content->slug}}">{{$content->title}}</h3>
-            <p><a href="#top">Top</a></p>
+            <br>
+            {{--<p><a href="#top">Top</a></p>--}}
 
             {!! $content->matter !!}
 

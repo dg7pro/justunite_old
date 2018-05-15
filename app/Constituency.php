@@ -18,10 +18,6 @@ class Constituency extends Model
         return $this->belongsTo('App\State');
     }
 
-
-
-
-
     public function members(){
 
         return $this->hasMany('App\User');
@@ -42,17 +38,5 @@ class Constituency extends Model
 
         return $this->hasMany('App\Contestant');
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     *
-     */
-    public function elections()
-    {
-        return $this->belongsToMany('App\Election')->withPivot('electors','voters','turnout','pst','ael','nominations','contestants','forfeited');
-    }
-
-
-
 
 }

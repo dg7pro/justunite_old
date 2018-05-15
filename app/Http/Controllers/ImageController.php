@@ -20,6 +20,17 @@ class ImageController extends Controller
         $this->middleware('auth');
     }
 
+    public function index(){
+
+        $images = Image::where('imagable_type','=','App\Image')->get();
+        return $images;
+    }
+
+
+
+
+
+
     /**
      * @param Image $image
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -45,7 +56,7 @@ class ImageController extends Controller
         $this->validator($request->all())->validate();
 
         $image->name = $request->name;
-        $image->association = $request->profession;
+        $image->profession_id = $request->profession;
         $image->heading = $request->heading;
         $image->caption = $request->caption;
 
@@ -112,4 +123,6 @@ class ImageController extends Controller
         file_put_contents($path, $data);
         return response()->json(['success'=>'done']);
     }
+
+
 }

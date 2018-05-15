@@ -53,10 +53,10 @@ class HomeController extends Controller
         $maritals = Marital::all();
         $genders = Gender::all();
         $groups = Group::all();
-        $constituency = Auth::User()->constituency()->first();
+        $constituency = Auth::User()->constituency()->with('state')->first();
 
         //Flash Message
-        Session::flash('message', 'Please complete your Profile !');
+        //Session::flash('message', 'Please complete your Profile !');
         return view('home',compact('states','religions','ages','educations','professions','maritals','genders','groups','constituency'));
     }
 
@@ -67,7 +67,7 @@ class HomeController extends Controller
      */
     public function faq(){
 
-        return view('faq');
+        return view('faq2');
     }
 
     public function newLogin()

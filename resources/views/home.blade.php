@@ -19,7 +19,7 @@
             <div class="col-md-9">
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 text-center">
                         @if(file_exists(public_path().'/upload/'.Auth::User()->uuid.'.png'))
                             <img src="{{'upload/'.Auth::User()->uuid.'.png'}}" alt="Profile Pic" class="img-thumbnail" width="200" height="200">
                             <br>
@@ -29,7 +29,7 @@
                             {{--<img src="images/profile-pic.png" alt="Profile Pic" class="img-thumbnail" width="150" height="150">--}}
                         @endif
                         <br>
-                        <a href="{{url('image-crop')}}" role="button" class="btn btn-outline-primary">Upload a different pic</a>
+                        <a href="{{url('image-crop')}}" role="button" class="btn btn-outline-primary">Change Image</a>
                     </div>
                     <div class="col-md-8">
                         <table class="table table-borderless">
@@ -43,33 +43,29 @@
                             <tbody>
                             <tr>
                                 <td>Email:</td>
-                                <td>
+                                <td class="text-primary">
                                     {{Auth::User()->email}}
-                                    <button type="submit" class="btn btn-outline-info btn-sm">Verify</button>
+                                    {{--<button type="submit" class="btn btn-outline-info btn-sm">Verify</button>--}}
                                 </td>
                             </tr>
                             <tr>
-
                                 <td>Mobile:</td>
                                 <td>
                                     @if(Auth::User()->mobile)
                                         {{Auth::User()->mobile}}
-                                        <button type="submit" class="btn btn-outline-info btn-sm">Verify</button>
+                                        {{--<button type="submit" class="btn btn-outline-info btn-sm">Verify</button>--}}
                                     @else
-                                        <i>{{'Unknown ...'}}</i>
-                                        <button type="submit" class="btn btn-outline-info btn-sm">Add</button>
+                                        <i><a href="#constituency" class="text-primary js-scroll-trigger">Enter...</a></i>
                                     @endif
                                 </td>
                             </tr>
                             <tr>
-
                                 <td>Constituency:</td>
                                 <td>
                                     @if($constituency)
-                                        {{$constituency->pc_name}}
+                                        {{ $constituency->pc_name .' ('. $constituency->state->name2 .')' }}
                                     @else
-                                        <i>{{'Unknown ...'}}</i>
-                                        <a href="#constituency" role="button" class="btn btn-outline-warning btn-sm js-scroll-trigger">Click to Add</a>
+                                        <i><a href="#constituency" class="text-primary js-scroll-trigger">Enter...</a></i>
                                     @endif
                                 </td>
                             </tr>
@@ -79,8 +75,7 @@
                                     @if(Auth::User()->group)
                                         {{Auth::User()->group->name}}
                                     @else
-                                        <i>{{'Unknown ...'}}</i>
-                                        <button type="submit" class="btn btn-outline-warning btn-sm">Click to Add</button>
+                                        <i><a href="#constituency" class="text-primary js-scroll-trigger">Enter...</a></i>
                                     @endif
                                 </td>
                             </tr>
@@ -162,7 +157,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-6" id="mobile">
                                     <label for="group">Mobile No:</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">

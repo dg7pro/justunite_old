@@ -8,7 +8,7 @@
             <div class="col-md-9">
                 <h2>{{$user->name}}
                     @can('manage_site')
-                        <a href="{{url('users/'.$user->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
+                        <a href="{{url('users/'.$user->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit.c</a>
                     @endcan
                 </h2>
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -38,36 +38,118 @@
                     </a>
                 </div>
                 <br>
-                @if(isset($user->profession->details))
+                {{--<h4 class="text-center text-primary">Everyone of us can become a leader!</h4>
+                <hr>--}}
+                <div>
+                    <h4 class="text-primary">Inspiration:</h4>
                     <div>
-                        <h4 class="text-primary">Inspiration</h4>
-                        <p>
-                            <b>{!! $user->profession->details or null !!}</b>
-                            {{--<a href="{{url('opinions/create')}}"><b>Add few lines</b></a>--}}
-                            <b class="text-success">786 </b>
-                            <form class="form-inline">
-
-                                <input type="hidden" id="professionId" value="{{$user->profession->id}}">
-                                {{--<button class="btn btn-info" id="ajaxLike"><i class="fa fa-thumbs-up" style="font-size:16px"></i>   Like Profile</button>--}}
-                                <a href="" id="ajaxProfessionLike"> <i class="fa fa-thumbs-o-up fa-2x fa-flip-horizontal like-btn text-success" aria-hidden="true" style="font-size: 1.2em;"></i></a>
-
-                            </form>
-
-                        </p>
+                        <b>{!! $engMsg->matter !!}</b>
+                        {{--<b>
+                            Spread the awareness - that whichever political party we may be supporter off, we will not going
+                            to vote for them in 2019 general election unless our favorite party give a satisfactory and
+                            clear cut solution of all the  27 problems which India is facing for decades. Ask your favorite
+                            political party as to how they are going to solve all these problems if they win in 2019 Election.
+                            Together we can put pressure on them.
+                        </b>--}}
                     </div>
-                @endif
-                {{--@if(isset($user->opinion->matter))
-                    <div>
-                        <h4 class="text-primary">My Opinion:</h4>
-                        <p>
-                            <b>{!! $user->opinion->matter or null !!}</b>
-                            <i class="fa fa-thumbs-o-up like-btn text-success" style="font-size: 1.2em;"><b > 786</b> </i>
-                        </p>
+                    <br>
+                    <a data-toggle="collapse" href="#hiMsg" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fa fa-recycle fa-2x text-warning" aria-hidden="true"> </i>{{" . "}}
+                    </a>
+
+                    <a data-toggle="collapse" href="#userComment" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fa fa-comments fa-2x text-danger" aria-hidden="true"></i>{{" . "}}
+                    </a>
+
+                    <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fa fa-map-signs fa-2x text-success" aria-hidden="true"></i>
+                    </a>
+                    <br>
+                    <div class="collapse" id="hiMsg">
+                        <div>
+                            <br>
+                            <h4 class="text-primary">{{$hiMsg->title or null}}</h4>
+                            {!! $hiMsg->matter or null !!}
+
+                        </div>
                     </div>
-                @endif--}}
+                    <div class="collapse" id="userComment">
+                        <div>
+                            <br>
+                            <h4 class="text-primary">{{$user->name.' writes'}}</h4>
+                            @if(Auth::guest())
+                                <b>{{ $user->opinion->matter or 'Not Given' }} </b>
+                            @else
+                                @if($user->id == Auth::user()->id )
+                                    @if(empty($user->opinion->matter))
+                                        <b>What do you think?<br> Here you can write & share your social, political, religious, legal, and administrative views etc.</b>
+                                        <a href="{{url('opinions/create')}}" role="button" class="btn btn-sm btn-info">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            Write
+                                        </a>
+                                    @else
+                                        <b>{{$user->opinion->matter or 'Not Given'}} </b>
+                                        <a href="{{url('opinions/'.$user->opinion->id.'/edit')}}" role="button" class="btn btn-sm btn-info">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            Edit
+                                        </a>
+                                    @endif
+                                @else
+                                    <b>{{ $user->opinion->matter or 'Not Given' }}</b>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+                    <div class="collapse" id="collapseExample">
+                        <div>
+                            <b>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                                ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+                                sapiente ea proident.
+                            </b>
+                        </div>
+                    </div>
+                    {{--<p>
+                        छपाई और अक्षर योजन उद्योग का एक साधारण डमी पाठ है. सन १५०० के बाद से अभी तक इस उद्योग का मानक डमी पाठ
+                        मन गया, जब एक अज्ञात मुद्रक ने नमूना लेकर एक नमूना किताब बनाई. यह न केवल पाँच सदियों से जीवित रहा बल्कि इसने
+                        इलेक्ट्रॉनिक मीडिया में छलांग लगाने के बाद भी मूलतः अपरिवर्तित रहा. यह के दशक में अंश युक्त पत्र के रिलीज के
+                        साथ लोकप्रिय हुआ, और हाल ही में Aldus PageMaker के संस्करणों सहित तरह डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ
+                        अधिक प्रचलित हुआ.
+                    </p>--}}
+                </div>
+                {{--<div class="card bg-light mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Light card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>--}}
+                {{--<br>
+                <div>
+                    <h4 class="text-primary">Personal Info:</h4>
+                    <table class="table table-bordered table-striped">
+                        <tbody>
+                        <tr><th>Name: </th><th>{{$user->name}}</th></tr>
+                        <tr><th>Profession: </th><th>{!! $user->profession->category or '<i>Unknown..</i>'!!}</th></tr>
+                        <tr><th>Location: </th><th>{!! $user->constituency->pc_name or '<i>Unknown..</i>'!!}</th></tr>
+                        <tr>
+                            <td colspan="2"><b class="text-primary">Contact me for:</b>
+                                <br><br>
+                                <div>
+                                    <b><i>I am a web developer. You can contact me for any type of web design and development.<b><i>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr><th>Mobile: </th><th>{!! $user->mobile or '<i>Unknown..</i>' !!}</th></tr>
+                        <tr><th>Email: </th><th>{!! $user->email or '<i>Unknown..</i>' !!}</th></tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <br>--}}
                 <br>
                 <div>
-                    <h4 class="text-primary">Personal Info</h4>
+                    <h4 class="text-primary">Personal Info:</h4>
                     <table class="table table-bordered table-striped">
                         <tbody>
                         <tr><th>Name: </th><th>{{$user->name}}</th></tr>
@@ -81,7 +163,28 @@
                     </table>
                 </div>
                 <br>
-                {{--@can('manage_site')
+                @if(empty($user->add->matter))
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Contact me for:</h4>
+                            <p>You can advertise here about your profession. Example if you are a lawyer, you can tell the
+                                website visitors ~ which type of cases you deal with, If you are a designer you can tell what
+                                types of designing you do. It is totally free!
+                            </p>
+                        <hr>
+                        <p class="mb-0"><a role="button" href="{{url('adds/create')}}" class="btn btn-success">Click to Advertise</a></p>
+                    </div>
+                @else
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Contact me for:
+                            <a role="button" href="{{url('adds/'.$user->add->id.'/edit')}}" class="btn btn-info btn-sm">Edit</a></h4>
+                        <p><b>{{$user->add->matter or 'Null'}}</b></p>
+                        <hr>
+                        <p class="mb-0"><b>Email: {{$user->email or null}} | Contact: {{$user->mobile or 'Not given'}}</b></p>
+                    </div>
+                @endif
+
+                <br>
+                @can('manage_site')
                     <hr>
                     <div>
                         <h3>Upload Image</h3>
@@ -95,7 +198,7 @@
                                     It's a bit lighter and easily wraps to a new line.</small>
                             </div>
 
-                            <div class="form-group">
+                            {{--<div class="form-group">
                                 <label for="example-text-input" class="col-form-label">Profession:</label>
                                 <div class="">
                                     <select name="profession" id="profession" class="form-control">
@@ -105,7 +208,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
+                            </div>--}}
 
                             <div class="form-group">
                                 <label for="example-text-input" class="col-form-label">Heading:</label>
@@ -160,9 +263,7 @@
                             </table>
                         </div>
                     @endif
-                @endcan--}}
-                <br>
-
+                @endcan
             </div>
             <div class="col-md-3">
                 <br>
@@ -176,11 +277,12 @@
                         <br>
                     @endif
                     <br>
-
+                    <b id="likeCount" class="text-success">{{$user->known_by_count}}</b><b> Likes</b>
+                    <br>
                     @if(Auth::guest())
                         <a class="btn btn-info login-to-like" href="{{ url('loginToLike/'.$user->id) }}">
                             <i class="fa fa-thumbs-up" style="font-size:16px"></i>
-                             Like Profile
+                            Like Profile
                         </a>
                     @else
 
@@ -188,12 +290,12 @@
                             <a href="#" role="button" class="btn btn-info self-profile">Self Profile</a>
                         @else
                             @if($i_know_already==1)
-                                <form class="form-inline">
+                                <form class="text-center">
                                     <input type="hidden" id="userId" value="{{$user->id}}">
                                     <button class="btn btn-info" id="ajaxLike" disabled="disabled"><i class="fa fa-thumbs-up" style="font-size:16px"></i> You Liked</button>
                                 </form>
                             @else
-                                <form class="form-inline">
+                                <form class="text-center">
                                     <input type="hidden" id="userId" value="{{$user->id}}">
                                     <input type="hidden" id="userName" value="{{$user->name}}">
                                     <button class="btn btn-info" id="ajaxLike"><i class="fa fa-thumbs-up" style="font-size:16px"></i>   Like Profile</button>
@@ -202,8 +304,14 @@
                         @endif
                     @endif
                     <br>
-                        <h3 class="text-primary"><b id="likeCount">{{$user->known_by_count}}</b> people know {{$user->name}}</h3>
+
                 </div>
+                <br>
+               {{-- <div class="card text-white bg-info mb-3">
+                    <div class="card-body">
+                        What else you can do in this website? >>>
+                    </div>
+                </div>--}}
             </div>
         </div>
         <br>
@@ -333,56 +441,6 @@
 
                     }
                 });
-            });
-        });
-    </script>
-
-    <script>
-        jQuery(document).ready(function(){
-            jQuery('#ajaxProfessionLike').click(function(e){
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                });
-                jQuery.ajax({
-                    url: "{{ url('professions/like') }}",
-                    method: 'post',
-                    data: {
-                        professionid: jQuery('#professionId').val()
-                    },
-                    success: function(result){
-                        console.log(result);
-                    }});
-
-
-                   /* success: function(result){
-                        /!*jQuery('#ajaxAlert').html(
-                            "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
-                            result.message
-                        );
-                        jQuery('#ajaxAlert').show();*!/
-                        jQuery('#likeCount').text(result.kbc);
-                        //jQuery('#ajaxLike').replaceWith("<button class=\"btn btn-info\" id=\"ajaxLike\" disabled=\"disabled\"><i class=\"fa fa-thumbs-up\" style=\"font-size:16px\"></i> You Liked</button>");
-                        jQuery('#ajaxLike').replaceWith('<button class="btn btn-info" id="ajaxLike" disabled="disabled"><i class="fa fa-thumbs-up" style="font-size:16px"></i> You Liked</button>');
-
-                        jQuery.confirm({
-                            title: 'Congratulations!',
-                            content: result.message,
-                            type: 'green',
-                            buttons: {
-                                omg: {
-                                    text: 'Thank you!',
-                                    btnClass: 'btn-green'
-                                },
-                                close: function () {
-                                }
-                            }
-                        });
-
-                    }
-                });*/
             });
         });
     </script>
