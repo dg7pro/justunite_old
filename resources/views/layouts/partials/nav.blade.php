@@ -27,7 +27,7 @@
             @if(Auth::guest())
                 <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('faqs') }}">FAQ</a></li>
             @else
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -52,7 +52,7 @@
                         @endcan
                     </div>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('faqs') }}">FAQ</a></li>
 
 
             @endif

@@ -15,7 +15,7 @@ class LinkServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $whatsapp = Link::where('name','=','whatsapp')->first();
+        $whatsapp = Link::query()->where('name','=','whatsapp')->first();
         $wlink = $whatsapp->link;
         View::share('whatsapp', $wlink);
     }

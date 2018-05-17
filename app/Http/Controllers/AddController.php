@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Validator;
 class AddController extends Controller
 {
     /**
+     * AddController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -33,7 +41,6 @@ class AddController extends Controller
         }else {
             return view('add.create');
         }
-        //return ($add) ? $this->edit($add): view('add.create');
     }
 
     /**
