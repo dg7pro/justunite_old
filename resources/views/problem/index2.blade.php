@@ -4,7 +4,7 @@
 
     <div class="jumbotron color2">
         <div class="container">
-            <h1 class="display-3">Problems (समस्याएं)</h1>
+            <h1 class="display-3">Problems</h1>
             <p><b>700 years, 543 parliament members, 1048 legislative assembly members and more than 1000 Political Parties,
                     but still unable to solve 27 problems. Hope this time we chose Prime minister who can solve all these problems</b></p>
             <p>

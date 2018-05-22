@@ -72,9 +72,10 @@ class StateController extends Controller
     {
         //$constituencies = Constituency::where('state_id','=',$state->id)->get();
         //$parties = $state->parties()->get();
-
+        $stateCount = State::all()->count();
+        $states = State::all();
         $state = State::where('id','=',$id)->with('languages','ruling','opposition')->first();
-        return view('state.show',compact('state','constituencies','parties'));
+        return view('state.show',compact('state','constituencies','parties','states','stateCount'));
     }
 
     /**

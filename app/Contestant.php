@@ -28,4 +28,11 @@ class Contestant extends Model
 
         return $this->belongsTo('App\Party');
     }
+
+    public function getNameAttribute($value)
+    {
+        $lower = strtolower($value);
+        //return ucfirst($lower);
+        return ucwords($lower);
+    }
 }

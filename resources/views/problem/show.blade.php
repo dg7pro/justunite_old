@@ -1,6 +1,14 @@
 @extends('layouts.master')
 
+
+@section('meta-tags')
+
+    <meta property="fb:app_id" content="131336294384114" />
+
+@endsection
+
 @section('content')
+    @include('layouts.partials.fb-comment')
     <div class="jumbotron color2">
         <div class="container">
             <h1 class="display-3">{{$problem->title}}</h1>
@@ -64,6 +72,31 @@
                 <div>
                     {!! $problem->notes !!}
                 </div>
+                <br>
+                <div>
+                    @php
+                        $previous = $problem->id - 1 ;
+                        $next = $problem->id + 1 ;
+                    @endphp
+
+                    @if($previous == 0)
+                        <a role="button" class="btn btn-outline-info btn-sm pull-left the-end" >&laquo; Previous </a>
+                    @else
+                        <a href="{{url('problems/'.$previous)}}" role="button" class="btn btn-outline-info btn-sm pull-left" >&laquo; Previous </a>
+                    @endif
+
+                    @if($next > $problemCount)
+                        <a role="button" class="btn btn-outline-info btn-sm pull-right the-end" >Next &raquo;</a>
+                    @else
+                        <a href="{{url('problems/'.$next)}}" role="button" class="btn btn-outline-info btn-sm pull-right" >Next &raquo;</a>
+                    @endif
+                </div>
+
+
+
+
+
+                <br>
                 <br>
                 @can('manage_site')
                 <hr>
@@ -133,6 +166,9 @@
                 </div>
                 @endif
                 @endcan
+
+                {{--<div class="fb-comments" data-href="http://localhost/justunite/public/problems/{{$problem->id}}" data-width="100%" data-numposts="5"></div>--}}
+                <div class="fb-comments" data-href="http://www.justunite.org/problems/{{$problem->id}}" data-width="100%" data-numposts="5"></div>
             </div>
             @include('layouts.partials.sidemenu')
         </div>
@@ -141,6 +177,19 @@
 @endsection
 
 @section('extra-js')
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+    <script type="text/javascript">
+        $('.the-end').on('click', function () {
+            $.alert({
+                title: 'The End !',
+                content: 'You have reached the edge !',
+                type: 'red'
+            });
+        });
+    </script>
     <script>
         function ConfirmDelete(){
 

@@ -126,7 +126,7 @@
                                 <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
                                 Remember Me
                             </label>
-                            <a href="#" class="pull-right need-help">Need help?</a>
+                            <a href="{{ route('password.request') }}" class="pull-right need-help">Need help?</a>
                         </div>
 
                         <button class="btn btn-lg btn-danger btn-block" type="submit">

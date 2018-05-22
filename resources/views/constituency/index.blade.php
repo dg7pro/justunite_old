@@ -56,13 +56,13 @@
                         <tr>
 
                             <th scope="row">{{$constituency->id}}</th>
-                            <td><a href="{{url('constituencies/'.$constituency->id)}}"><b class="text-primary"> {{$constituency->pc_name}}</b></a></td>
-                            <td><b class="text-primary">{{$constituency->ctype->name}}</b></td>
-                            <td><a href="{{url('states/'.$constituency->state->id)}}"><b class="text-primary"> {{$constituency->state->name}}</b></a></td>
+                            <th class="text-primary"><a href="{{url('constituencies/'.$constituency->id)}}"> {{$constituency->pc_name}}</a></th>
+                            <th class="text-primary">{{$constituency->ctype->name}}</th>
+                            <td ><a href="{{url('states/'.$constituency->state->id)}}"><b class="text-primary"> {{$constituency->state->name2}}</b> </a></td>
                             @can('manage_site')
-                                <td>
+                                <th class="text-primary">
                                     <a href="{{url('constituencies/'.$constituency->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
-                                </td>
+                                </th>
                             @endcan
                         </tr>
                     @endforeach

@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('meta-tags')
+    <meta property="fb:app_id" content="131336294384114" />
+@endsection
+
 @section('content')
 
     <div class="jumbotron color4">
@@ -164,8 +168,7 @@
                         </div>
                     @endif
                 @endcan
-
-
+                <div class="fb-comments" data-href="http://www.justunite.org/parties/1" data-width="100%" data-numposts="5"></div>
             </div>
 
             @include('layouts.partials.sidemenu')

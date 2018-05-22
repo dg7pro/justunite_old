@@ -4,13 +4,13 @@
 
     <div class="jumbotron color5">
         <div class="container">
-            <h1 class="display-3">India: The Union of States!</h1>
+            <h1 class="display-3">India</h1>
             <p><b>
                     The first article of the Constitution of India states that "India, that is Bharat, shall be a Union of States.
                     Presently India consists of 29 states and 7 Union Territories including Delhi
             </b></p>
             @if(Auth::guest())
-                <p><a href="{{url('register')}}" role="button" class="btn btn-outline-dark btn-lg" >Register &raquo;</a></p>
+                <p><a href="{{url('register')}}" role="button" class="btn btn-outline-dark" >Register &raquo;</a></p>
 
             @else
                 <p><a class="btn btn-outline-dark btn-lg" href="{{url('states/your-state')}}" role="button">Your State &raquo;</a></p>
@@ -20,7 +20,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-9 col-md-offset-2">
                 <h2>List of States</h2>
 
                 <table class="table table-striped table-bordered">
@@ -39,8 +39,8 @@
                         @foreach($states as $state)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <th><a href="{{url('states/'.$state->id)}}">{{$state->name}}</a></th>
-                            <th>{{$state->constituencies_count}}</th>
+                            <th><a href="{{url('states/'.$state->id)}}" class="text-primary">{{$state->name2}}</a></th>
+                            <th class="text-primary">{{$state->constituencies_count}}</th>
                             @can('manage_site')
                                 <th>
                                     <a href="{{url('states/'.$state->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
@@ -66,8 +66,8 @@
                     @foreach($uts as $ut)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td><a href="{{url('states/'.$ut->id)}}">{{$ut->name}}</a></td>
-                            <td>{{$ut->constituencies_count}}</td>
+                            <th><a href="{{url('states/'.$ut->id)}}" class="text-primary">{{$ut->name2}}</a></th>
+                            <th class="text-primary">{{$ut->constituencies_count}}</th>
                         </tr>
                     @endforeach
 
@@ -75,15 +75,36 @@
                 </table>
                 <br>
                 <br>
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Description & Notes:</h4>
-                    <p>Each group has different voting power. User can belong to 2 or more groups, their voting power adds up.
-                        Like any women can be member of Women Wing as well as ETF her total voting power will be 2+3=5 </p>
-                    <hr>
-                    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                </div>
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">Track your CONSTITUENCY:</h4>
+                    <br>
+                    <form method="POST" action="{{url('constituency/track')}}">
+                        {{ csrf_field() }}
 
-                <br>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <select name="state" id="state" class="form-control">
+                                        <option value="">Select State...</option>
+                                        @foreach($states as $state)
+                                            <option value="{{$state->id}}">{{$state->name2}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+
+                                    <select id="constituency" name="constituency" class="form-control">
+                                        <option value="">Select State first...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Go to your Constituency</button>
+                    </form>
+                </div>
                 <br>
                 <br>
 
@@ -92,4 +113,32 @@
             @include('layouts.partials.sidemenu')
         </div>
     </div>
+@endsection
+
+@section('extra-js')
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select[name="state"]').on('change', function() {
+                var stateID = $(this).val();
+                if(stateID) {
+                    $.ajax({
+                        url: 'states/ajax/'+stateID,
+                        type: "GET",
+                        dataType: "json",
+                        success:function(data) {
+
+                            //console.log(data);
+                            $('select[name="constituency"]').html('<option value="">Select Constituency</option>');
+                            $.each(data, function(key, value) {
+                                $('select[name="constituency"]').append('<option value="'+ key +'">'+ value +'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('select[name="constituency"]').empty();
+                }
+            });
+        });
+    </script>
 @endsection

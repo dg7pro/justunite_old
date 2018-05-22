@@ -181,11 +181,12 @@
 
             <p align="center">
                 <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"> Join Whatsapp</i> </a>
-                <a href="{{url('register')}}" role="button" class="btn btn-outline-primary" >Be Member &raquo;</a>
+                {{--<a href="{{url('register')}}" role="button" class="btn btn-outline-primary" >Be Member &raquo;</a>--}}
             </p>
 
-
         @endforeach
+        <br>
+        <div class="sharethis-inline-share-buttons"></div>
 
     </div>
 @endsection

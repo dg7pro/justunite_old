@@ -7,8 +7,8 @@
             <h1 class="display-3">Parties</h1>
             <p>This page shows list of all the important political parties in India.</p>
             <p>
-                <a href="{{$whatsapp}}" role="button" class="btn btn-outline-warning" ><i class="fa fa-whatsapp"> Join Whatsapp</i></a>
-                {{--<a href="#" role="button" class="btn btn-outline-warning" >Vote &raquo;</a></p>--}}
+                <a href="{{$whatsapp}}" role="button" class="btn btn-outline-warning" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
+            </p>
         </div>
     </div>
     <div class="container">
@@ -38,16 +38,11 @@
                         @if(Auth::guest())
                             <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name}}</b></a></td>
-                            <td><b class="text-primary">{{$party->votes_count}}</b></td>
+                            <th class="text-primary"><a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a></th>
+                            <th class="text-primary">{{$party->votes_count}}</th>
                             <td>
                                 <a class="btn btn-info" href="{{ url('loginToVoteParty') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                             </td>
-                            {{--@can('manage_site')
-                                <td>
-                                    <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
-                                </td>
-                            @endcan--}}
 
                         </tr>
                         @else
@@ -55,37 +50,33 @@
                                 {{--<tr style="background-color: #0d3625">--}}
                                 <tr style="background-color: #06b0cf">
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>
-                                        <a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name}}</b></a>
-                                    </td>
-                                    <td><b class="text-primary">{{$party->votes_count}}</b></td>
-                                    <td >
-                                        <button type="submit" class="btn btn-default btn-xs disabled">{{--<i class="fa fa-thumbs-up" style="font-size:16px"></i>--}} Voted</button>
-                                    </td>
+                                    <th class="text-primary"><a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a></th>
+                                    <th class="text-primary">{{$party->votes_count}}</th>
+                                    <th><button type="submit" class="btn btn-default btn-xs disabled"> Voted</button></th>
                                     @can('manage_site')
-                                        <td>
+                                        <th>
                                             <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
-                                        </td>
+                                        </th>
                                     @endcan
                                 </tr>
                             @else
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>
-                                        <a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name}}</b></a>
-                                    </td>
-                                    <td><b class="text-primary">{{$party->votes_count}}</b></td>
-                                    <td>
+                                    <th class="text-primary">
+                                        <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
+                                    </th>
+                                    <th class="text-primary">{{$party->votes_count}}</th>
+                                    <th>
                                         <form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="{{$receivedVotePartyId != null ? 'ConfirmVoteChange()' : ''}}">
                                             {{csrf_field()}}
                                             <input name="currentOption" type="hidden" value="{{$receivedVotePartyId}}">
                                             <button type="submit" id="vote" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
                                         </form>
-                                    </td>
+                                    </th>
                                     @can('manage_site')
-                                        <td>
+                                        <th>
                                             <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
-                                        </td>
+                                        </th>
                                     @endcan
                                 </tr>
                             @endif
@@ -95,11 +86,56 @@
 
                     </tbody>
                 </table>
-                <br>
-                <br>
 
+                <div>
+                @if(Auth::guest())
+                    <!-- Button trigger modal -->
+
+                       {{-- <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            <i class="fa fa-list" style="font-size:16px"></i> View list
+                        </button>--}}
+
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter">
+                            <i class="fa fa-list"> </i> List of Other Unrecognized Parties
+                        </button>
+
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Login or Register</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="text-center">
+                                            <a href="{{ route('login') }}" class="btn btn-success">Login</a>
+                                            <a href="{{ route('register') }}" class="btn btn-info">Register</a>
+                                        </div>
+                                    </div>
+                                    {{--<div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>--}}
+                                </div>
+                            </div>
+                        </div>
+
+                    @else
+                        {{--<a href="{{url('constituencies/'.$constituency->id.'/contestants')}}" role="button" class="btn btn-sm btn-outline-warning">
+                            <i class="fa fa-list" style="font-size:16px"></i> View list</a>--}}
+                        <a href="{{ url('rups') }}" role="button" class="btn btn-primary btn-lg" ><i class="fa fa-list"> </i> List of Other Unrecognized Parties</a>
+                    @endif
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
             </div>
-
             @include('layouts.partials.sidemenu')
         </div>
     </div>

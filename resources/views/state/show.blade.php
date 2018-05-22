@@ -9,13 +9,13 @@
                 <a class="btn btn-outline-dark btn-lg" href="{{url('states/'.Auth::User()->state_id.'/constituencies')}}" role="button">All Members &raquo;</a>
             </p>--}}
             <p>
-                <a class="btn btn-outline-dark btn-lg" href="{{url('states/'.$state->id.'/members')}}" role="button">All Members &raquo;</a>
+                <a class="btn btn-outline-dark" href="{{url('states/'.$state->id.'/members')}}" role="button">All Members &raquo;</a>
             </p>
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-9 col-md-offset-2">
                 <h2>{{$state->name2}}
                     @can('manage_site')
                         <a href="{{url('states/'.$state->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
@@ -55,6 +55,29 @@
                     </tbody>
                 </table>
                 </div>
+                <br>
+                <div>
+                    @php
+                        $previous = $state->id - 1 ;
+                        $next = $state->id + 1 ;
+                    @endphp
+                    @if($previous == 0)
+                        <a role="button" class="btn btn-outline-info btn-sm pull-left the-end" >&laquo; Previous </a>
+                    @else
+                        <a href="{{url('states/'.$previous)}}" role="button" class="btn btn-outline-info btn-sm pull-left" >&laquo; Previous </a>
+                    @endif
+
+                    @if($next > $stateCount)
+                        <a role="button" class="btn btn-outline-info btn-sm pull-right the-end" >Next &raquo;</a>
+                    @else
+                        <a href="{{url('states/'.$next)}}" role="button" class="btn btn-outline-info btn-sm pull-right" >Next &raquo;</a>
+                    @endif
+                </div>
+                <br>
+                <br>
+
+
+
                 <br>
                 <h3>Active Parties in {{$state->name2}}
                     @can('manage_site')
@@ -129,16 +152,39 @@
                         </tbody>
                     </table>
                 </div>
-                <br>
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Description & Notes:</h4>
-                    <p>Each group has different voting power. User can belong to 2 or more groups, their voting power adds up.
-                        Like any women can be member of Women Wing as well as ETF her total voting power will be 2+3=5 </p>
-                    <hr>
-                    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                </div>
 
                 <br>
+                <br>
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">Track your CONSTITUENCY:</h4>
+                    <br>
+                    <form method="POST" action="{{url('constituency/track')}}">
+                        {{ csrf_field() }}
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <select name="state" id="state" class="form-control">
+                                        <option value="">Select State...</option>
+                                        @foreach($states as $state)
+                                            <option value="{{$state->id}}">{{$state->name2}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+
+                                    <select id="constituency" name="constituency" class="form-control">
+                                        <option value="">Select State first...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Go to your Constituency</button>
+                    </form>
+                </div>
                 <br>
                 <br>
 
@@ -151,10 +197,52 @@
 @endsection
 
 @section('extra-js')
-    <script>
+    {{--<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>--}}
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+    {{--<script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+    </script>--}}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select[name="state"]').on('change', function() {
+                var stateID = $(this).val();
+                if(stateID) {
+                    $.ajax({
+                        url: 'states/ajax/'+stateID,
+                        type: "GET",
+                        dataType: "json",
+                        success:function(data) {
+
+                            //console.log(data);
+                            $('select[name="constituency"]').html('<option value="">Select Constituency</option>');
+                            $.each(data, function(key, value) {
+                                $('select[name="constituency"]').append('<option value="'+ key +'">'+ value +'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('select[name="constituency"]').empty();
+                }
+            });
+        });
     </script>
+
+
+   <script type="text/javascript">
+       $('.the-end').on('click', function () {
+           $.alert({
+               title: 'The End !',
+               content: 'You have reached the edge !',
+               type: 'red'
+           });
+       });
+   </script>
+
 
 @endsection

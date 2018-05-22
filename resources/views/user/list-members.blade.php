@@ -40,7 +40,30 @@
                                 <a href="{{url('users/'.$user->id)}}" class="font-weight-bold text-primary">{{$user->name}}</a>
                                 <div class="font-italic">Likes: {{$user->known_by_count or 'null'}}</div>
                             </td>
-                            <td><a href="#"><i class="fa fa-comments fa-2x"></i></a></td>
+                            <td>
+                                {{--<a href="#"><i class="fa fa-comments fa-2x"></i></a>--}}
+                                <a href="#" data-toggle="modal" data-target="#exampleModalCenter{{$user->id}}"><i class="fa fa-comments fa-2x"></i></a></td>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalCenter{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{$user->opinion->matter or 'Not Written'}}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                {{--<button type="button" class="btn btn-primary">Save changes</button>--}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                             <td>
                                 @if(Auth::guest())
                                     <a class="btn btn-info" href="{{ url('loginToVoteUser/'.$constituency->id) }}">Vote</a>

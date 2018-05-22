@@ -43,7 +43,7 @@
                 <div>
                     <h4 class="text-primary">Inspiration:</h4>
                     <div>
-                        <b>{!! $engMsg->matter !!}</b>
+                        <b>{!! $engMsg->matter or '' !!}</b>
                         {{--<b>
                             Spread the awareness - that whichever political party we may be supporter off, we will not going
                             to vote for them in 2019 general election unless our favorite party give a satisfactory and

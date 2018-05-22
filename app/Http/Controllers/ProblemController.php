@@ -93,8 +93,9 @@ class ProblemController extends Controller
      */
     public function show(Problem $problem)
     {
+        $problemCount = Problem::all()->count();
         $images = $problem->images()->get();
-        return view('problem.show',compact('problem','images'));
+        return view('problem.show',compact('problem','images','problemCount'));
     }
 
     /**

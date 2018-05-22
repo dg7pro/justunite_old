@@ -23,6 +23,13 @@ Auth::routes();
 
 Route::get('/admin','AdminController@index')->name('admin');
 
+
+
+Route::get('states/ajax/{id}','StateController@stateAjax');
+Route::get('constituencies/states/ajax/{id}','StateController@stateAjax');
+Route::get('states/states/ajax/{id}','StateController@stateAjax');
+Route::get('constituency/states/ajax/{id}','StateController@stateAjax');
+
 Route::get('loginToVoteProblem','ProblemController@makeReady');
 Route::post('problems/ajax-vote/{id}','ProblemController@ajaxVote');
 Route::post('problems/vote/{id}','ProblemController@vote');
@@ -31,6 +38,7 @@ Route::post('problems/{problem}/upload-image','ProblemController@uploadImage');
 Route::get('constituencies/{id}/members','ConstituencyController@members');
 Route::get('constituencies/your-constituency','ConstituencyController@yourConstituency');
 Route::post('constituency/track','ConstituencyController@track');
+Route::get('constituencies/{id}/contestants','ConstituencyController@contestants');
 
 Route::get('mygroup','GroupController@mygroup');
 Route::get('group/elect-president','GroupController@electPresident');
@@ -39,6 +47,7 @@ Route::get('/','HomeController@index');
 Route::get('/home', 'HomeController@home')->name('home');
 Route::get('/faq','HomeController@faq');
 Route::get('/new-login','HomeController@newlogin');
+Route::get('privacy-policy','HomeController@pp');
 
 Route::get('image-crop', 'ImageController@imageCrop');
 Route::post('image-crop', 'ImageController@imageCropPost');
@@ -64,7 +73,7 @@ Route::post('parties/{party}/upload-image','PartyController@uploadImage');
 Route::post('assign-role','RoleController@assignRole');
 Route::post('de-assign-role','RoleController@deAssignRole');
 
-Route::get('states/ajax/{id}','StateController@stateAjax');
+
 Route::get('states/your-state','StateController@yourState');
 Route::get('states/{id}/members','StateController@members');
 Route::get('states/{id}/voting','StateController@users');

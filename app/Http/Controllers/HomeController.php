@@ -75,6 +75,12 @@ class HomeController extends Controller
         return view('newlogin');
     }
 
+    public function pp(){
+
+        return view('privacy-policy');
+
+    }
+
 
 
 }
