@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    @include('layouts.partials.fb-comment')
     <div class="jumbotron color4">
         <div class="container">
             <h1 class="display-3">{{$party->name}}</h1>
@@ -168,6 +168,7 @@
                         </div>
                     @endif
                 @endcan
+                <br><br>
                 <div class="fb-comments" data-href="http://www.justunite.org/parties/1" data-width="100%" data-numposts="5"></div>
             </div>
 

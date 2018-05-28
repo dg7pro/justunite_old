@@ -65,6 +65,9 @@
                                     <button type="submit" class="btn btn-success btn-xs">Vote</button>
                                 </form>--}}
                                 <a class="btn btn-info" href="{{ url('loginToVoteProblem') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                @php
+                                    Session(['lastUrl' => Request::fullUrl()])
+                                @endphp
                             </td>
                         </tr>
                     @else

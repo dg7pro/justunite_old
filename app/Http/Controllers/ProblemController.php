@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Image;
 use App\Problem;
 Use App\State;
+use http\Url;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -197,11 +198,16 @@ class ProblemController extends Controller
         }
     }
 
-    public function makeReady(){
+    public function makeReady(Request $request){
 
         //return redirect()->intended();
-        return redirect()->to('problems');
+        //return redirect()->to('problems');
         //return redirect()->back();
+
+
+        $lastUrl = $request->session()->get('lastUrl');
+        $request->session()->forget('lastUrl');
+        return redirect($lastUrl);
 
     }
 

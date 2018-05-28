@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('show','listMembers');
+        $this->middleware('auth')->except('listMembers');
     }
 
     /**
