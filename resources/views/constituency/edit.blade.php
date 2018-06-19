@@ -24,11 +24,14 @@
                     @endif
                 </b>
             </p>
-            <p><a class="btn btn-outline-dark btn-lg" href="{{url('constituencies/'.$constituency->id.'/users')}}" role="button">All Members &raquo;</a></p>
+            <p><a class="btn btn-outline-dark" href="{{url('constituencies/'.$constituency->id.'/users')}}" role="button">All Members &raquo;</a></p>
         </div>
     </div>
 
     <div class="container">
+        <br>
+        @include('layouts.alerts.success')
+        @include('layouts.alerts.error')
         <div class="row">
             <div class="col-md-9 col-md-offset-2">
                 <h2>
@@ -50,6 +53,27 @@
                 </form>
 
                 <br>
+                <br>
+
+                <div>
+                    @php
+                        $previous = $constituency->id - 1 ;
+                        $next = $constituency->id + 1 ;
+                    @endphp
+
+                    @if($previous == 0)
+                        <a role="button" class="btn btn-outline-info btn-sm pull-left the-end" >&laquo; Previous </a>
+                    @else
+                        <a href="{{url('constituencies/'.$previous.'/edit')}}" role="button" class="btn btn-outline-info btn-sm pull-left" >&laquo; Previous </a>
+                    @endif
+
+                    @if($next > $constituencyCount)
+                        <a role="button" class="btn btn-outline-info btn-sm pull-right the-end" >Next &raquo;</a>
+                    @else
+                        <a href="{{url('constituencies/'.$next.'/edit')}}" role="button" class="btn btn-outline-info btn-sm pull-right" >Next &raquo;</a>
+                    @endif
+                </div>
+
                 {{--<h3>Electroates: </h3>
                 <ul class="list-group">
                     <li class="list-group-item"><b><i>No. of Electroates: <span class="badge badge-pill badge-primary">{{number_format($constituency->total_electors)}}</span></i></b></li>
@@ -105,7 +129,6 @@
 
                 <br>
                 <br>
-                <br>
             </div>
 
             @include('layouts.partials.sidemenu')
@@ -117,7 +140,20 @@
 @section('extra-js')
     <script>
         CKEDITOR.replace( 'notes-content');
-
-
     </script>
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+    <script type="text/javascript">
+        $('.the-end').on('click', function () {
+            $.alert({
+                title: 'The End !',
+                content: 'You have reached the edge !',
+                type: 'red'
+            });
+        });
+    </script>
+
 @endsection

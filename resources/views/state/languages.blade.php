@@ -71,6 +71,28 @@
                 <br>
                 <br>
 
+                <div>
+                    @php
+                        $previous = $state->id - 1 ;
+                        $next = $state->id + 1 ;
+                    @endphp
+
+                    @if($previous == 0)
+                        <a role="button" class="btn btn-outline-info btn-sm pull-left the-end" >&laquo; Previous </a>
+                    @else
+                        <a href="{{url('states/'.$previous.'/list-languages')}}" role="button" class="btn btn-outline-info btn-sm pull-left" >&laquo; Previous </a>
+                    @endif
+
+                    @if($next > $stateCount)
+                        <a role="button" class="btn btn-outline-info btn-sm pull-right the-end" >Next &raquo;</a>
+                    @else
+                        <a href="{{url('states/'.$next.'/list-languages')}}" role="button" class="btn btn-outline-info btn-sm pull-right" >Next &raquo;</a>
+                    @endif
+                </div>
+
+                <br>
+                <br>
+
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Description & Notes:</h4>
                     <p>Each group has different voting power. User can belong to 2 or more groups, their voting power adds up.
@@ -87,4 +109,21 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('extra-js')
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+    <script type="text/javascript">
+        $('.the-end').on('click', function () {
+            $.alert({
+                title: 'The End !',
+                content: 'You have reached the edge !',
+                type: 'red'
+            });
+        });
+    </script>
+
 @endsection

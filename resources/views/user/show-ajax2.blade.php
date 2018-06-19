@@ -12,30 +12,57 @@
                     @endcan
                 </h2>
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        @foreach($images as $image)
-                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->iteration - 1 }}" class="{{ $loop->iteration == 1 ? 'active' : ''}}"></li>
-                        @endforeach
-                    </ol>
-                    <div class="carousel-inner">
-                        @foreach($images as $image)
-                            <div class="carousel-item {{ $loop->iteration == 1 ? 'active' : ''}}">
-                                <img class="d-block w-100" src="{{asset('storage/'.$image->name)}}" alt="First slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>{{$image->heading}}</h5>
-                                    <p>{{$image->caption}}</p>
+                    @if(count($images))
+                        <ol class="carousel-indicators">
+                            @foreach($images as $image)
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->iteration - 1 }}" class="{{ $loop->iteration == 1 ? 'active' : ''}}"></li>
+                            @endforeach
+                        </ol>
+                        <div class="carousel-inner">
+                            @foreach($images as $image)
+                                <div class="carousel-item {{ $loop->iteration == 1 ? 'active' : ''}}">
+                                    <img class="d-block w-100" src="{{asset('storage/'.$image->name)}}" alt="First slide">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>{{$image->heading}}</h5>
+                                        <p>{{$image->caption}}</p>
+                                    </div>
                                 </div>
+                            @endforeach
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    @else
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{asset('storage/default.svg')}}" alt="First slide">
                             </div>
-                        @endforeach
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                           {{-- <div class="carousel-item">
+                                <img class="d-block w-100" src="..." alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="..." alt="Third slide">
+                            </div>--}}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    @endif
                 </div>
                 <br>
                 {{--<h4 class="text-center text-primary">Everyone of us can become a leader!</h4>
@@ -78,24 +105,24 @@
                             <br>
                             <h4 class="text-primary">{{$user->name.' writes'}}</h4>
                             @if(Auth::guest())
-                                <b>{{ $user->opinion->matter or 'Not Given' }} </b>
+                                <b>{{ (!empty($user->opinion->matter) and $user->opinion->active == 1) ? $user->opinion->matter : 'No Comments from this User' }} </b>
                             @else
                                 @if($user->id == Auth::user()->id )
                                     @if(empty($user->opinion->matter))
-                                        <b>What do you think?<br> Here you can write & share your social, political, religious, legal, and administrative views etc.</b>
+                                        <b>Hi {{$user->name }} ! <br> Here you can write & share your social, political, religious, legal, and administrative views etc. Your views will be visible to all.</b>
                                         <a href="{{url('opinions/create')}}" role="button" class="btn btn-sm btn-info">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                             Write
                                         </a>
                                     @else
-                                        <b>{{$user->opinion->matter or 'Not Given'}} </b>
+                                        <b>{{$user->opinion->active == 1 ? $user->opinion->matter : 'Make comment active to publish'  }} </b>
                                         <a href="{{url('opinions/'.$user->opinion->id.'/edit')}}" role="button" class="btn btn-sm btn-info">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                             Edit
                                         </a>
                                     @endif
                                 @else
-                                    <b>{{ $user->opinion->matter or 'Not Given' }}</b>
+                                    <b>{{ (!empty($user->opinion->matter) and $user->opinion->active == 1) ? $user->opinion->matter : 'No Comments from this User'  }}</b>
                                 @endif
                             @endif
                         </div>
@@ -163,25 +190,78 @@
                     </table>
                 </div>
                 <br>
-                @if(empty($user->add->matter))
-                    <div class="alert alert-success" role="alert">
-                        <h4 class="alert-heading">Contact me for:</h4>
-                            <p>You can advertise here about your profession. Example if you are a lawyer, you can tell the
-                                website visitors ~ which type of cases you deal with, If you are a designer you can tell what
-                                types of designing you do. It is totally free!
-                            </p>
-                        <hr>
-                        <p class="mb-0"><a role="button" href="{{url('adds/create')}}" class="btn btn-success">Click to Advertise</a></p>
-                    </div>
-                @else
-                    <div class="alert alert-success" role="alert">
-                        <h4 class="alert-heading">Contact me for:
-                            <a role="button" href="{{url('adds/'.$user->add->id.'/edit')}}" class="btn btn-info btn-sm">Edit</a></h4>
-                        <p><b>{{$user->add->matter or 'Null'}}</b></p>
-                        <hr>
-                        <p class="mb-0"><b>Email: {{$user->email or null}} | Contact: {{$user->mobile or 'Not given'}}</b></p>
-                    </div>
-                @endif
+
+                <div>
+                    <h4 class="text-primary">Contact me for:</h4>
+
+                    @if( Auth::check() and $user->id == Auth::user()->id )
+                            @if(!empty($user->add->matter) and $user->add->active == 1)
+                                <div class="alert alert-success" role="alert">
+                                    <h4 class="alert-heading">{{$user->add->heading}}
+                                        <a role="button" href="{{url('adds/'.$user->add->id.'/edit')}}" class="btn btn-info btn-sm">Edit</a>
+                                    </h4><br>
+                                    <p><b>{{$user->add->matter or 'Null'}}</b></p>
+                                    <hr>
+                                    <p class="mb-0"><b>Email: {{$user->email or 'Not given'}} | Contact: {{$user->mobile or 'Not given'}} | Location: {{$user->constituency->pc_name or 'Not given'}}</b></p>
+                                </div>
+                            @else
+                                @include('layouts.partials.add-instruction')
+                            @endif
+                    @else
+                        @if(!empty($user->add->matter) and $user->add->active == 1)
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">{{$user->add->heading}}</h4>
+                                <br>
+                                <p><b>{{$user->add->matter}}</b></p>
+                                <hr>
+                                <p class="mb-0"><b>Email: {{$user->email or 'Not given'}} | Contact: {{$user->mobile or 'Not given'}} | Location: {{$user->constituency->pc_name or 'Not given'}}</b></p>
+                            </div>
+                        @else
+                            @include('layouts.partials.add-instruction')
+                        @endif
+                    @endif
+                    {{--@if(Auth::guest())
+                        @if(!empty($user->add->matter) and $user->add->active == 1)
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">Contact me for:</h4>
+                                <p><b>{{$user->add->matter}}</b></p>
+                                <hr>
+                                <p class="mb-0"><b>Email: {{$user->email or null}} | Contact: {{$user->mobile or 'Not given'}}</b></p>
+                            </div>
+                        @else
+                            @include('layouts.partials.add-instruction')
+                        @endif
+                    @else
+                        @if($user->id == Auth::user()->id )
+                            @if(!empty($user->add->matter) and $user->add->active == 1)
+                                <div class="alert alert-success" role="alert">
+                                    <h4 class="alert-heading">Contact me for:
+                                        <a role="button" href="{{url('adds/'.$user->add->id.'/edit')}}" class="btn btn-info btn-sm">Edit</a></h4>
+                                    <p><b>{{$user->add->matter or 'Null'}}</b></p>
+                                    <hr>
+                                    <p class="mb-0"><b>Email: {{$user->email or null}} | Contact: {{$user->mobile or 'Not given'}}</b></p>
+                                </div>
+                            @else
+                                @include('layouts.partials.add-instruction')
+                            @endif
+                        @else
+                            @if(!empty($user->add->matter) and $user->add->active == 1)
+                                <div class="alert alert-success" role="alert">
+                                    <h4 class="alert-heading">Contact me for:</h4>
+                                    <p><b>{{$user->add->matter}}</b></p>
+                                    <hr>
+                                    <p class="mb-0"><b>Email: {{$user->email or null}} | Contact: {{$user->mobile or 'Not given'}}</b></p>
+                                </div>
+                            @else
+                                @include('layouts.partials.add-instruction')
+                            @endif
+                        @endif
+                    @endif--}}
+
+                </div>
+
+                <br>
+                <div class="sharethis-inline-share-buttons"></div>
 
                 <br>
                 @can('manage_site')

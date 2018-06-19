@@ -11,8 +11,9 @@ use App\Marital;
 use App\Profession;
 use App\Religion;
 use App\State;
+use App\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 
 class HomeController extends Controller
@@ -24,7 +25,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth')->except('newPage','design','index','faq','newLogin');
+        $this->middleware('auth')->except('index','faq','privacyPolicy');
     }
 
     /**
@@ -34,7 +35,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $contents = Content::query()->where('page','=','Frontpage')->get();
+        $contents = Content::query()->where('page','=','Frontpage')->orderBy('id','desc')->get();
         return view('welcome',compact('contents'));
     }
 
@@ -70,16 +71,25 @@ class HomeController extends Controller
         return view('faq2');
     }
 
-    public function newLogin()
-    {
-        return view('newlogin');
-    }
-
-    public function pp(){
+    public function privacyPolicy(){
 
         return view('privacy-policy');
 
     }
+
+    public function loginToContinue(Request $request){
+
+        $lastUrl = $request->session()->get('lastUrl');
+        $request->session()->forget('lastUrl');
+        return redirect($lastUrl);
+    }
+
+    public function cancel(){
+
+        return back();
+
+    }
+
 
 
 

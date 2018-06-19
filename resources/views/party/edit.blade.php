@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
+        <br>
+        @include('layouts.alerts.success')
+        @include('layouts.alerts.error')
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <br><br>
@@ -35,40 +38,50 @@
                             <td><input type="text" name="name" class="form-control" value="{{$party->name}}"></td>
                         </tr>
                         <tr>
-                            <td><label for="shortform">Short Form:</label></td>
-                            <td><input type="text" name="shortform" class="form-control" value="{{$party->shortform}}"></td>
+                            <td><label for="abbreviation">Short Form:</label></td>
+                            <td><input type="text" name="abbreviation" class="form-control" value="{{$party->abbreviation}}"></td>
                         </tr>
                         <tr>
                             <td><label for="symbol">Symbol:</label></td>
                             <td><input type="text" name="symbol" class="form-control" value="{{$party->symbol}}"></td>
                         </tr>
+                        <tr>
+                            <td><label for="year">Year:</label></td>
+                            <td><input type="text" name="year" class="form-control" value="{{$party->year}}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="headquarter">Headquarter:</label></td>
+                            <td colspan="2"><textarea name="headquarter" class="form-control" rows="3">{{$party->headquarter}}</textarea></td>
+                        </tr>
+                       {{-- <tr>
+                            <td colspan="2"><b>Details Information:</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><textarea name="details" class="form-control" rows="10">{{$party->details}}</textarea></td>
+                        </tr>--}}
+
 
 
                         <tr>
                             <td colspan="2"><b>Top Leadership:</b></td>
                         </tr>
                         <tr>
-                            <td><label for="founder">Founder:</label></td>
-                            <td><input type="text" name="founder" class="form-control" value="{{$party->founder}}"></td>
-                        </tr>
-                        <tr>
                             <td><label for="president">President:</label></td>
                             <td><input type="text" name="president" class="form-control" value="{{$party->president}}"></td>
                         </tr>
                         <tr>
-                            <td><label for="leader">Leader:</label></td>
-                            <td><input type="text" name="leader" class="form-control" value="{{$party->leader}}"></td>
+                            <td><label for="leader">Leadership:</label></td>
+                            <td colspan="2"><textarea name="leadership" class="form-control" rows="3">{{$party->leadership}}</textarea></td>
                         </tr>
-
-
-
-
-
+                        <tr>
+                            <td><label for="founder">Founder:</label></td>
+                            <td colspan="2"><textarea name="founder" class="form-control" rows="3">{{$party->founder}}</textarea></td>
+                        </tr>
                         <tr>
                             <td colspan="2"><b>Details Information:</b></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><textarea name="details" class="form-control" rows="10">{{$party->details}}</textarea></td>
+                            <td colspan="2"><textarea id="party-details" name="details" class="form-control" rows="10">{{$party->details}}</textarea></td>
                         </tr>
 
 
@@ -107,7 +120,7 @@
 
 @section('extra-js')
     <script>
-        CKEDITOR.replace( 'notes-content');
+        CKEDITOR.replace( 'party-details');
 
         function ConfirmDelete(){
 

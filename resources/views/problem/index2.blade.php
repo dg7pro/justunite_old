@@ -9,7 +9,7 @@
                     but still unable to solve 27 problems. Hope this time we chose Prime minister who can solve all these problems</b></p>
             <p>
                 {{--<a href="{{url('problems/voting')}}" role="button" class="btn btn-outline-dark" >Most Serious Problem &raquo;</a>--}}
-                <a href="{{$whatsapp}}" role="button" class="btn btn-outline-dark" ><i class="fa fa-whatsapp"> Join Whatsapp</i> </a>
+                <a href="{{$whatsapp}}" role="button" class="btn btn-outline-dark" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
             </p>
         </div>
     </div>
@@ -19,7 +19,7 @@
                 <h2>
                     List of Problems
                     {{--<a href="{{url('problems/voting')}}" role="button" class="btn btn-outline-info" >Most Serious Problem &raquo;</a>--}}
-                    <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"> Join Whatsapp</i> </a>
+                    <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
 
                 </h2>
 
@@ -64,7 +64,7 @@
                                     <input name="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
                                     <button type="submit" class="btn btn-success btn-xs">Vote</button>
                                 </form>--}}
-                                <a class="btn btn-info" href="{{ url('loginToVoteProblem') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                <a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                                 @php
                                     Session(['lastUrl' => Request::fullUrl()])
                                 @endphp
@@ -103,7 +103,7 @@
                                 </td>
                                 <td><b class="text-primary">{{$problem->votes_count}}</b></td>
                                 <td>
-                                    <form method="post" action="{{url('problems/vote/'.$problem->id)}}" class="form-inline" onsubmit="{{ $receivedVoteProblemId != null ? 'ConfirmVoteChange()' : ''}}">
+                                    <form method="post" action="{{url('problems/vote/'.$problem->id)}}" class="form-inline" onsubmit="{{ $receivedVoteProblemId != null ? 'return ConfirmVoteChange()' : ''}}">
                                         {{csrf_field()}}
                                         <input name="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
                                         <button type="submit" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Gender;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class GenderController extends Controller
 {
@@ -36,7 +38,8 @@ class GenderController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('manage_site');
+        return view('gender.create');
     }
 
     /**
@@ -47,7 +50,21 @@ class GenderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('manage_site');
+
+        // Validate Inputs
+        $this->validator($request->all())->validate();
+
+        // Add New Age Group
+        $gender = new Gender();
+        $gender->name = $request->name;
+        $gender->save();
+
+        //Flash Message
+        Session::flash('message', 'Gender created successfully!');
+
+        // Redirect Back
+        return redirect('genders');
     }
 
     /**
@@ -58,7 +75,8 @@ class GenderController extends Controller
      */
     public function show(Gender $gender)
     {
-        //
+        $this->authorize('manage_site');
+        return view('gender.show',compact('gender'));
     }
 
     /**
@@ -69,7 +87,8 @@ class GenderController extends Controller
      */
     public function edit(Gender $gender)
     {
-        //
+        $this->authorize('manage_site');
+        return view('gender.edit',compact('gender'));
     }
 
     /**
@@ -81,7 +100,20 @@ class GenderController extends Controller
      */
     public function update(Request $request, Gender $gender)
     {
-        //
+        $this->authorize('manage_site');
+
+        // Validate Inputs
+        $this->validator($request->all())->validate();
+
+        // Update Age Group
+        $gender->name = $request->name;
+        $gender->update();
+
+        //Flash Message
+        Session::flash('message', 'Gender updated successfully!');
+
+        // Redirect Back
+        return redirect('genders');
     }
 
     /**
@@ -92,6 +124,19 @@ class GenderController extends Controller
      */
     public function destroy(Gender $gender)
     {
-        //
+        $this->authorize('manage_site');
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required'
+        ]);
     }
 }

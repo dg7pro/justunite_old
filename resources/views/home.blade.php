@@ -36,23 +36,21 @@
                             <thead>
                             <tr>
                                 <th scope="col" colspan="2"><h3>Welcome: {{ Auth::User()->name }} </h3></th>
-
-
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Email:</td>
+                                <td width="30%">Email:</td>
                                 <td class="text-primary">
                                     {{Auth::User()->email}}
                                     {{--<button type="submit" class="btn btn-outline-info btn-sm">Verify</button>--}}
                                 </td>
                             </tr>
                             <tr>
-                                <td>Mobile:</td>
+                                <td width="30%">Mobile:</td>
                                 <td>
                                     @if(Auth::User()->mobile)
-                                        {{Auth::User()->mobile}}
+                                        <a href="#" class="text-primary">{{Auth::User()->mobile}}</a>
                                         {{--<button type="submit" class="btn btn-outline-info btn-sm">Verify</button>--}}
                                     @else
                                         <i><a href="#constituency" class="text-primary js-scroll-trigger">Enter...</a></i>
@@ -60,17 +58,18 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Constituency:</td>
+                                <td width="30%">Constituency:</td>
                                 <td>
                                     @if($constituency)
-                                        {{ $constituency->pc_name .' ('. $constituency->state->name2 .')' }}
+                                        <a href="{{url('constituencies/'.$constituency->id)}}" class="text-primary">{{ $constituency->pc_name .' ('. $constituency->state->name2 .')' }}</a>
+
                                     @else
                                         <i><a href="#constituency" class="text-primary js-scroll-trigger">Enter...</a></i>
                                     @endif
                                 </td>
                             </tr>
                             <tr>
-                                <td>Group:</td>
+                                <td width="30%">Group:</td>
                                 <td>
                                     @if(Auth::User()->group)
                                         {{Auth::User()->group->name}}
@@ -328,6 +327,7 @@
                 <br>
 
             </div>
+            @include('layouts.partials.dashboard-menu')
         </div>
 
 

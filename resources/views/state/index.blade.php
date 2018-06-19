@@ -5,15 +5,12 @@
     <div class="jumbotron color5">
         <div class="container">
             <h1 class="display-3">India</h1>
-            <p><b>
-                    The first article of the Constitution of India states that "India, that is Bharat, shall be a Union of States.
-                    Presently India consists of 29 states and 7 Union Territories including Delhi
-            </b></p>
+            <p><b>India consists of 29 states and 7 Union Territories including Delhi (NCR)</b></p>
             @if(Auth::guest())
                 <p><a href="{{url('register')}}" role="button" class="btn btn-outline-dark" >Register &raquo;</a></p>
 
             @else
-                <p><a class="btn btn-outline-dark btn-lg" href="{{url('states/your-state')}}" role="button">Your State &raquo;</a></p>
+                <p><a class="btn btn-outline-dark" href="{{url('states/your-state')}}" role="button">Your State &raquo;</a></p>
             @endif
 
         </div>

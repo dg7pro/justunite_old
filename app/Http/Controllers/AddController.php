@@ -65,7 +65,8 @@ class AddController extends Controller
         Session::flash('message', 'Your advertisement has been submitted for review successfully!');
 
         // Redirect Back
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect('users/'.Auth::id());
     }
 
     /**
@@ -101,13 +102,15 @@ class AddController extends Controller
     {
         $this->validator($request->all())->validate();
 
+        $add->heading = $request->heading;
         $add->matter = $request->matter;
         $add->active = isset($request['active']);
         $add->update();
 
         //Flash Message
         Session::flash('message', 'Add updated successfully!');
-        return back();
+        //return back();
+        return redirect('users/'.Auth::id());
     }
 
     /**
@@ -130,6 +133,7 @@ class AddController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'heading' => 'required|string',
             'matter' => 'required|string',
         ]);
     }

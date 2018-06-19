@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Education;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class EducationController extends Controller
 {
@@ -36,7 +38,8 @@ class EducationController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('manage_site');
+        return view('education.create');
     }
 
     /**
@@ -47,7 +50,21 @@ class EducationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('manage_site');
+
+        // Validate Inputs
+        $this->validator($request->all())->validate();
+
+        // Add New Age Group
+        $edu = new Education();
+        $edu->level = $request->level;
+        $edu->save();
+
+        //Flash Message
+        Session::flash('message', 'Education Level created successfully!');
+
+        // Redirect Back
+        return redirect('educations');
     }
 
     /**
@@ -58,7 +75,8 @@ class EducationController extends Controller
      */
     public function show(Education $education)
     {
-        //
+        $this->authorize('manage_site');
+        return view('age.show',compact('age'));
     }
 
     /**
@@ -69,7 +87,8 @@ class EducationController extends Controller
      */
     public function edit(Education $education)
     {
-        //
+        $this->authorize('manage_site');
+        return view('education.edit',compact('education'));
     }
 
     /**
@@ -81,7 +100,20 @@ class EducationController extends Controller
      */
     public function update(Request $request, Education $education)
     {
-        //
+        $this->authorize('manage_site');
+
+        // Validate Inputs
+        $this->validator($request->all())->validate();
+
+        // Update Age Group
+        $education->level = $request->level;
+        $education->update();
+
+        //Flash Message
+        Session::flash('message', 'Education updated successfully!');
+
+        // Redirect Back
+        return redirect('educations');
     }
 
     /**
@@ -92,6 +124,19 @@ class EducationController extends Controller
      */
     public function destroy(Education $education)
     {
-        //
+        $this->authorize('manage_site');
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'level' => 'required'
+        ]);
     }
 }

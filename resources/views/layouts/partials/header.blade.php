@@ -37,7 +37,7 @@
             </a>
         </li>
     </ul>
-    <a href="https://www.jquery-az.com" class="logo" target="_blank">
+   {{-- <a href="https://www.jquery-az.com" class="logo" target="_blank">
         <img class="logo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/45226/ettrics-logo.svg" alt="" />
-    </a>
+    </a>--}}
 </nav>

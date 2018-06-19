@@ -4,8 +4,8 @@
 
     <div class="jumbotron color3">
         <div class="container">
-            <h1 class="display-3">543 Loksabha Seats</h1>
-            <p>This page shows list of all the parliamentary constituency in India. Total their are 543 seats </p>
+            <h1 class="display-3">Loksabha Seats</h1>
+            <p><b>The page shows list of all the parliamentary constituency in India. Total their are 543 seats</b></p>
             @if(Auth::guest())
                 <p>
                     <a href="{{url('register')}}" role="button" class="btn btn-outline-dark" >Register &raquo;</a>

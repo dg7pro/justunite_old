@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
+        <br>
+        @include('layouts.alerts.success')
+        @include('layouts.alerts.error')
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <br>
@@ -61,16 +64,16 @@
                             <td><input type="text" name="population" class="form-control" value="{{$state->population}}"></td>
                         </tr>
                         <tr>
-                            <td><label for="urbanp">Urban Population:</label></td>
-                            <td><input type="text" name="urbanp" class="form-control" value="{{$state->urbanp}}"></td>
+                            <td><label for="upo">Urban Population:</label></td>
+                            <td><input type="text" name="upo" class="form-control" value="{{$state->upo}}"></td>
                         </tr>
                         <tr>
-                            <td><label for="ruralp">Rural Population:</label></td>
-                            <td><input type="text" name="ruralp" class="form-control" value="{{$state->ruralp}}"></td>
+                            <td><label for="rpo">Rural Population:</label></td>
+                            <td><input type="text" name="rpo" class="form-control" value="{{$state->rpo}}"></td>
                         </tr>
                         <tr>
-                            <td><label for="prank">Population Rank:</label></td>
-                            <td><input type="text" name="prank" class="form-control" value="{{$state->prank}}"></td>
+                            <td><label for="rank">Population Rank:</label></td>
+                            <td><input type="text" name="rank" class="form-control" value="{{$state->rank}}"></td>
                         </tr>
                         <tr>
                             <td><label for="density">Density:</label></td>
@@ -104,13 +107,25 @@
                             <td><input type="text" name="cm" class="form-control" value="{{$state->cm}}"></td>
                         </tr>
                         <tr>
-                            <td><label for="wparty">Winner Party:</label></td>
+                            <td><label for="wparty">Ruling:</label></td>
                             <td>
                                 {{--<input type="text" name="wparty" class="form-control" value="{{$state->wparty}}">--}}
-                                <select name="wparty" class="form-control">
+                                <select name="ruling_id" class="form-control">
                                     <option value="">Select Ruling party</option>
                                     @foreach($parties as $party)
-                                        <option value="{{$party->id}}" {{ $state->party_id == $party->id ? 'selected="selected"' : '' }}>{{$party->name}}</option>
+                                        <option value="{{$party->id}}" {{ $state->ruling_id == $party->id ? 'selected="selected"' : '' }}>{{$party->name}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="wparty">Opposition:</label></td>
+                            <td>
+                                {{--<input type="text" name="wparty" class="form-control" value="{{$state->wparty}}">--}}
+                                <select name="opposition_id" class="form-control">
+                                    <option value="">Select Opposition party</option>
+                                    @foreach($parties as $party)
+                                        <option value="{{$party->id}}" {{ $state->opposition_id == $party->id ? 'selected="selected"' : '' }}>{{$party->name}}</option>
                                     @endforeach
                                 </select>
                             </td>

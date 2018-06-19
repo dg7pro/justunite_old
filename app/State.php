@@ -9,9 +9,8 @@ class State extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name2','capital','language','literacy','prank','population','urbanp','ruralp','density',
-        'sex_ratio','pc','ac','governor','cm','wparty','ruling','opposition'];
-
+    protected $fillable = ['name2','capital','language','literacy','rank','population','upo','rpo','density',
+        'sex_ratio','pc','ac','governor','cm','income','ruling_id','opposition_id'];
 
     /**
      * Many to Many

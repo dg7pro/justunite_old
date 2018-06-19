@@ -23,8 +23,6 @@ Auth::routes();
 
 Route::get('/admin','AdminController@index')->name('admin');
 
-
-
 Route::get('states/ajax/{id}','StateController@stateAjax');
 Route::get('constituencies/states/ajax/{id}','StateController@stateAjax');
 Route::get('states/states/ajax/{id}','StateController@stateAjax');
@@ -35,7 +33,7 @@ Route::post('problems/ajax-vote/{id}','ProblemController@ajaxVote');
 Route::post('problems/vote/{id}','ProblemController@vote');
 Route::post('problems/{problem}/upload-image','ProblemController@uploadImage');
 
-Route::get('constituencies/{id}/members','ConstituencyController@members');
+
 Route::get('constituencies/your-constituency','ConstituencyController@yourConstituency');
 Route::post('constituency/track','ConstituencyController@track');
 Route::get('constituencies/{id}/contestants','ConstituencyController@contestants');
@@ -45,9 +43,11 @@ Route::get('group/elect-president','GroupController@electPresident');
 
 Route::get('/','HomeController@index');
 Route::get('/home', 'HomeController@home')->name('home');
+Route::get('/cancel', 'HomeController@cancel')->name('cancel');
 Route::get('/faq','HomeController@faq');
-Route::get('/new-login','HomeController@newlogin');
-Route::get('privacy-policy','HomeController@pp');
+//Route::get('/new-login','HomeController@newlogin');
+Route::get('privacy-policy','HomeController@privacyPolicy');
+Route::get('loginToContinue','HomeController@loginToContinue');
 
 Route::get('image-crop', 'ImageController@imageCrop');
 Route::post('image-crop', 'ImageController@imageCropPost');
@@ -73,9 +73,10 @@ Route::post('parties/{party}/upload-image','PartyController@uploadImage');
 Route::post('assign-role','RoleController@assignRole');
 Route::post('de-assign-role','RoleController@deAssignRole');
 
+Route::get('rups-paginate','RupController@indexPaginate');
+
 
 Route::get('states/your-state','StateController@yourState');
-Route::get('states/{id}/members','StateController@members');
 Route::get('states/{id}/voting','StateController@users');
 Route::get('states/{id}/constituencies','StateController@stateWithConstituencies');
 Route::get('states/{state}/list-parties','StateController@listParties');
@@ -95,7 +96,6 @@ Route::post('users/iknow/{id}','UserController@makeKnow');
 Route::post('users/revokeknow/{id}','UserController@revokeKnow');
 Route::get('uuid/{uid}','UserController@getUserByUuid');
 Route::post('users/{user}/upload-image','UserController@uploadImage');
-Route::get('members','UserController@totalMembers');
 
 Route::get('loginToVoteUser/{id}','UserController@makeReady');
 Route::post('users/vote/{id}','UserController@vote');
@@ -104,7 +104,13 @@ Route::post('users/ajax-vote/{id}','UserController@ajaxVote');
 Route::get('loginToLike/{id}','UserController@loginToLike');
 Route::post('users/like','UserController@like');
 Route::post('users/unlike','UserController@unlike');
-Route::get('constituencies/{id}/list-members','UserController@listMembers');
+
+Route::get('states/{id}/members','UserController@stateMembers');
+Route::get('constituencies/{id}/members','UserController@constituencyMembers');
+Route::get('members','UserController@countMembers');
+
+Route::get('settings','UserController@settings');
+Route::post('hide-profile/{user}','UserController@hideUser');
 
 Route::post('professions/like','ProfessionController@like');
 
@@ -158,6 +164,7 @@ Route::resource('roles','RoleController');
 Route::resource('rups','RupController');
 Route::resource('states','StateController');
 Route::resource('stypes','StypeController');
+Route::resource('tags','TagController');
 Route::resource('users','UserController');
 
 

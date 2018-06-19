@@ -78,17 +78,21 @@ class ConstituencyController extends Controller
             ->with('gender','party')->orderBy('votes','dsc')->get();
         return view('constituency.show',compact('constituency','election','contestants'));*/
 
-
         //$constituency = $constituency->load('contestants.gender','election')->first();
-
 
         $constituencyCount = Constituency::all()->count();
         $constituency = Constituency::where('id','=',$id)->first();
         //$members = $constituency->members()->withCount('knownBy');
 
-        $members = User::where('constituency_id','=',$id)
+        /*$members = User::where('constituency_id','=',$id)
+            ->withCount('knownBy')
+            ->orderBy('known_by_count','desc')->get();*/
+
+        $members = User::where([['constituency_id','=',$id],['invisible','=',0]])
             ->withCount('knownBy')
             ->orderBy('known_by_count','desc')->get();
+
+        $memCount = $members->count();
 
         $contestants = $constituency->contestants()
             ->with('gender','party')
@@ -96,8 +100,7 @@ class ConstituencyController extends Controller
 
         $states = State::all();
 
-
-        return view('constituency.show',compact('constituency','contestants','members','states','constituencyCount'));
+        return view('constituency.show',compact('constituency','contestants','members','states','constituencyCount','memCount'));
 
     }
 
@@ -110,7 +113,8 @@ class ConstituencyController extends Controller
     public function edit(Constituency $constituency)
     {
         //$constituency = Constituency::where('id','=',$id)->with('state')->first();
-        return view('constituency.edit',compact('constituency'));
+        $constituencyCount = Constituency::all()->count();
+        return view('constituency.edit',compact('constituency','constituencyCount'));
     }
 
     /**
@@ -151,24 +155,6 @@ class ConstituencyController extends Controller
         return Validator::make($data, [
             'details' => 'required'
         ]);
-    }
-
-    /**
-     * Have to return members of particular constituency
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function members($id){
-
-        $members = User::all()->count();
-        $constituency = Constituency::find($id);
-        return view('constituency.members',compact('members','constituency'));
-
-        //$users = User::query()->where('constituency_id',$id)->with('votes')->get();
-        /*$constituency = Constituency::find($id);
-        $users = User::query()->where('constituency_id',$id)
-            ->has('votes')->withCount('votes')->with('votes')->orderBy('votes_count','desc')->get();
-        return view('constituency.users',compact('users','constituency'));*/
     }
 
     /**

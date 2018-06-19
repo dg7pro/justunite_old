@@ -180,7 +180,7 @@
             {!! $content->matter !!}
 
             <p align="center">
-                <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"> Join Whatsapp</i> </a>
+                <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
                 {{--<a href="{{url('register')}}" role="button" class="btn btn-outline-primary" >Be Member &raquo;</a>--}}
             </p>
 

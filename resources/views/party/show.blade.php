@@ -9,8 +9,9 @@
     <div class="jumbotron color4">
         <div class="container">
             <h1 class="display-3">{{$party->name}}</h1>
-            <p>This page shows list of all the parliamentary constituency in India. Total their are 543 seats </p>
-            <p><a href="#" role="button" class="btn btn-outline-warning" >Learn more &raquo;</a></p>
+            <p><b>Information about the party is given below such as parties founders, top leaders and headquarter etc</b></p>
+            {{--<p><a href="#" role="button" class="btn btn-outline-warning" >Learn more &raquo;</a></p>--}}
+            <p><a href="{{$whatsapp}}" role="button" class="btn btn-outline-warning" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a></p>
         </div>
     </div>
     <div class="container">
@@ -24,57 +25,128 @@
                 </h2>
                 {{--<img src="{{asset('images/parties/over-population.jpg')}}" alt="" width="100%">--}}
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        @foreach($images as $image)
-                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->iteration - 1 }}" class="{{ $loop->iteration == 1 ? 'active' : ''}}"></li>
-                            {{--<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>--}}
-                        @endforeach
-                    </ol>
-                    <div class="carousel-inner">
-                        @foreach($images as $image)
-                            <div class="carousel-item {{ $loop->iteration == 1 ? 'active' : ''}}">
-                                {{-- <img class="d-block w-100" src="{{asset('images/svg/'.$image->name)}}" alt="First slide">--}}
-                                <img class="d-block w-100" src="{{asset('storage/'.$image->name)}}" alt="First slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>{{$image->heading}}</h5>
-                                    <p>{{$image->caption}}</p>
+                    @if(count($images))
+                        <ol class="carousel-indicators">
+                            @foreach($images as $image)
+                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->iteration - 1 }}" class="{{ $loop->iteration == 1 ? 'active' : ''}}"></li>
+                                {{--<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>--}}
+                            @endforeach
+                        </ol>
+                        <div class="carousel-inner">
+                            @foreach($images as $image)
+                                <div class="carousel-item {{ $loop->iteration == 1 ? 'active' : ''}}">
+                                    {{-- <img class="d-block w-100" src="{{asset('images/svg/'.$image->name)}}" alt="First slide">--}}
+                                    <img class="d-block w-100" src="{{asset('storage/'.$image->name)}}" alt="First slide">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>{{$image->heading}}</h5>
+                                        <p>{{$image->caption}}</p>
+                                    </div>
                                 </div>
+                            @endforeach
+                            {{-- <div class="carousel-item">
+                                 <img class="d-block w-100" src="{{asset('images/svg/second.svg')}}" alt="Second slide">
+                             </div>
+                             <div class="carousel-item">
+                                 <img class="d-block w-100" src="{{asset('images/svg/third.svg')}}" alt="Third slide">
+                             </div>--}}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    @else
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{asset('storage/default.svg')}}" alt="First slide">
                             </div>
-                        @endforeach
-                        {{-- <div class="carousel-item">
-                             <img class="d-block w-100" src="{{asset('images/svg/second.svg')}}" alt="Second slide">
-                         </div>
-                         <div class="carousel-item">
-                             <img class="d-block w-100" src="{{asset('images/svg/third.svg')}}" alt="Third slide">
-                         </div>--}}
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                            {{-- <div class="carousel-item">
+                                 <img class="d-block w-100" src="..." alt="Second slide">
+                             </div>
+                             <div class="carousel-item">
+                                 <img class="d-block w-100" src="..." alt="Third slide">
+                             </div>--}}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    @endif
                 </div>
-
-                <br>
                 <br>
                 <div>
                     <b>{!! $party->details !!}</b>
                 </div>
                 <br>
-                <table class="table table-bordered table-striped col-md-6">
-                    <tr><th colspan="2">Party Factfile:</th></tr>
-                    <tr><th>Name: </th><th>{{$party->name}}</th></tr>
-                    <tr><th>Shortform: </th><th>{{$party->shortform}}</th></tr>
-                    <tr><th colspan="2">Party Leadership:</th></tr>
-                    <tr><th>Founder: </th><th>{{$party->founder}}</th></tr>
-                    <tr><th>President: </th><th>{{$party->president}}</th></tr>
-                    <tr><th>Leader: </th><th>{{$party->leader}}</th></tr>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                    <tr>
+                        <td colspan="2"><b>Party Factfile:</b></td>
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td>{{$party->name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Short Form:</td>
+                        <td>{{$party->abbreviation}}</td>
+                    </tr>
+                    <tr>
+                        <td>Symbol:</td>
+                        <td>{{$party->symbol}}</td>
+                    </tr>
+                    <tr>
+                        <td>Year:</td>
+                        <td>{{$party->year}}</td>
+                    </tr>
+                    <tr>
+                        <td>Headquarter:</td>
+                        <td colspan="2">{{$party->headquarter}}</td>
+                    </tr>
 
+                    <tr>
+                        <td colspan="2"><b>Top Leadership:</b></td>
+                    </tr>
+                    <tr>
+                        <td>President:</td>
+                        <td>{{$party->president}}</td>
+                    </tr>
+                    <tr>
+                        <td>Leadership:</td>
+                        <td colspan="2">{{$party->leadership}}</td>
+                    </tr>
+                    <tr>
+                        <td>Founder:</td>
+                        <td colspan="2">{{$party->founder}}</td>
+                    </tr>
+                    </tbody>
                 </table>
+               {{-- <table class="table table-bordered table-striped col-md-6">
+                    <tr><th colspan="2"><h4 class="text-primary">Party Factfile:</h4></th></tr>
+                    <tr><th>Name: </th><th class="text-primary">{{$party->name}}</th></tr>
+                    <tr><th>Shortform: </th><th class="text-primary">{{$party->abbreviation}}</th></tr>
+                    <tr><th>Founded: </th><th class="text-primary">{{$party->year}}</th></tr>
+                    <tr><th>Headquarter: </th><th class="text-primary">{{$party->headquarter}}</th></tr>
+
+                    <tr><th colspan="2"><h4 class="text-primary">Party Leadership:</h4></th></tr>
+                    <tr><th>Founder: </th><th class="text-primary">{{$party->founder}}</th></tr>
+                    <tr><th>President: </th><th class="text-primary">{{$party->president}}</th></tr>
+                    <tr><th>Leadership: </th><th class="text-primary">{{$party->leadership}}</th></tr>
+
+                </table>--}}
                 <br>
 
                 <div>
@@ -100,6 +172,7 @@
                         <li><a href="#" role="button" class="pull-right btn btn-default btn-sm">Next</a></li>
                     </ul>--}}
                 </div>
+                <br><br>
                 @can('manage_site')
                     <hr>
                     <div>
@@ -117,14 +190,14 @@
                             <div class="form-group">
                                 <label for="example-text-input" class="col-form-label">Heading:</label>
                                 <div class="">
-                                    <input class="form-control" type="text" name="heading" value="Artisanal kale" id="example-text-input">
+                                    <input class="form-control" type="text" name="heading" value="" id="example-text-input">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="example-text-input" class="col-form-label">Caption:</label>
                                 <div class="">
-                                    <input class="form-control" type="text" name="caption" value="Artisanal kale" id="example-text-input">
+                                    <input class="form-control" type="text" name="caption" value="" id="example-text-input">
                                 </div>
                             </div>
                             <br>

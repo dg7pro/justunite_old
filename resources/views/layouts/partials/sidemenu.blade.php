@@ -7,13 +7,13 @@
         <a href="#" class="list-group-item list-group-item-action active">
             Quick Links
         </a>
-        <a href="{{url('/states')}}" class="list-group-item list-group-item-action">States
+        <a href="{{url('states')}}" class="list-group-item list-group-item-action">States
             <span class="badge badge-primary badge-pill">29+7</span>
         </a>
-        <a href="{{url('/constituencies')}}" class="list-group-item list-group-item-action">Constituencies
+        <a href="{{url('constituencies')}}" class="list-group-item list-group-item-action">Constituencies
             <span class="badge badge-success badge-pill">543</span>
         </a>
-        <a href="{{url('/groups')}}" class="list-group-item list-group-item-action">Groups
+        <a href="{{url('groups')}}" class="list-group-item list-group-item-action">Groups
             <span class="badge badge-danger badge-pill">10</span>
         </a>
         <a href="{{url('problems')}}" class="list-group-item list-group-item-action disabled">Problems
@@ -37,8 +37,9 @@
         <a href="{{url('/gdp')}}" class="list-group-item list-group-item-action disabled">GDP</a>
         <a href="{{url('/ruling-party')}}" class="list-group-item list-group-item-action disabled">Ruling Party</a>
         <a href="{{url('/seats')}}" class="list-group-item list-group-item-action disabled">Seats</a>
-
     </div>
 
+    <br>
+    <br>
 
 </div>

@@ -2,7 +2,7 @@
 
 
 @section('extra-css')
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
+    {{--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">--}}
     <style>
         .wrapper > ul#results li {
             margin-bottom: 1px;
@@ -24,8 +24,8 @@
             <h1 class="display-3">Parties</h1>
             <p>This page shows list of all the important political parties in India.</p>
             <p>
-                <a href="{{$whatsapp}}" role="button" class="btn btn-outline-warning" ><i class="fa fa-whatsapp"> Join Whatsapp</i></a>
-            {{--<a href="#" role="button" class="btn btn-outline-warning" >Vote &raquo;</a></p>--}}
+                <a href="{{$whatsapp}}" role="button" class="btn btn-outline-warning" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
+            </p>
         </div>
     </div>
     <div class="container">

@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('listMembers');
+        $this->middleware('auth')->except('constituencyMembers','show','countMembers');
     }
 
     /**
@@ -67,17 +67,24 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $engMsg = Content::query()->where('page','=','profilepage')->first();
-        $hiMsg = Content::query()->where([
-            ['page','=','profilepage'],
-            ['slug','=','hindi']
-        ])->first();
         $user = User::where('id','=',$id)
             ->withCount('knownBy')
             ->with('gender','age','marital','religion','education','profession','opinion','add','opinion')
             ->first();
 
-        $professions = Profession::all();
+        if ($user->invisible == 1 and $id != Auth::id()){
+            abort('500','The User has Hidden his/her Profile');
+        }
+
+
+
+        $engMsg = Content::query()->where('page','=','profilepage')->first();
+        $hiMsg = Content::query()->where([
+            ['page','=','profilepage'],
+            ['slug','=','hindi']
+        ])->first();
+
+        //$professions = Profession::all();
 
         $knownBys = $user->knownBy()->get();
 
@@ -88,19 +95,21 @@ class UserController extends Controller
             }
         }
 
-        if ($user->hidden == 1){
-            abort('403');
-        }
 
-        $images = DB::table('images')->where([
+        // Important Snippet of code
+        /*$images = DB::table('images')->where([
             ['imagable_type','=','App\Profession'],
             ['imagable_id','=',$user->profession_id]
+        ])->get();*/
+
+        $images = DB::table('images')->where([
+            ['imagable_type','=','App\User']
         ])->get();
 
         //return $user;
         //return $i_know_already;
         //return $knownBys;
-        return view('user.show-ajax2',compact('user','i_know_already','images','professions','engMsg','hiMsg'));
+        return view('user.show-ajax2',compact('user','i_know_already','images','engMsg','hiMsg'));
     }
 
     /**
@@ -126,15 +135,13 @@ class UserController extends Controller
         $this->validator($request->all())->validate();
         $user = User::query()->where('id', '=', $id)->first();
 
-
-            if ($user->constituency_id != $request->constituency) {
+            // ***** Very important piece of code
+            /*if ($user->constituency_id != $request->constituency) {
                 $vote = Vote::query()->where(['user_id' => Auth::id()],['votable_type' => 'App\User'])->first();
                 if(isset($vote)){
                     $vote->delete();
                 }
-            }
-
-
+            }*/
 
         $user->state_id = $request->state;
         $user->constituency_id = $request->constituency;
@@ -202,6 +209,11 @@ class UserController extends Controller
 
     public function vote(Request $request, $id){
 
+        if($id == Auth::id()){
+
+            return redirect()->back()->withErrors('You can\'t vote your own profile !');
+        }
+
         // Retrieve the current vote
         $currentOption = $request->currentOption;
 
@@ -221,18 +233,18 @@ class UserController extends Controller
 
 
 
-    public function totalMembers(){
+    /*public function totalMembers(){
 
         $usersCount = User::all()->count();
         return view('user.total-members',compact('usersCount'));
     }
+*/
 
 
-
-    public function listMembers($id){
+    public function constituencyMembers($id){
 
         //$constituency = Constituency::find($id);
-        $constituency = Constituency::where('id','=',$id)->with('members')->first();
+        $constituency = Constituency::where('id','=',$id)->first();
         //return $constituency->pc_name;
 
         //return $constituency;
@@ -240,27 +252,44 @@ class UserController extends Controller
         /*$users =  $constituency->members()->all();
         return $users;*/
 
-        $users = User::where('constituency_id','=',$id)
+        /*$users = User::where('constituency_id','=',$id)
+            ->with('votes')
+            ->withCount('knownBy')
+            ->orderBy('known_by_count','desc')->get();*/
+
+        $users = User::where([['constituency_id','=',$id],['invisible','=',0]])
             ->with('votes')
             ->withCount('knownBy')
             ->orderBy('known_by_count','desc')->get();
 
-        /*$users = User::with('votes')
-            ->withCount('knownBy')
-            ->orderBy('known_by_count','desc')->get();*/
+
+        $allUsers = User::select('id')->with('votes')->get();
 
 
         $receivedVoteUserId = null;
-        foreach($users as $user){
+        foreach($allUsers as $user){
             foreach ($user->votes as $vote){
                 if (Auth::id()==$vote->user_id){
                     $receivedVoteUserId = $user->id;
                 }
             }
         }
-        //return $users;
-        return view('user.list-members',compact('users','receivedVoteUserId','constituency'));
+
+        if($users->count()){
+            return view('user.list-members',compact('users','receivedVoteUserId','constituency'));
+        }
+        else{
+            return $this->countMembers();
+        }
+
     }
+
+    public function countMembers(){
+
+        $members = User::all()->count();
+        return view('members',compact('members'));
+    }
+
 
 
 
@@ -298,17 +327,16 @@ class UserController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-           /* 'state'=>'required',
-            'constituency' => 'required',*/
-            /*'gender' => 'required',
+            /*'state'=>'required',
+            'constituency' => 'required',
+            'gender' => 'required',
             'religion' => 'required',
-
             'marital' => 'required',
             'education' => 'required',
             'age' => 'required',
             'profession' => 'required',
-            'group' => 'required',
-            'mobile' => 'required'*/
+            'group' => 'required',*/
+            'mobile' => 'digits:10'
         ]);
     }
 
@@ -386,15 +414,34 @@ class UserController extends Controller
         return response()->json(['message'=>'You have successfully Un-liked ', 'id'=>$id, 'kbc'=>$known_by_count]);
     }
 
-    public function makeReady($id){
+   /* public function makeReady($id){
 
-        return $this->listMembers($id);
+        return $this->constituencyMembers($id);
 
-    }
+    }*/
 
     public function test(){
 
         return $users = DB::table('users')->select('name', 'email as user_email')->get();
+    }
+
+    public function settings(){
+
+        return view('user.settings');
+    }
+
+    public function hideUser(Request $request, User $user){
+
+        $user->invisible = isset($request['invisible']);
+        $user->update();
+
+        //Flash Message
+        Session::flash('message', 'Profile hidden successfully!');
+        return back();
+
+        //return $user;
+
+
     }
 
 }

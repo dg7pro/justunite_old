@@ -172,7 +172,7 @@
                     <a href="{{url('contents')}}" class="list-group-item list-group-item-action">Contents</a>
                     <a href="{{url('constituencies')}}" class="list-group-item list-group-item-action">Constituencies</a>
                     <a href="{{url('ctypes')}}" class="list-group-item list-group-item-action">C Types</a>
-                    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                    <a href="{{url('links')}}" class="list-group-item list-group-item-action">Social Media Links</a>
                     <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
                 </div>
             </div>

@@ -128,13 +128,12 @@ class StateController extends Controller
         return Validator::make($data, [
             'name2'=>'required',
             'literacy' => 'required',
-            'language' => 'required',
             'capital' => 'required',
 
-            'prank' => 'required',
+            'rank' => 'required',
             'population' => 'required',
-            'urbanp' => 'required',
-            'ruralp' => 'required',
+            'upo' => 'required',
+            'rpo' => 'required',
             'density' => 'required',
             'sex_ratio' => 'required',
 
@@ -142,7 +141,8 @@ class StateController extends Controller
             'ac' => 'required',
             'governor' => 'required',
             'cm' => 'required',
-            'wparty' => 'required'
+            'ruling_id' => 'required',
+            'opposition_id' => 'required'
         ]);
     }
 
@@ -187,11 +187,12 @@ class StateController extends Controller
 
     public function listLanguages(State $state){
 
+        $stateCount = State::all()->count();
         $active_languages = $state->languages()->pluck('id')->toArray();
 
         //return $active_parties;
         $languages = Language::all();
-        return view('state.languages',compact('languages','state','active_languages'));
+        return view('state.languages',compact('languages','state','active_languages','stateCount'));
     }
 
     public function attachLanguages(Request $request, State $state){
@@ -200,20 +201,6 @@ class StateController extends Controller
         $state->languages()->sync($languages_id);
         return redirect()->back();
         //return $request->parties_id;
-    }
-
-    public function members($id){
-
-        $members = User::all()->count();
-        $state = State::find($id);
-        return view('state.members',compact('members','state'));
-
-        /* $state = State::find($id);
-        $users = User::query()->where('state_id',$id)
-            ->has('votes')->withCount('votes')->with('votes')->orderBy('votes_count','desc')->get();
-        return view('state.users',compact('users','state'));*/
-
-
     }
 
     public function yourState(){

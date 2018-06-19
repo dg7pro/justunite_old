@@ -4,6 +4,8 @@
 
     <div class="container">
         <br><br>
+        @include('layouts.alerts.success')
+        @include('layouts.alerts.error')
         <div class="row">
             <div class="col-md-9">
                 <h2>
@@ -66,12 +68,15 @@
                             </td>
                             <td>
                                 @if(Auth::guest())
-                                    <a class="btn btn-info" href="{{ url('loginToVoteUser/'.$constituency->id) }}">Vote</a>
+                                    <a class="btn btn-info" href="{{ url('loginToContinue') }}">Vote</a>
+                                    @php
+                                        Session(['lastUrl' => Request::fullUrl()])
+                                    @endphp
                                 @else
                                     @if($user->id == $receivedVoteUserId)
                                         <button type="submit" class="btn btn-default btn-xs disabled">Voted</button>
                                     @else
-                                        <form method="post" action="{{url('users/vote/'.$user->id)}}" class="form-inline" onsubmit="{{ $receivedVoteUserId != null ? 'ConfirmVoteChange()' : ''}}">
+                                        <form method="post" action="{{url('users/vote/'.$user->id)}}" class="form-inline" onsubmit="{{ $receivedVoteUserId != null ? 'return ConfirmVoteChange()' : ''}}">
                                             {{csrf_field()}}
                                             <input name="currentOption" type="hidden" value="{{$receivedVoteUserId}}">
                                             <button type="submit" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>

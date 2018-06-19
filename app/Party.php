@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Party extends Model
 {
+    protected $fillable = ['name','abbreviation','symbol','year','headquarter','founder','president','leadership','details'];
 
     /**
      * Many to Many

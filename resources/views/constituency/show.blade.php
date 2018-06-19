@@ -11,21 +11,21 @@
                 @else
                     <b>Union Territory:</b>
                 @endif
-                    <b>{{$constituency->state->name}}</b>
+                    <b>{{$constituency->state->name2}}</b>
 
                 <b> | </b>
                 {{--1 for General, 2 for SC and 3 for General--}}
-                @if($constituency->pc_type == 2)
+                @if($constituency->ctype_id == 2)
                     Type: Reserved for SC
-                @elseif($constituency->pc_type == 3)
+                @elseif($constituency->ctype_id == 3)
                     Type: Reserved for ST
                 @else
-                    Type: Un-Categorized General Seat
+                    Type: General Seat {{--Un-Categorized--}}
                 @endif
             </b>
             </p>
             <p>
-                <a class="btn btn-outline-dark" href="{{url('constituencies/'.$constituency->id.'/members')}}" role="button">All Members &raquo;</a>
+                <a class="btn btn-outline-dark" href="{{url('constituencies/'.$constituency->id.'/members')}}" role="button">Members &raquo;</a>
             </p>
         </div>
     </div>
@@ -56,35 +56,10 @@
                 <h4 class="text-primary">Results of 2014 Elections:
                     @if(Auth::guest())
                         <!-- Button trigger modal -->
-
-                            <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                                <i class="fa fa-list" style="font-size:16px"></i> View list
-                            </button>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalCenterTitle">Login or Register</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="text-center">
-                                                <a href="{{ route('login') }}" class="btn btn-success">Login</a>
-                                                <a href="{{ route('register') }}" class="btn btn-info">Register</a>
-                                            </div>
-                                        </div>
-                                        {{--<div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>--}}
-                                    </div>
-                                </div>
-                            </div>
-
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            <i class="fa fa-list" style="font-size:16px"></i> View list
+                        </button>
+                        @include('layouts.partials.login-modal')
                     @else
                         <a href="{{url('constituencies/'.$constituency->id.'/contestants')}}" role="button" class="btn btn-sm btn-outline-warning">
                             <i class="fa fa-list" style="font-size:16px"></i> View list</a>
@@ -152,12 +127,20 @@
                     </div>
 
                 </div>
-                @if($constituency->members->count())
+                @if($memCount)
                     <br>
                     <h3>
                         Our Members
-                        <a href="{{url('constituencies/'.$constituency->id.'/list-members')}}" role="button" class="btn btn-sm btn-outline-info">
-                            <i class="fa fa-list" style="font-size:16px"></i> View list</a>
+                        @if(Auth::guest())
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                <i class="fa fa-list" style="font-size:16px"></i> View list
+                            </button>
+                            @include('layouts.partials.login-modal')
+                        @else
+                            <a href="{{url('constituencies/'.$constituency->id.'/members')}}" role="button" class="btn btn-sm btn-outline-info">
+                                <i class="fa fa-list" style="font-size:16px"></i> View list</a>
+                        @endif
                     </h3>
                     <div {{--style="height: 30vh; overflow: auto"--}}>
                         <table class="table table-striped table-bordered">
@@ -212,9 +195,12 @@
                                         </div>
                                     <td>
                                         @if(Auth::guest())
-                                            <a class="btn btn-info" href="{{ url('loginToVoteUser/'.$constituency->id) }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                            <a class="btn btn-info" href="{{ url('loginToContinue')}}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                            @php
+                                                Session(['lastUrl' => Request::fullUrl()])
+                                            @endphp
                                         @else
-                                            <a class="btn btn-info" href="{{ url('constituencies/'.$constituency->id.'/list-members') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                            <a class="btn btn-info" href="{{ url('constituencies/'.$constituency->id.'/members') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                                         @endif
                                         {{--<a href="{{url('users/'.$member->id)}}" role="button" class="btn btn-sm btn-outline-info">View</a>--}}
                                     </td>
@@ -360,5 +346,23 @@
                 type: 'red'
             });
         });
+    </script>
+
+    <script src="{{asset('js/initial.min.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.demo').initial({
+                name: 'Name', // Name of the user
+                charCount: 1, // Number of characherts to be shown in the picture.
+                textColor: '#ffffff', // Color of the text
+                seed: 1, // randomize background color
+                height: 100,
+                width: 100,
+                fontSize: 70,
+                fontWeight: 500,
+                fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+                radius: 50,
+            });
+        })
     </script>
 @endsection

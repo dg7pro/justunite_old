@@ -28,6 +28,13 @@ class RupController extends Controller
         return view('rup.index',compact('rups'));
     }
 
+    public function indexPaginate(){
+
+        $rups=Rup::paginate(10);
+        return view('rup.index-paginate', ['rups' => $rups]);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

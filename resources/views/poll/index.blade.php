@@ -5,7 +5,7 @@
         <div class="container">
             <h1 class="display-3">Problem vs Party !</h1>
             <p><b>Thousand of parties not a single problem solved in 70 years after Independence</b></p>
-            <p><a href="{{$whatsapp}}" role="button" class="btn btn-success" ><i class="fa fa-whatsapp"> Join Whatsapp</i> </a></p>
+            <p><a href="{{$whatsapp}}" role="button" class="btn btn-success" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a></p>
         </div>
     </div>
     <div class="container">

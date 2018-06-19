@@ -32,39 +32,66 @@
                 </h2>
                 {{--<img src="{{asset('images/problems/'.$problem->image)}}" alt="Over Population" width="100%">--}}
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        @foreach($images as $image)
-                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->iteration - 1 }}" class="{{ $loop->iteration == 1 ? 'active' : ''}}"></li>
-                        {{--<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>--}}
-                        @endforeach
-                    </ol>
-                    <div class="carousel-inner">
-                        @foreach($images as $image)
-                            <div class="carousel-item {{ $loop->iteration == 1 ? 'active' : ''}}">
-                               {{-- <img class="d-block w-100" src="{{asset('images/svg/'.$image->name)}}" alt="First slide">--}}
-                                <img class="d-block w-100" src="{{asset('storage/'.$image->name)}}" alt="First slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>{{$image->heading}}</h5>
-                                    <p>{{$image->caption}}</p>
+                    @if(count($images))
+                        <ol class="carousel-indicators">
+                            @foreach($images as $image)
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{ $loop->iteration - 1 }}" class="{{ $loop->iteration == 1 ? 'active' : ''}}"></li>
+                            {{--<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>--}}
+                            @endforeach
+                        </ol>
+                        <div class="carousel-inner">
+                            @foreach($images as $image)
+                                <div class="carousel-item {{ $loop->iteration == 1 ? 'active' : ''}}">
+                                   {{-- <img class="d-block w-100" src="{{asset('images/svg/'.$image->name)}}" alt="First slide">--}}
+                                    <img class="d-block w-100" src="{{asset('storage/'.$image->name)}}" alt="First slide">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>{{$image->heading}}</h5>
+                                        <p>{{$image->caption}}</p>
+                                    </div>
                                 </div>
+                            @endforeach
+                           {{-- <div class="carousel-item">
+                                <img class="d-block w-100" src="{{asset('images/svg/second.svg')}}" alt="Second slide">
                             </div>
-                        @endforeach
-                       {{-- <div class="carousel-item">
-                            <img class="d-block w-100" src="{{asset('images/svg/second.svg')}}" alt="Second slide">
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="{{asset('images/svg/third.svg')}}" alt="Third slide">
+                            </div>--}}
                         </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{asset('images/svg/third.svg')}}" alt="Third slide">
-                        </div>--}}
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    @else
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{asset('storage/default.svg')}}" alt="First slide">
+                            </div>
+                            {{-- <div class="carousel-item">
+                                 <img class="d-block w-100" src="..." alt="Second slide">
+                             </div>
+                             <div class="carousel-item">
+                                 <img class="d-block w-100" src="..." alt="Third slide">
+                             </div>--}}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    @endif
                 </div>
 
                 <br>

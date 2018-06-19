@@ -17,9 +17,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         'uuid'=> Uuid::generate()->string,
+        'invisible'=> 0,
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
+        'constituency_id' => function () {
+            return App\Constituency::inRandomOrder()->first()->id;
+        },
+
+
         /*'group_id' => rand(1,10),
         'state_id' => function () {
             // Get random state id

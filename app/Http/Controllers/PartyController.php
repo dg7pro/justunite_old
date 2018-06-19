@@ -31,6 +31,12 @@ class PartyController extends Controller
         $parties = Party::with('votes')->withCount('votes')
             ->orderBy('votes_count','desc')->get();
 
+        $national_parties = Party::with('votes')->where('ptype_id','=',1)->withCount('votes')
+            ->orderBy('votes_count','desc')->get();
+
+        $state_parties = Party::with('votes')->where('ptype_id','=',2)->withCount('votes')
+            ->orderBy('votes_count','desc')->get();
+
         $receivedVotePartyId = null;
         foreach($parties as $party){
             foreach ($party->votes as $vote){
@@ -41,7 +47,7 @@ class PartyController extends Controller
         }
 
         //return $problems;
-        return view('party.index',compact('parties','receivedVotePartyId'));
+        return view('party.index',compact('national_parties','state_parties','receivedVotePartyId'));
 
         /*$parties = Party::all();
         return view('party.index',compact('parties'));*/
@@ -103,7 +109,11 @@ class PartyController extends Controller
      */
     public function update(Request $request, Party $party)
     {
-        //
+        $this->validator($request->all())->validate();
+        $party->update($request->all());
+        //Flash Message
+        Session::flash('message', 'Party updated successfully!');
+        return back();
     }
 
     /**
@@ -115,6 +125,29 @@ class PartyController extends Controller
     public function destroy(Party $party)
     {
         //
+    }
+
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required',
+            'abbreviation' => 'required',
+            'symbol' => 'required',
+
+            'founder' => 'required',
+            'president' => 'required',
+            'leadership' => 'required',
+
+            'details' => 'required',
+
+        ]);
     }
 
     public function vote(Request $request, $id){

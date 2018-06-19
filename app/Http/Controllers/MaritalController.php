@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Marital;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class MaritalController extends Controller
 {
@@ -35,7 +37,8 @@ class MaritalController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('manage_site');
+        return view('marital.create');
     }
 
     /**
@@ -46,7 +49,21 @@ class MaritalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('manage_site');
+
+        // Validate Inputs
+        $this->validator($request->all())->validate();
+
+        // Add
+        $marital = new Marital();
+        $marital->status = $request->status;
+        $marital->save();
+
+        //Flash Message
+        Session::flash('message', 'Marital Status created successfully!');
+
+        // Redirect Back
+        return redirect('maritals');
     }
 
     /**
@@ -57,7 +74,8 @@ class MaritalController extends Controller
      */
     public function show(Marital $marital)
     {
-        //
+        $this->authorize('manage_site');
+        return view('age.show',compact('age'));
     }
 
     /**
@@ -68,7 +86,8 @@ class MaritalController extends Controller
      */
     public function edit(Marital $marital)
     {
-        //
+        $this->authorize('manage_site');
+        return view('marital.edit',compact('marital'));
     }
 
     /**
@@ -80,7 +99,20 @@ class MaritalController extends Controller
      */
     public function update(Request $request, Marital $marital)
     {
-        //
+        $this->authorize('manage_site');
+
+        // Validate Inputs
+        $this->validator($request->all())->validate();
+
+        // Update Age Group
+        $marital->status = $request->status;
+        $marital->update();
+
+        //Flash Message
+        Session::flash('message', 'Age Group updated successfully!');
+
+        // Redirect Back
+        return redirect('maritals');
     }
 
     /**
@@ -91,6 +123,19 @@ class MaritalController extends Controller
      */
     public function destroy(Marital $marital)
     {
-        //
+        $this->authorize('manage_site');
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'status' => 'required'
+        ]);
     }
 }

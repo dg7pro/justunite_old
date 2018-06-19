@@ -3,14 +3,9 @@
 @section('content')
     <div class="jumbotron color5">
         <div class="container">
-            <h1 class="display-3">{{$state->name}}</h1>
-            <p>This page shows list of all the candidates running election from parliamentary constituency. The candidate which peoples of  select will be our candidate for 2019 General Elections from </p>
-            {{--<p>
-                <a class="btn btn-outline-dark btn-lg" href="{{url('states/'.Auth::User()->state_id.'/constituencies')}}" role="button">All Members &raquo;</a>
-            </p>--}}
-            <p>
-                <a class="btn btn-outline-dark" href="{{url('states/'.$state->id.'/members')}}" role="button">All Members &raquo;</a>
-            </p>
+            <h1 class="display-3">{{$state->name2}}</h1>
+            <p><b>Information about the {{$state->name2}} is given below. Active parties in the state and loksabha constituencies are also listed</b></p>
+            <p><a class="btn btn-outline-dark" href="{{url('members')}}" role="button">All Members &raquo;</a></p>
         </div>
     </div>
     <div class="container">
@@ -34,7 +29,6 @@
                         <tr><th>Population: </th><th>{{number_format($state->population)}}</th></tr>
                         <tr><th>Language: </th><th>
                                 @foreach($state->languages as $language)
-                                   {{-- <a href="{{url('languages/'.$language->id)}}"></a>--}}
                                     {{$language->name.',   '}}
                                 @endforeach
                                 {{'etc'}}
@@ -44,14 +38,31 @@
 
                             </th></tr>
                         <tr><th>Literacy: </th><th>{{$state->literacy. '%'}}</th></tr>
-                        {{--<tr><th>Income: </th><th></th></tr>--}}
+
                         <tr><th>Lok Sabha Seats(PC): </th><th>{{$state->pc.' seats'}}</th></tr>
                         <tr><th>Vidhan Sabha Seats(AC): </th><th>{{$state->ac.' seats'}}</th></tr>
                         <tr><th>Chief Minister: </th><th>{{$state->cm}}</th></tr>
-                       {{-- <tr><th>Ruling Party: </th><th><a href="{{url('parties/'.$state->ruling->id)}}" class="text-primary">{{$state->ruling->name}}</a></th></tr>
-                        <tr><th>Opposition Party: </th><th><a href="{{url('parties/'.$state->ruling->id)}}" class="text-primary">{{$state->opposition->name}}</a></th></tr>--}}
+                        <tr>
+                            <th>Ruling Party: </th>
+                            <th>
+                                @if($state->ruling)
+                                    <a href="{{url('parties/'.$state->ruling->id)}}" class="text-primary">{{ $state->ruling->abbreviation }}</a>
+                                @else
+                                    {!! '<i>Unknown..</i>' !!}
+                                @endif
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Opposition Party: </th>
+                            <th>
+                                @if($state->opposition)
+                                    <a href="{{url('parties/'.$state->opposition->id)}}" class="text-primary">{{ $state->opposition->abbreviation }}</a>
+                                @else
+                                    {!! '<i>Unknown..</i>' !!}
+                                @endif
+                            </th>
+                        </tr>
                         <tr><th>Governor: </th><th>{{$state->governor}}</th></tr>
-                        {{--<tr><th>CEO: </th><th></th></tr>--}}
                     </tbody>
                 </table>
                 </div>
@@ -75,9 +86,6 @@
                 </div>
                 <br>
                 <br>
-
-
-
                 <br>
                 <h3>Active Parties in {{$state->name2}}
                     @can('manage_site')
@@ -105,8 +113,8 @@
                             <tr>
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td><img src="{{asset('icons/'.$party->abbreviation.'.jpg')}}"></td>
-                                <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name}}</b></a></td>
-                                <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->abbreviation}}</b></a></td>
+                                <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name or 'null'}}</b></a></td>
+                                <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->abbreviation or 'null'}}</b></a></td>
                                 @can('manage_site')
                                     <td>
                                         <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
