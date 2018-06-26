@@ -197,7 +197,9 @@
                 {{--<div class="fb-comments" data-href="http://localhost/justunite/public/problems/{{$problem->id}}" data-width="100%" data-numposts="5"></div>--}}
                 <div class="fb-comments" data-href="http://www.justunite.org/problems/{{$problem->id}}" data-width="100%" data-numposts="5"></div>
             </div>
-            @include('layouts.partials.sidemenu')
+            <div class="col-md-3">
+                @include('layouts.partials.side-menu')
+            </div>
         </div>
     </div>
     <br><br>

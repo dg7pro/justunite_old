@@ -30,8 +30,9 @@
                     </form>
             </div>
             <div class="col-md-2"></div>
-
-            @include('layouts.partials.sidemenu')
+            <div class="col-md-3">
+                @include('layouts.partials.side-menu')
+            </div>
         </div>
     </div>
 

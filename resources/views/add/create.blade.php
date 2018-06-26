@@ -71,7 +71,9 @@
                 {{-- Add Examples End--}}
                 <br>
             </div>
-            @include('layouts.partials.dashboard-menu')
+            <div class="col-md-3">
+                @include('layouts.partials.dashboard-menu')
+            </div>
         </div>
     </div>
 @endsection

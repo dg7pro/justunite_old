@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constituency;
 use App\Content;
+use App\Office;
 use App\User;
 use App\Image;
 use App\Profession;

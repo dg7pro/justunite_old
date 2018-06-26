@@ -27,11 +27,19 @@ Route::get('states/ajax/{id}','StateController@stateAjax');
 Route::get('constituencies/states/ajax/{id}','StateController@stateAjax');
 Route::get('states/states/ajax/{id}','StateController@stateAjax');
 Route::get('constituency/states/ajax/{id}','StateController@stateAjax');
+Route::get('blurbs/states/ajax/{id}','StateController@stateAjax');
+Route::get('blurbs/constituencies/states/ajax/{id}','StateController@stateAjax');
+
+
+Route::get('blurbs/constituencies/{id}','BlurbController@blurbConstituencies');
+Route::post('blurbs/attach-constituency/{blurb}','BlurbController@attachConstituency');
 
 Route::get('loginToVoteProblem','ProblemController@makeReady');
 Route::post('problems/ajax-vote/{id}','ProblemController@ajaxVote');
 Route::post('problems/vote/{id}','ProblemController@vote');
 Route::post('problems/{problem}/upload-image','ProblemController@uploadImage');
+
+Route::post('blurbs/upload-image','BlurbController@uploadImage');
 
 
 Route::get('constituencies/your-constituency','ConstituencyController@yourConstituency');
@@ -61,6 +69,10 @@ Route::post('parties/ajax-vote/{id}','PartyController@ajaxVote');
 Route::post('parties/{party}/upload-image','PartyController@uploadImage');
 
 
+Route::get('offices/{office}/create-post','OfficeController@createPost');
+Route::get('offices/{office}/remove-post','OfficeController@removePost');
+
+Route::get('offices/{office}/apply-for','OfficeController@applyFor');
 
 
 
@@ -124,7 +136,7 @@ Route::get('opinions2','OpinionController@index2');
 Route::get('test','UserController@test');
 
 
-
+Route::get('constituencies/{constituency}/office-bearers','ConstituencyController@officeBearer');
 
 
 
@@ -152,6 +164,7 @@ Route::resource('images','ImageController');
 Route::resource('languages','LanguageController');
 Route::resource('links','LinkController');
 Route::resource('maritals','MaritalController');
+Route::resource('offices','OfficeController');
 Route::resource('opinions','OpinionController');
 Route::resource('options','OptionController');
 Route::resource('parties','PartyController');
@@ -166,6 +179,7 @@ Route::resource('states','StateController');
 Route::resource('stypes','StypeController');
 Route::resource('tags','TagController');
 Route::resource('users','UserController');
+Route::resource('blurbs','BlurbController');
 
 
 /*Route::get('slider-image-crop', 'ImageController@sliderImageCrop');

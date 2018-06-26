@@ -167,7 +167,9 @@
                 {{--<p><a href="{{url('problems/voting')}}" role="button" class="btn btn-outline-dark" >Most Serious Problem &raquo;</a></p>
                 <br>--}}
             </div>
-            @include('layouts.partials.sidemenu')
+            <div class="col-md-3">
+                @include('layouts.partials.side-menu')
+            </div>
         </div>
     </div>
     <br><br>

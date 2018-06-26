@@ -300,10 +300,11 @@
                 </div>
                 <br>
                 <br>
-                <br>
             </div>
-
-            @include('layouts.partials.sidemenu')
+            <div class="col-md-3">
+                @include('layouts.partials.side-menu')
+                @include('layouts.partials.side-add')
+            </div>
         </div>
     </div>
 @endsection

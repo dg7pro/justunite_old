@@ -244,8 +244,9 @@
                 <br><br>
                 <div class="fb-comments" data-href="http://www.justunite.org/parties/1" data-width="100%" data-numposts="5"></div>
             </div>
-
-            @include('layouts.partials.sidemenu')
+            <div class="col-md-3">
+                @include('layouts.partials.side-menu')
+            </div>
         </div>
     </div>
 @endsection

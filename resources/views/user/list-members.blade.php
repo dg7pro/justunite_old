@@ -10,7 +10,7 @@
             <div class="col-md-9">
                 <h2>
                     List of {{$constituency->pc_name}} Members
-                    <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"> Join Whatsapp</i> </a>
+                    <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
                 </h2>
 
                 <table class="table">
@@ -95,7 +95,9 @@
                 {{--{{ $users->links('vendor.pagination.bootstrap-4') }}--}}
 
             </div>
-            @include('layouts.partials.sidemenu')
+            <div class="col-md-3">
+                @include('layouts.partials.side-menu')
+            </div>
         </div>
     </div>
     <br><br>

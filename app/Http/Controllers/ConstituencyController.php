@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contestant;
+use App\Office;
 use App\User;
 use App\State;
 use App\Constituency;
@@ -196,6 +197,15 @@ class ConstituencyController extends Controller
         //$constituency = $constituency->with('contestants.gender')->get();
 
         return view('constituency.contestants',compact('constituency','contestants'));
+    }
+
+    public function officeBearer($id){
+
+        $constituency = Constituency::query()->where('id','=',$id)->with('filled','vacant')->first();
+
+        //return $constituency;
+        return view('constituency.office-bearer',compact('constituency'));
+
     }
 
 
