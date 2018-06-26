@@ -46,25 +46,25 @@
             </li>
             <li class="css-tab__item">
                 <a href="" class="css-tab__link">
-                    <div class="css-tab__thumb color2" data-letter="C"></div>
+                    <div class="css-tab__thumb color2" data-letter="P"></div>
                     <p class="css-tab__label">Problems</p>
                 </a>
             </li>
             <li class="css-tab__item">
                 <a href="" class="css-tab__link">
-                    <div class="css-tab__thumb color3" data-letter="J"></div>
+                    <div class="css-tab__thumb color3" data-letter="C"></div>
                     <p class="css-tab__label">Constituency</p>
                 </a>
             </li>
             <li class="css-tab__item">
                 <a href="" class="css-tab__link">
-                    <div class="css-tab__thumb color4" data-letter="H"></div>
+                    <div class="css-tab__thumb color4" data-letter="D"></div>
                     <p class="css-tab__label">Parties</p>
                 </a>
             </li>
             <li class="css-tab__item">
                 <a href="" class="css-tab__link">
-                    <div class="css-tab__thumb color5" data-letter="B"></div>
+                    <div class="css-tab__thumb color5" data-letter="S"></div>
                     <p class="css-tab__label">States</p>
                 </a>
             </li>
@@ -99,11 +99,9 @@
         <section class="section color2" data-letter="s">
             <article class="section__wrapper">
                 <h1 class="section__title">Problems</h1>
-                <p>70 years, 543 parliament members, 1048 legislative assembly members and more than 1000 Political Parties,
-                    but still unable to solve 27 problems. Hope this time we chose Prime minister who can solve all these problems</p>
+                <p>71 years, of Independence, more than 2000 national and regional Political Parties, but still unable to
+                    solve these 27 major problems. Hope this time we chose Prime minister who can solve all these problems</p>
                 <p>
-                    {{--<a href="#two" role="button" class="btn btn-outline-warning">Read More..</a>--}}
-                   {{-- <a href="#" role="button" class="btn btn-outline-light">Your Constituency</a>--}}
                     <a href="{{url('problems')}}" role="button" class="btn btn-outline-light">Problems / समस्याएं</a>
                 </p>
             </article>

@@ -12,7 +12,7 @@
     <div class="jumbotron color2">
         <div class="container">
             <h1 class="display-3">{{$problem->title}}</h1>
-            <p><b>Don't vote for leader who can't solve these 27 problems </b></p>
+            <p><b>Do not vote for the leader who cannot solve these listed 27 problems</b></p>
             {{--<p><a href="#" role="button" class="btn btn-outline-warning" >Learn more &raquo;</a></p>--}}
             <p><a href="{{url('problems')}}" role="button" class="btn btn-outline-dark" >Most Serious Problem &raquo;</a></p>
         </div>

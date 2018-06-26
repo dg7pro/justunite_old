@@ -28,7 +28,12 @@
             <div class="col-md-7">
                 <h2 class="text-primary">
                     Registered Unrecognized Parties
+                    <a href="{{url('rups')}}" role="button" class="btn btn-sm btn-outline-info" ><i class="fa fa-sort-alpha-asc"></i> Scroll</a>
                 </h2>
+
+                {{--<br>
+                {{ $rups->links('vendor.pagination.bootstrap-4') }}
+                <br>--}}
 
                 <div class="wrapper">
                     <!-- results appear here -->

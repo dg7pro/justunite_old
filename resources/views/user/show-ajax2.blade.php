@@ -68,9 +68,9 @@
                 {{--<h4 class="text-center text-primary">Everyone of us can become a leader!</h4>
                 <hr>--}}
                 <div>
-                    <h4 class="text-primary">Inspiration:</h4>
+                    <h4 class="text-primary">{{$hiMsg->title or ''}}</h4>
                     <div>
-                        <b>{!! $engMsg->matter or '' !!}</b>
+                        {!! $hiMsg->matter or '' !!}
                         {{--<b>
                             Spread the awareness - that whichever political party we may be supporter off, we will not going
                             to vote for them in 2019 general election unless our favorite party give a satisfactory and
@@ -95,8 +95,8 @@
                     <div class="collapse" id="hiMsg">
                         <div>
                             <br>
-                            <h4 class="text-primary">{{$hiMsg->title or null}}</h4>
-                            {!! $hiMsg->matter or null !!}
+                            <h4 class="text-primary">{{$engMsg->title or ''}}</h4>
+                            {!! $engMsg->matter or '' !!}
 
                         </div>
                     </div>

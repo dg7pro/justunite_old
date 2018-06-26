@@ -33,6 +33,7 @@
             <div class="col-md-7">
                 <h2 class="text-primary">
                     Registered Unrecognized Parties
+                    <a href="{{url('rups-paginate')}}" role="button" class="btn btn-sm btn-outline-info" ><i class="fa fa-file-text"></i> Paginate</a>
                 </h2>
 
                 {{--<table class="table table-striped table-bordered">

@@ -10,8 +10,8 @@
     <a href="{{url('constituencies')}}" class="list-group-item list-group-item-action">Constituencies
         <span class="badge badge-success badge-pill">543</span>
     </a>
-    <a href="{{url('groups')}}" class="list-group-item list-group-item-action">Groups
-        <span class="badge badge-danger badge-pill">10</span>
+    <a href="{{url('parties')}}" class="list-group-item list-group-item-action">Parties
+        <span class="badge badge-danger badge-pill">2K plus</span>
     </a>
     <a href="{{url('problems')}}" class="list-group-item list-group-item-action disabled">Problems
         <span class="badge badge-info badge-pill">27</span>
