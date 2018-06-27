@@ -199,8 +199,10 @@
                                 <div class="alert alert-success" role="alert">
                                     <h4 class="alert-heading">{{$user->add->heading}}
                                         <a role="button" href="{{url('adds/'.$user->add->id.'/edit')}}" class="btn btn-info btn-sm">Edit</a>
-                                    </h4><br>
+                                    </h4>
+                                    <br>
                                     <p><b>{{$user->add->matter or 'Null'}}</b></p>
+                                    <p><b>{{'~'.Auth::user()->name}}</b></p>
                                     <hr>
                                     <p class="mb-0"><b>Email: {{$user->email or 'Not given'}} | Contact: {{$user->mobile or 'Not given'}} | Location: {{$user->constituency->pc_name or 'Not given'}}</b></p>
                                 </div>
@@ -213,6 +215,7 @@
                                 <h4 class="alert-heading">{{$user->add->heading}}</h4>
                                 <br>
                                 <p><b>{{$user->add->matter}}</b></p>
+                                <p><b>{{'~'.Auth::user()->name}}</b></p>
                                 <hr>
                                 <p class="mb-0"><b>Email: {{$user->email or 'Not given'}} | Contact: {{$user->mobile or 'Not given'}} | Location: {{$user->constituency->pc_name or 'Not given'}}</b></p>
                             </div>

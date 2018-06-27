@@ -18,15 +18,11 @@ class MaritalsTableSeeder extends Seeder
         }
 
         App\Marital::query()->create([
-            'status'=>'unmarried'
+            'status'=>'Married'
         ]);
 
         App\Marital::query()->create([
-            'status'=>'married'
-        ]);
-
-        App\Marital::query()->create([
-            'status'=>'In Relationship'
+            'status'=>'Unmarried'
         ]);
     }
 }

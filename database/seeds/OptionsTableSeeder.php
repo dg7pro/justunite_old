@@ -31,12 +31,7 @@ class OptionsTableSeeder extends Seeder
 
         App\Option::query()->create([
             'poll_id'=>App\Poll::find(1)->id,
-            'answer'=>'Arvind Kejriwal'
-        ]);
-
-        App\Option::query()->create([
-            'poll_id'=>App\Poll::find(1)->id,
-            'answer'=>'Someone else'
+            'answer'=>'Want to see someone else'
         ]);
 
         App\Option::query()->create([

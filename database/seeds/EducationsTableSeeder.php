@@ -18,6 +18,10 @@ class EducationsTableSeeder extends Seeder
         }
 
         App\Education::query()->create([
+            'level'=>'Below High School'
+        ]);
+
+        App\Education::query()->create([
             'level'=>'High School'
         ]);
 

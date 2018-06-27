@@ -17,14 +17,14 @@ class GroupsTableSeeder extends Seeder
         }
 
         App\Group::query()->create([
-            'name'=>'Just Member', // Simple Members
+            'name'=>'Simple Member', // Simple Members
             'description'=>'Commoners are general public who like our Initiative. 
             They are not active members but a just common supporters',
             'votes'=>1
         ]);
 
         App\Group::query()->create([
-            'name'=>'Volunteers', // Volunteers
+            'name'=>'Volunteer', // Volunteers
             'description'=>'Member who volunteer for our common cause that is to unite Indians, this is the first level 
             of leadership. All great leaders of world had once started their journey as Volunteer. Indian citizen 
             below 25 years (both men and women) can Volunteer for us',
@@ -32,6 +32,14 @@ class GroupsTableSeeder extends Seeder
         ]);
 
         App\Group::query()->create([
+            'name'=>'Position Holder', // Volunteers
+            'description'=>'Member who volunteer for our common cause that is to unite Indians, this is the first level 
+            of leadership. All great leaders of world had once started their journey as Volunteer. Indian citizen 
+            below 25 years (both men and women) can Volunteer for us',
+            'votes'=>2
+        ]);
+
+        /*App\Group::query()->create([
             'name'=>'Women Wing', // Women Wing
             'description'=>'Women\'s are the another half of us, without whom world is not possible. 
             Indian Women above 18 can join this group',
@@ -78,7 +86,7 @@ class GroupsTableSeeder extends Seeder
             'name'=>'President', // President
             'description'=>'President selected by all members of Just Unite',
             'votes'=>7
-        ]);
+        ]);*/
 
     }
 }

@@ -15,17 +15,20 @@ class DatabaseSeeder extends Seeder
         //disable foreign key check for this connection before running seeders
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        //$this->call(GroupsTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
+        // Constant - Not affected by re-seeding
+        $this->call(GroupsTableSeeder::class);
 
-        /*$this->call(PollsTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(PollsTableSeeder::class);
         $this->call(OptionsTableSeeder::class);
 
+        // Constant - Semi-affected by re-seeding
         $this->call(RolesTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
         $this->call(RoleUserTableSeeder::class);
         $this->call(PermissionRoleTableSeeder::class);
 
+        // Constant - Not affected by re-seeding
         $this->call(GendersTableSeeder::class);
         $this->call(ReligionsTableSeeder::class);
         $this->call(MaritalsTableSeeder::class);
@@ -36,11 +39,12 @@ class DatabaseSeeder extends Seeder
         $this->call(LinksTableSeeder::class);
         $this->call(ProblemsTableSeeder::class);
 
+        // Constant - Not affected by re-seeding
         $this->call(CtypesTableSeeder::class);
         $this->call(StypesTableSeeder::class);
         $this->call(PtypesTableSeeder::class);
 
-        $this->call(VotesTableSeeder::class);*/
+        $this->call(VotesTableSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 

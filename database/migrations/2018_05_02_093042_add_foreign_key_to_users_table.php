@@ -15,17 +15,17 @@ class AddForeignKeyToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->integer('age_id')->unsigned()->nullable();
-            $table->integer('gender_id')->unsigned()->nullable();
-            $table->integer('religion_id')->unsigned()->nullable();
-            $table->integer('marital_id')->unsigned()->nullable();
-            $table->integer('education_id')->unsigned()->nullable();
-            $table->integer('profession_id')->unsigned()->nullable();
+            $table->integer('age_id')->unsigned()->nullable()->after('remember_token');
+            $table->integer('gender_id')->unsigned()->nullable()->after('age_id');
+            $table->integer('religion_id')->unsigned()->nullable()->after('gender_id');
+            $table->integer('marital_id')->unsigned()->nullable()->after('religion_id');
+            $table->integer('education_id')->unsigned()->nullable()->after('marital_id');
+            $table->integer('profession_id')->unsigned()->nullable()->after('education_id');
 
-            $table->integer('group_id')->unsigned()->nullable();
-            $table->smallInteger('credits')->default(0); // No of votes which user can give.
-            $table->integer('state_id')->unsigned()->nullable();
-            $table->integer('constituency_id')->unsigned()->nullable();
+            $table->integer('group_id')->unsigned()->nullable()->after('profession_id');
+            $table->smallInteger('credits')->default(0)->after('group_id'); // No of votes which user can give.
+            $table->integer('state_id')->unsigned()->nullable()->after('credits');
+            $table->integer('constituency_id')->unsigned()->nullable()->after('state_id');
 
             $table->foreign('gender_id')->references('id')->on('genders');
             $table->foreign('age_id')->references('id')->on('ages');
@@ -37,8 +37,6 @@ class AddForeignKeyToUsersTable extends Migration
             $table->foreign('group_id')->references('id')->on('groups');
             $table->foreign('state_id')->references('id')->on('states');
             $table->foreign('constituency_id')->references('id')->on('constituencies');
-
-
 
         });
     }

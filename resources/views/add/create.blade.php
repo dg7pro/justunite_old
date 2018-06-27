@@ -13,6 +13,10 @@
                 <form method="POST" action="{{url('adds')}}">
                     {{ csrf_field() }}
 
+                    <div class="form-group">
+                        <label for="heading">Heading:</label>
+                        <input type="text" name="heading" id="heading"  class="form-control">
+                    </div>
 
                     <div class="form-group">
                         <label for="course">Opinion/Views: maxlength=500</label>

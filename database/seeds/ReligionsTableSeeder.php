@@ -26,8 +26,30 @@ class ReligionsTableSeeder extends Seeder
         ]);
 
         App\Religion::query()->create([
-            'name'=>'Sikhs'
+            'name'=>'Christan'
         ]);
+
+        App\Religion::query()->create([
+            'name'=>'Sikh'
+        ]);
+
+        App\Religion::query()->create([
+            'name'=>'Buddhist'
+        ]);
+
+        App\Religion::query()->create([
+            'name'=>'Jain'
+        ]);
+
+        App\Religion::query()->create([
+            'name'=>'Parsi'
+        ]);
+
+        App\Religion::query()->create([
+            'name'=>'Atheist'
+        ]);
+
+
 
     }
 }

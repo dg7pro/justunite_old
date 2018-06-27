@@ -22,16 +22,14 @@ class UsersTableSeeder extends Seeder
             'uuid'=> '8b127f10-f20a-11e7-9ee2-e1f2f243742a',
             'name'=>'Dhananjay Gupta',
             'email'=>'dg7projects@gmail.com',
-            'password'=>bcrypt('Venus*27'),
-            //'remember_token' => str_random(10),
+            'password'=>bcrypt('Venus*27')
         ]);
 
         App\User::query()->create([
             'uuid'=> '8b127f10-f20a-11e7-9ee2-e1f2f243742e',
             'name'=>'Kusum Rai',
             'email'=>'kusumrai@gmail.com',
-            'password'=>bcrypt('Venus*27'),
-            //'remember_token' => str_random(10),
+            'password'=>bcrypt('Venus*27')
         ]);
 
         // Correct method 1st
@@ -50,6 +48,6 @@ class UsersTableSeeder extends Seeder
             'remember_token' => str_random(10),
         ]);*/
 
-        factory('App\User',2000)->create();
+        factory('App\User',2125)->create();
     }
 }

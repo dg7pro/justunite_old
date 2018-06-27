@@ -57,6 +57,7 @@ class AddController extends Controller
         // Add New Course
         $add = new Add();
         $add->user_id = Auth()->id();
+        $add->heading = $request->heading;
         $add->matter = $request->matter;
         $add->active = isset($request['active']);
         $add->save();

@@ -61,7 +61,7 @@ class ProblemsTableSeeder extends Seeder
         ]);
 
         App\Problem::query()->create([
-            'title'=>'Cruelty against Animals',
+            'title'=>'Crime & Violence',
             'notes'=>'Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
             Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, 
             when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
@@ -72,7 +72,7 @@ class ProblemsTableSeeder extends Seeder
         ]);
 
         App\Problem::query()->create([
-            'title'=>'Declining Sex ratio',
+            'title'=>'Cruelty against Animals',
             'notes'=>'Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
             Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, 
             when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
@@ -105,7 +105,18 @@ class ProblemsTableSeeder extends Seeder
         ]);
 
         App\Problem::query()->create([
-            'title'=>'Domestic Violence',
+            'title'=>'Domestic Violence and Tension',
+            'notes'=>'Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+            Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, 
+            when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+            It has survived not only five centuries, but also the leap into electronic typesetting, 
+            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset 
+            sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like 
+            Aldus PageMaker including versions of Lorem Ipsum.'
+        ]);
+
+        App\Problem::query()->create([
+            'title'=>'Economic Growth and Industrialization',
             'notes'=>'Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
             Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, 
             when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
@@ -282,17 +293,6 @@ class ProblemsTableSeeder extends Seeder
 
         App\Problem::query()->create([
             'title'=>'Roads and Road Accidents',
-            'notes'=>'Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-            It has survived not only five centuries, but also the leap into electronic typesetting, 
-            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset 
-            sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like 
-            Aldus PageMaker including versions of Lorem Ipsum.'
-        ]);
-
-        App\Problem::query()->create([
-            'title'=>'Tibetan Refugee Problem',
             'notes'=>'Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
             Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, 
             when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
