@@ -18,7 +18,7 @@ class CreatePartiesTable extends Migration
             $table->string('name');
             $table->string('abbreviation');
             $table->string('symbol');
-            $table->date('year');
+            $table->integer('year')->unsigned();
             $table->text('founder');
             $table->string('president');
             $table->text('leadership');
