@@ -68,7 +68,7 @@
                 {{--<h4 class="text-center text-primary">Everyone of us can become a leader!</h4>
                 <hr>--}}
                 <div>
-                    <h4 class="text-primary">{{$hiMsg->title or ''}}</h4>
+                    <h4 class="text-primary">{!! $hiMsg->title or '' !!}</h4>
                     <div>
                         {!! $hiMsg->matter or '' !!}
                         {{--<b>
@@ -88,14 +88,14 @@
                         <i class="fa fa-comments fa-2x text-danger" aria-hidden="true"></i>{{" . "}}
                     </a>
 
-                    <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <a data-toggle="collapse" href="#whatElse" role="button" aria-expanded="false" aria-controls="collapseExample">
                         <i class="fa fa-map-signs fa-2x text-success" aria-hidden="true"></i>
                     </a>
                     <br>
                     <div class="collapse" id="hiMsg">
                         <div>
                             <br>
-                            <h4 class="text-primary">{{$engMsg->title or ''}}</h4>
+                            <h4 class="text-primary">{!! $engMsg->title or '' !!}</h4>
                             {!! $engMsg->matter or '' !!}
 
                         </div>
@@ -105,7 +105,7 @@
                             <br>
                             <h4 class="text-primary">{{$user->name.' writes'}}</h4>
                             @if(Auth::guest())
-                                <b>{{ (!empty($user->opinion->matter) and $user->opinion->active == 1) ? $user->opinion->matter : 'No Comments from this User' }} </b>
+                                <b>{!! (!empty($user->opinion->matter) and $user->opinion->active == 1) ? $user->opinion->matter : 'No Comments from this User' !!} </b>
                             @else
                                 @if($user->id == Auth::user()->id )
                                     @if(empty($user->opinion->matter))
@@ -115,23 +115,29 @@
                                             Write
                                         </a>
                                     @else
-                                        <b>{{$user->opinion->active == 1 ? $user->opinion->matter : 'Make comment active to publish'  }} </b>
+                                        <b>{!! $user->opinion->active == 1 ? $user->opinion->matter : 'Make comment active to publish' !!} </b>
                                         <a href="{{url('opinions/'.$user->opinion->id.'/edit')}}" role="button" class="btn btn-sm btn-info">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                             Edit
                                         </a>
                                     @endif
                                 @else
-                                    <b>{{ (!empty($user->opinion->matter) and $user->opinion->active == 1) ? $user->opinion->matter : 'No Comments from this User'  }}</b>
+                                    <b>{!! (!empty($user->opinion->matter) and $user->opinion->active == 1) ? $user->opinion->matter : 'No Comments from this User' !!}</b>
                                 @endif
                             @endif
                         </div>
                     </div>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="whatElse">
                         <div>
-                            <b>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-                                sapiente ea proident.
+                            <br>
+                            <h4 class="text-primary">What Else?</h4>
+                            <b>What else you can do on this website? This website has built in election game.
+                                Suppose you stand in 2019 Elections, within 3 months this website will tell you how much vote you will get.
+                                For more info please read Frequently Asked Questions
+                                <a href="{{url('faqs')}}" role="button" class="btn btn-sm btn-info">
+                                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                    FAQ
+                                </a>
                             </b>
                         </div>
                     </div>
@@ -197,12 +203,12 @@
                     @if( Auth::check() and $user->id == Auth::user()->id )
                             @if(!empty($user->add->matter) and $user->add->active == 1)
                                 <div class="alert alert-success" role="alert">
-                                    <h4 class="alert-heading">{{$user->add->heading}}
+                                    <h4 class="alert-heading">{!! $user->add->heading or 'Not given' !!}
                                         <a role="button" href="{{url('adds/'.$user->add->id.'/edit')}}" class="btn btn-info btn-sm">Edit</a>
                                     </h4>
                                     <br>
-                                    <p><b>{{$user->add->matter or 'Null'}}</b></p>
-                                    <p><b>{{'~'.Auth::user()->name}}</b></p>
+                                    <p><b>{!! $user->add->matter or 'Null' !!}</b></p>
+                                    <p><b>{{'~'.$user->name}}</b></p>
                                     <hr>
                                     <p class="mb-0"><b>Email: {{$user->email or 'Not given'}} | Contact: {{$user->mobile or 'Not given'}} | Location: {{$user->constituency->pc_name or 'Not given'}}</b></p>
                                 </div>
@@ -212,10 +218,10 @@
                     @else
                         @if(!empty($user->add->matter) and $user->add->active == 1)
                             <div class="alert alert-success" role="alert">
-                                <h4 class="alert-heading">{{$user->add->heading}}</h4>
+                                <h4 class="alert-heading">{!! $user->add->heading or 'Not given' !!}</h4>
                                 <br>
-                                <p><b>{{$user->add->matter}}</b></p>
-                                <p><b>{{'~'.Auth::user()->name}}</b></p>
+                                <p><b>{!! $user->add->matter or 'Null' !!}</b></p>
+                                <p><b>{{'~'.$user->name}}</b></p>
                                 <hr>
                                 <p class="mb-0"><b>Email: {{$user->email or 'Not given'}} | Contact: {{$user->mobile or 'Not given'}} | Location: {{$user->constituency->pc_name or 'Not given'}}</b></p>
                             </div>
@@ -469,11 +475,11 @@
                 });
                 jQuery.ajax({
 
-                    beforeSend: function(){
-                        /*if(confirm("Are you sure you want to submit the value ?"))
+                    /*beforeSend: function(){
+                        /!*if(confirm("Are you sure you want to submit the value ?"))
                             return true;
                         else
-                            return false;*/
+                            return false;*!/
                         jQuery.confirm({
                             title: 'Congratulations!',
                             content: 'Are you sure?',
@@ -487,9 +493,7 @@
                                 }
                             }
                         });
-
-
-                    },
+                    },*/
                     url: "{{ url('/users/like') }}",
                     method: 'post',
                     data: {
@@ -508,18 +512,18 @@
                         //jQuery('#ajaxLike').replaceWith("<button class=\"btn btn-info\" id=\"ajaxLike\" disabled=\"disabled\"><i class=\"fa fa-thumbs-up\" style=\"font-size:16px\"></i> You Liked</button>");
                         jQuery('#ajaxLike').replaceWith('<button class="btn btn-info" id="ajaxLike" disabled="disabled"><i class="fa fa-thumbs-up" style="font-size:16px"></i> You Liked</button>');
 
-                        jQuery.confirm({
+                        $.alert({
                             title: 'Congratulations!',
                             content: result.message,
-                            type: 'green',
-                            buttons: {
+                            type: 'green'
+                            /*buttons: {
                                 omg: {
                                     text: 'Thank you!',
                                     btnClass: 'btn-green'
                                 },
                                 close: function () {
                                 }
-                            }
+                            }*/
                         });
 
                     }

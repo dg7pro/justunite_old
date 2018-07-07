@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index','faq','privacyPolicy');
+        $this->middleware('auth')->except('index','faq','privacyPolicy','loksabhaElection2019','loksabhaElection');
     }
 
     /**
@@ -89,6 +89,37 @@ class HomeController extends Controller
         return back();
 
     }
+
+    public function loksabhaElection2019(){
+
+        //$contents = Content::query()->where('page','=','electionpage')->orderBy('id','desc')->get();
+        $hiContent = Content::query()->where([
+            ['page','=','electionpage'],
+            ['slug','=','hindi']
+        ])->first();
+
+        $engContent = Content::query()->where([
+            ['page','=','electionpage'],
+            ['slug','=','english']
+        ])->first();
+        return view('election-2019',compact('hiContent','engContent'));
+    }
+
+    public function loksabhaElection(){
+
+        //$contents = Content::query()->where('page','=','electionpage')->orderBy('id','desc')->get();
+        $hiContent = Content::query()->where([
+            ['page','=','electionpage'],
+            ['slug','=','hindi']
+        ])->first();
+
+        $engContent = Content::query()->where([
+            ['page','=','electionpage'],
+            ['slug','=','english']
+        ])->first();
+        return view('election',compact('hiContent','engContent'));
+    }
+
 
 
 

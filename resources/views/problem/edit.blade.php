@@ -54,7 +54,7 @@
 
 @section('extra-js')
     <script>
-        CKEDITOR.replace( 'notes-content');
+        //CKEDITOR.replace( 'notes-content');
 
         function ConfirmDelete(){
 

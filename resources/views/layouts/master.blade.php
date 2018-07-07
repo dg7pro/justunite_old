@@ -237,6 +237,9 @@
         .color6 {
             background: #dfb816;
         }
+        .color7 {
+            background: #40a3d3;
+        }
         .logo {
             position: fixed;
             top: 100px;
@@ -280,10 +283,15 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-
+<script>
+    $('#track-1').tooltip();
+    $('#track-2').tooltip();
+    $('#track-3').tooltip();
+</script>
 <script src="//cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
 <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5ad17dfabc190a0013e2a6dd&product=inline-share-buttons' async='async'></script>
 @yield('extra-js')
+@yield('some-more-js')
 
 
 

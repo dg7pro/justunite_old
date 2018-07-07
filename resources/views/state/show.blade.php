@@ -112,7 +112,7 @@
                             {{-- <tr style="background-color: #0d3625">--}}
                             <tr>
                                 <th scope="row">{{$loop->iteration}}</th>
-                                <td><img src="{{asset('icons/'.$party->abbreviation.'.jpg')}}"></td>
+                                <td><img src="{{asset('icons/'.strtolower($party->abbreviation).'.jpg')}}"></td>
                                 <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->name or 'null'}}</b></a></td>
                                 <td><a href="{{url('parties/'.$party->id)}}"><b class="text-primary">{{$party->abbreviation or 'null'}}</b></a></td>
                                 @can('manage_site')
@@ -163,36 +163,7 @@
 
                 <br>
                 <br>
-                <div class="alert alert-info" role="alert">
-                    <h4 class="alert-heading">Track your CONSTITUENCY:</h4>
-                    <br>
-                    <form method="POST" action="{{url('constituency/track')}}">
-                        {{ csrf_field() }}
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <div class="input-group">
-                                    <select name="state" id="state" class="form-control">
-                                        <option value="">Select State...</option>
-                                        @foreach($states as $state)
-                                            <option value="{{$state->id}}">{{$state->name2}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group">
-
-                                    <select id="constituency" name="constituency" class="form-control">
-                                        <option value="">Select State first...</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-primary">Go to your Constituency</button>
-                    </form>
-                </div>
+                @include('layouts.partials.track')
                 <br>
                 <br>
 

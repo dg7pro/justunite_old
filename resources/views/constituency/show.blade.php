@@ -33,6 +33,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9 col-md-offset-2">
+                @include('layouts.partials.login-modal')
                 <h2>
                     {{$constituency->pc_name}}
                     @can('manage_site')
@@ -54,16 +55,17 @@
                 </div>
                 <br>
                 <h4 class="text-primary">Results of 2014 Elections:
-                    @if(Auth::guest())
+                    <a href="{{url('constituencies/'.$constituency->id.'/contestants')}}" role="button" class="btn btn-sm btn-outline-warning">
+                        <i class="fa fa-list" style="font-size:16px"></i> View list</a>
+                   {{-- @if(Auth::guest())
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fa fa-list" style="font-size:16px"></i> View list
                         </button>
-                        @include('layouts.partials.login-modal')
                     @else
                         <a href="{{url('constituencies/'.$constituency->id.'/contestants')}}" role="button" class="btn btn-sm btn-outline-warning">
                             <i class="fa fa-list" style="font-size:16px"></i> View list</a>
-                    @endif
+                    @endif--}}
                 </h4>
                 <table class="table table-bordered table-condensed">
                     <thead class="thead-light">
@@ -88,7 +90,7 @@
                                 <th scope="row">{{$contestant->name or 'null'}}</th>
                                 <th scope="row">{{$contestant->gender->name or 'null'}}</th>
                                 <th scope="row">{{$contestant->party or 'null'}}</th>
-                                <th scope="row">{{$contestant->votes or 'null'}}</th>
+                                <th scope="row">{{number_format($contestant->votes)}}</th>
                             </tr>
                         @endforeach
                     </tbody>
@@ -127,22 +129,29 @@
                     </div>
 
                 </div>
+
+                {{--**********************************************************
+
+                Commented for time being It is list of members in constituency
+
+                ***********************************************************--}}
                 @if($memCount)
-                    <br>
+                    {{--<br>
                     <h3>
                         Our Members
-                        @if(Auth::guest())
+                        <a href="{{url('constituencies/'.$constituency->id.'/members')}}" role="button" class="btn btn-sm btn-outline-info">
+                            <i class="fa fa-list" style="font-size:16px"></i> View list</a>
+                        --}}{{--@if(Auth::guest())
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
                                 <i class="fa fa-list" style="font-size:16px"></i> View list
                             </button>
-                            @include('layouts.partials.login-modal')
                         @else
                             <a href="{{url('constituencies/'.$constituency->id.'/members')}}" role="button" class="btn btn-sm btn-outline-info">
                                 <i class="fa fa-list" style="font-size:16px"></i> View list</a>
-                        @endif
+                        @endif--}}{{--
                     </h3>
-                    <div {{--style="height: 30vh; overflow: auto"--}}>
+                    <div --}}{{--style="height: 30vh; overflow: auto"--}}{{-->
                         <table class="table table-striped table-bordered">
                             <thead class="thead-light">
                             <tr>
@@ -188,7 +197,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        {{--<button type="button" class="btn btn-primary">Save changes</button>--}}
+                                                        --}}{{--<button type="button" class="btn btn-primary">Save changes</button>--}}{{--
                                                     </div>
                                                 </div>
                                             </div>
@@ -202,7 +211,7 @@
                                         @else
                                             <a class="btn btn-info" href="{{ url('constituencies/'.$constituency->id.'/members') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                                         @endif
-                                        {{--<a href="{{url('users/'.$member->id)}}" role="button" class="btn btn-sm btn-outline-info">View</a>--}}
+                                        --}}{{--<a href="{{url('users/'.$member->id)}}" role="button" class="btn btn-sm btn-outline-info">View</a>--}}{{--
                                     </td>
 
                                 </tr>
@@ -210,8 +219,14 @@
                             </tbody>
                         </table>
                     </div>
-                    <br>
+                    <br>--}}
                 @endif
+
+                {{--**********************************************************
+
+                Commented for time being It is list of members in constituency
+
+                ************************************************************--}}
 
                 {{--<h4 class="text-primary">JU {{$constituency->pc_name}} Leadership:</h4>
                 <div --}}{{--style="height: 30vh; overflow: auto"--}}{{-->
@@ -268,36 +283,7 @@
                 <br>
                 <br>
                 <br>
-                <div class="alert alert-info" role="alert">
-                    <h4 class="alert-heading">Track your CONSTITUENCY:</h4>
-                    <br>
-                    <form method="POST" action="{{url('constituency/track')}}">
-                        {{ csrf_field() }}
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <div class="input-group">
-                                    <select name="state" id="state" class="form-control">
-                                        <option value="">Select State...</option>
-                                        @foreach($states as $state)
-                                            <option value="{{$state->id}}">{{$state->name2}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group">
-
-                                    <select id="constituency" name="constituency" class="form-control">
-                                        <option value="">Select State first...</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-primary">Go to your Constituency</button>
-                    </form>
-                </div>
+                @include('layouts.partials.track')
                 <br>
                 <br>
             </div>

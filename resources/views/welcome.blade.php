@@ -80,6 +80,10 @@
         </a>
     </nav>
 
+    @php
+        $tooltipMsg = '<em>To know more</em> <u>enter</u> <b>WEBSITE</b>';
+    @endphp
+
     <div class="tab-content">
         <section class="section section--active color1" data-letter="a">
             <article class="section__wrapper">
@@ -102,7 +106,8 @@
                 <p>71 years, of Independence, more than 2000 national and regional Political Parties, but still unable to
                     solve these 27 major problems. Hope this time we chose Prime minister who can solve all these problems</p>
                 <p>
-                    <a href="{{url('problems')}}" role="button" class="btn btn-outline-light">Problems / समस्याएं</a>
+                    <a href="{{url('problems')}}" role="button" class="btn btn-outline-light" data-toggle="tooltip"
+                       data-html="true" title="{{$tooltipMsg}}">Problems / समस्याएं</a>
                 </p>
             </article>
         </section>
@@ -114,9 +119,12 @@
                 <p>
                    {{-- <a role="button" href="#three"  class="btn btn-outline-light">Read More...</a>--}}
                     @if(Auth::guest())
-                        <a href="{{url('constituencies')}}" role="button" class="btn btn-outline-dark">Constituencies/लोकसभा क्षेत्र </a>
+                        <a href="{{url('constituencies')}}" role="button" class="btn btn-outline-dark" data-toggle="tooltip"
+                           data-html="true" title="{{$tooltipMsg}}">Constituencies/लोकसभा क्षेत्र </a>
                     @else
-                        <a href="{{url('constituencies/your-constituency')}}" role="button" class="btn btn-outline-dark">Your Constituency/आपका क्षेत्र</a>
+                        <a href="{{url('constituencies/your-constituency')}}" role="button" class="btn btn-outline-dark"
+                           data-toggle="tooltip" data-html="true" title="{{$tooltipMsg}}">
+                            Your Constituency/आपका क्षेत्र</a>
                     @endif
                 </p>
             </article>
@@ -124,12 +132,14 @@
         <section class="section color4" data-letter="e">
             <article class="section__wrapper">
                 <h1 class="section__title">Parties</h1>
-                {{--<p>Just Unite Foundation is divided into 9 groups each having President, Chairman and Secretary at Constituency and State Levels</p>--}}
+                {{--<p>Just Unite Foundation is divided into 9 groups each having President,
+                Chairman and Secretary at Constituency and State Levels</p>--}}
                 <p>India being the multi-party democratic system, is currently having around 1800 registered political parties</p>
                 <p>
                     {{--<a role="button" href="#four"  class="btn btn-outline-warning">Know More..</a>
                     <a role="button" href="{{url('parties')}}"  class="btn btn-outline-light">View All</a>--}}
-                    <a role="button" href="{{url('parties')}}"  class="btn btn-outline-light">Parties/राजनीतिक दल</a>
+                    <a role="button" href="{{url('parties')}}"  class="btn btn-outline-light" data-toggle="tooltip"
+                       data-html="true" title="{{$tooltipMsg}}">Parties/राजनीतिक दल</a>
                 </p>
             </article>
         </section>
@@ -140,9 +150,11 @@
                 <p>
                     {{--<a role="button" href="#five"  class="btn btn-outline-danger">Read more..</a>--}}
                     @if(Auth::guest())
-                        <a role="button" href="{{url('states')}}" class="btn btn-outline-dark">States/प्रदेश</a>
+                        <a role="button" href="{{url('states')}}" class="btn btn-outline-dark" data-toggle="tooltip"
+                           data-html="true" title="{{$tooltipMsg}}">States/प्रदेश</a>
                     @else
-                        <a role="button" href="{{url('states/'.Auth::User()->state_id.'/constituencies')}}" class="btn btn-outline-dark">Your State/आपका राज्य</a>
+                        <a role="button" href="{{url('states/your-state')}}" class="btn btn-outline-dark" data-toggle="tooltip"
+                           data-html="true" title="{{$tooltipMsg}}">Your State/आपका राज्य</a>
                     @endif
 
                 </p>
@@ -154,7 +166,8 @@
                 <p style="color: #000000">Your Opinion is of Utmost Importance for India</p>
                 <p>
                     {{--<a href="#six" role="button" class="btn btn-outline-danger">Polls Page</a>--}}
-                    <a href="{{url('polls')}}" role="button" class="btn btn-outline-dark">Opinion Poll/ जनमत</a>
+                    <a href="{{url('polls')}}" role="button" class="btn btn-outline-dark" data-toggle="tooltip"
+                       data-html="true" title="{{$tooltipMsg}}">Opinion Poll/ जनमत</a>
                 </p>
             </article>
         </section>
@@ -191,7 +204,12 @@
 
 @section('extra-js')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+    <script>
+       $(function () {
+           $('[data-toggle="tooltip"]').tooltip()
+       })
+    </script>
     <script>
 
         // Select all links with hashes

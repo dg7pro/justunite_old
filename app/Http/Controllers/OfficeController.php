@@ -173,11 +173,13 @@ class OfficeController extends Controller
 
         if($applied){
             Session::flash('message', 'You have already applied for some post !');
-            return redirect()->back();
+            return redirect('constituencies/'.Auth::user()->constituency_id.'/office-bearers');
+            //return redirect()->back();
         }else{
             $office->constituencies()->attach(Auth::user()->constituency_id, ['user_id' => Auth::id()]);
             Session::flash('message', 'Applied Successfully !');
-            return redirect()->back();
+            return redirect('constituencies/'.Auth::user()->constituency_id.'/office-bearers');
+            //return redirect()->back();
         }
     }
 

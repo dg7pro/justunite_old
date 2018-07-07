@@ -19,7 +19,7 @@ class ConstituencyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index','show','voting','track');
+        $this->middleware('auth')->except('index','show','voting','track','contestants');
     }
 
     /**
@@ -165,7 +165,7 @@ class ConstituencyController extends Controller
     public function yourConstituency(){
 
         if(Auth::user()->constituency_id == null){
-            Session::flash('message', 'Please select your Loksabha Constituency !');
+            Session::flash('message', 'Please select your State & Loksabha Constituency !');
             return redirect('/home');
         }
         else{
@@ -179,10 +179,14 @@ class ConstituencyController extends Controller
      */
     public function track(Request $request){
 
-        //return $request->constituency;
-
-        return $this->show($request->constituency);
-
+        if($request->track == 1)
+            return $this->show($request->constituency);
+        elseif($request->track == 2)
+            return $this->contestants($request->constituency);
+        elseif($request->track == 3)
+            return  $this->officeBearer($request->constituency);
+        else
+            return redirect()->back();
     }
 
     public function contestants($id){

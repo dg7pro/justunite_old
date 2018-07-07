@@ -20,6 +20,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
+                @include('layouts.partials.login-modal')
                 <h2>
                     List of Problems
                     {{--<a href="{{url('problems/voting')}}" role="button" class="btn btn-outline-info" >Most Serious Problem &raquo;</a>--}}
@@ -68,10 +69,14 @@
                                     <input name="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
                                     <button type="submit" class="btn btn-success btn-xs">Vote</button>
                                 </form>--}}
-                                <a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                {{--Important piece of code--}}
+                                {{--<a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                                 @php
                                     Session(['lastUrl' => Request::fullUrl()])
-                                @endphp
+                                @endphp--}}
+                                <button type="button" class="btn btn-info" style="font-size:16px" data-toggle="modal" data-target="#exampleModalCenter">
+                                    <i class="fa fa-thumbs-up"></i> Vote
+                                </button>
                             </td>
                         </tr>
                     @else
@@ -135,36 +140,7 @@
                 </table>
 
                 <br>
-                <div class="alert alert-info" role="alert">
-                    <h4 class="alert-heading">Track your CONSTITUENCY:</h4>
-                    <br>
-                    <form method="POST" action="{{url('constituency/track')}}">
-                        {{ csrf_field() }}
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <div class="input-group">
-                                    <select name="state" id="state" class="form-control">
-                                        <option value="">Select State...</option>
-                                        @foreach($states as $state)
-                                            <option value="{{$state->id}}">{{$state->name2}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="input-group">
-
-                                    <select id="constituency" name="constituency" class="form-control">
-                                        <option value="">Select State first...</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-primary">Go to your Constituency</button>
-                    </form>
-                </div>
+                @include('layouts.partials.track')
 
                 <br>
                 <br>
@@ -183,7 +159,6 @@
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
-
 
     <script>
         function ConfirmVoteChange() {
@@ -229,6 +204,13 @@
             });
         });
     </script>
-
-
+    <script>
+        onload=function(){
+            var s=document.getElementById("state");
+            var c=document.getElementById("constituency");
+            if(s.value!=null)
+                s.value="";
+                c.value="";
+        }
+    </script>
 @endsection

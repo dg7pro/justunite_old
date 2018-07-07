@@ -26,7 +26,7 @@
     <a href="{{url('/capitals')}}" class="list-group-item list-group-item-action">State Capital</a>
     <a href="{{url('/literacy')}}" class="list-group-item list-group-item-action">Literacy Rate</a>
     <a href="{{url('/populations')}}" class="list-group-item list-group-item-action">Populations</a>
-    <a href="{{url('/languages')}}" class="list-group-item list-group-item-action disabled">Languages Spoken</a>
+    <a href="{{url('/languages-spoken')}}" class="list-group-item list-group-item-action disabled">Languages Spoken</a>
     <a href="{{url('/chief-ministers')}}" class="list-group-item list-group-item-action disabled">Chief Ministers</a>
     <a href="{{url('/governor')}}" class="list-group-item list-group-item-action disabled">Governor</a>
     <a href="{{url('/gdp')}}" class="list-group-item list-group-item-action disabled">GDP</a>

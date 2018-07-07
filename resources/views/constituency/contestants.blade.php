@@ -8,7 +8,7 @@
             <div class="col-md-9">
                 <h2>
                     2014 Results: {{$constituency->pc_name}}
-                    <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"> Join Whatsapp</i> </a>
+                    <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
                 </h2>
 
                 <table class="table table-bordered table-condensed">
@@ -34,7 +34,7 @@
                             </th>
                             <th scope="row">{{$contestant->gender->name or 'null'}}</th>
                             <th scope="row">{{$contestant->party or 'null'}}</th>
-                            <th scope="row">{{$contestant->votes or 'null'}}</th>
+                            <th scope="row">{{number_format($contestant->votes)}}</th>
                         </tr>
                     @endforeach
                     </tbody>

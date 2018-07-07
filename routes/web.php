@@ -103,6 +103,7 @@ Route::get('governor','StateController@governor');
 Route::get('ruling-party','StateController@rulingParty');
 Route::get('gdp','StateController@gdp');
 Route::get('seats','StateController@seats');
+Route::get('languages-spoken','StateController@languages');
 
 Route::post('users/iknow/{id}','UserController@makeKnow');
 Route::post('users/revokeknow/{id}','UserController@revokeKnow');
@@ -137,6 +138,9 @@ Route::get('test','UserController@test');
 
 
 Route::get('constituencies/{constituency}/office-bearers','ConstituencyController@officeBearer');
+
+Route::get('loksabha-election-2019','HomeController@loksabhaElection2019');
+Route::get('loksabha-election','HomeController@loksabhaElection');
 
 
 

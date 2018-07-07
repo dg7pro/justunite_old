@@ -9,6 +9,11 @@
                 </button>
             </div>
             <div class="modal-body">
+                {{--<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas
+                    eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>--}}
+                <p class="text-default"><b>Not a member yet! It just takes 30 sec... to Register, please register to join the movement.
+                        If already a member! please login to continue...</b></p>
+                <br>
                 <div class="text-center">
                     <a href="{{ url('loginToContinue') }}" class="btn btn-success">Login</a>
                     <a href="{{ route('register') }}" class="btn btn-info">Register</a>

@@ -73,6 +73,10 @@ class UserController extends Controller
             ->with('gender','age','marital','religion','education','profession','opinion','add','opinion')
             ->first();
 
+        if(!$user){
+            abort('404');
+        }
+
         if ($user->invisible == 1 and $id != Auth::id()){
             abort('500','The User has Hidden his/her Profile');
         }
@@ -105,7 +109,7 @@ class UserController extends Controller
 
         $images = DB::table('images')->where([
             ['imagable_type','=','App\User']
-        ])->get();
+        ])->inRandomOrder()->take(3)->get();
 
         //return $user;
         //return $i_know_already;

@@ -12,6 +12,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
+                @include('layouts.partials.login-modal')
                 <h2>
                     National Parties
                     <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
@@ -44,10 +45,15 @@
                             </th>
                             <th class="text-primary">{{$party->votes_count}}</th>
                             <td>
-                                <a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                               {{-- <a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                                 @php
                                     Session(['lastUrl' => Request::fullUrl()])
                                 @endphp
+--}}
+                                <button type="button" class="btn btn-info" style="font-size:16px" data-toggle="modal" data-target="#exampleModalCenter">
+                                    <i class="fa fa-thumbs-up"></i> Vote
+                                </button>
+
                             </td>
                         </tr>
                         @else
@@ -134,10 +140,16 @@
                                 </th>
                                 <th class="text-primary">{{$party->votes_count}}</th>
                                 <td>
-                                    <a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
+                                    {{--Important piece of code--}}
+                                    {{--<a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
                                     @php
                                         Session(['lastUrl' => Request::fullUrl()])
-                                    @endphp
+                                    @endphp--}}
+
+                                    <button type="button" class="btn btn-info" style="font-size:16px" data-toggle="modal" data-target="#exampleModalCenter">
+                                        <i class="fa fa-thumbs-up"></i> Vote
+                                    </button>
+
                                 </td>
                             </tr>
                         @else
@@ -203,12 +215,11 @@
                         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fa fa-list"> </i> List of Other Unrecognized Parties
                         </button>
-                        @include('layouts.partials.login-modal')
 
                     @else
                         {{--<a href="{{url('constituencies/'.$constituency->id.'/contestants')}}" role="button" class="btn btn-sm btn-outline-warning">
                             <i class="fa fa-list" style="font-size:16px"></i> View list</a>--}}
-                        <a href="{{ url('rups') }}" role="button" class="btn btn-primary btn-lg" ><i class="fa fa-list"> </i> List of Other Unrecognized Parties</a>
+                        <a href="{{ url('rups-paginate') }}" role="button" class="btn btn-primary btn-lg" ><i class="fa fa-list"> </i> List of Other Unrecognized Parties</a>
                     @endif
                 </div>
                 <br>

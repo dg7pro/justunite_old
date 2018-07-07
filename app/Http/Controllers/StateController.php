@@ -21,7 +21,7 @@ class StateController extends Controller
     public function __construct()
     {
         $this->middleware('auth')
-            ->except('index','show','capitals','literacy','populations','cm','governor','rulingParty','gdp','seats','stateAjax');
+            ->except('index','show','capitals','literacy','populations','cm','governor','rulingParty','gdp','seats','stateAjax','languages');
     }
 
     /**
@@ -275,5 +275,11 @@ class StateController extends Controller
         //return $states;
     }
 
+    public function languages(){
+
+        $states = State::with('languages')->get();
+        //return $states;
+        return view('state.spokenLang',compact('states'));
+    }
 
 }
