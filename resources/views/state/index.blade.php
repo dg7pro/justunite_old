@@ -4,7 +4,7 @@
 
     <div class="jumbotron color5">
         <div class="container">
-            <h1 class="display-3">India</h1>
+            <h2 class="display-4">States</h2>
             <p><b>India consists of 29 states and 7 Union Territories including Delhi (NCR)</b></p>
             @if(Auth::guest())
                 <p><a href="{{url('register')}}" role="button" class="btn btn-outline-dark" >Register &raquo;</a></p>

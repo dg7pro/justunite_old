@@ -47,12 +47,12 @@
                             <div class="carousel-item active">
                                 <img class="d-block w-100" src="{{asset('storage/default.svg')}}" alt="First slide">
                             </div>
-                           {{-- <div class="carousel-item">
-                                <img class="d-block w-100" src="..." alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="..." alt="Third slide">
-                            </div>--}}
+                            {{-- <div class="carousel-item">
+                                 <img class="d-block w-100" src="..." alt="Second slide">
+                             </div>
+                             <div class="carousel-item">
+                                 <img class="d-block w-100" src="..." alt="Third slide">
+                             </div>--}}
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -201,20 +201,20 @@
                     <h4 class="text-primary">Contact me for:</h4>
 
                     @if( Auth::check() and $user->id == Auth::user()->id )
-                            @if(!empty($user->add->matter) and $user->add->active == 1)
-                                <div class="alert alert-success" role="alert">
-                                    <h4 class="alert-heading">{!! $user->add->heading or 'Not given' !!}
-                                        <a role="button" href="{{url('adds/'.$user->add->id.'/edit')}}" class="btn btn-info btn-sm">Edit</a>
-                                    </h4>
-                                    <br>
-                                    <p><b>{!! $user->add->matter or 'Null' !!}</b></p>
-                                    <p><b>{{'~'.$user->name}}</b></p>
-                                    <hr>
-                                    <p class="mb-0"><b>Email: {{$user->email or 'Not given'}} | Contact: {{$user->mobile or 'Not given'}} | Location: {{$user->constituency->pc_name or 'Not given'}}</b></p>
-                                </div>
-                            @else
-                                @include('layouts.partials.add-instruction')
-                            @endif
+                        @if(!empty($user->add->matter) and $user->add->active == 1)
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">{!! $user->add->heading or 'Not given' !!}
+                                    <a role="button" href="{{url('adds/'.$user->add->id.'/edit')}}" class="btn btn-info btn-sm">Edit</a>
+                                </h4>
+                                <br>
+                                <p><b>{!! $user->add->matter or 'Null' !!}</b></p>
+                                <p><b>{{'~'.$user->name}}</b></p>
+                                <hr>
+                                <p class="mb-0"><b>Email: {{$user->email or 'Not given'}} | Contact: {{$user->mobile or 'Not given'}} | Location: {{$user->constituency->pc_name or 'Not given'}}</b></p>
+                            </div>
+                        @else
+                            @include('layouts.partials.add-instruction')
+                        @endif
                     @else
                         @if(!empty($user->add->matter) and $user->add->active == 1)
                             <div class="alert alert-success" role="alert">
@@ -396,11 +396,11 @@
 
                 </div>
                 <br>
-               {{-- <div class="card text-white bg-info mb-3">
-                    <div class="card-body">
-                        What else you can do in this website? >>>
-                    </div>
-                </div>--}}
+                {{-- <div class="card text-white bg-info mb-3">
+                     <div class="card-body">
+                         What else you can do in this website? >>>
+                     </div>
+                 </div>--}}
             </div>
         </div>
         <br>

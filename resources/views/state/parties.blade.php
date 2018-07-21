@@ -7,13 +7,9 @@
                 <br>
                 <br>
                 <h2>Attach Parties to::  <a href="{{url('states/'.$state->id)}}">{{ $state->name2}}</a>
-
                 </h2>
                 <form method="post" action="{{url('states/'.$state->id.'/attach-parties')}}">
-
-
                     {{ csrf_field() }}
-
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
@@ -23,7 +19,6 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         @foreach($parties as $party)
                             @if(in_array($party->id, $active_parties))
                                 <tr style="background-color: #06b0cf">
@@ -53,24 +48,14 @@
                                 </tr>
                             @endif
                         @endforeach
-
-
-
-
-
-
                         </tbody>
                     </table>
                     <div align="right">
                         <button type="submit" class="btn btn-outline-success">Attach Parties</button>
                     </div>
-
-
                 </form>
-
                 <br>
                 <br>
-
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Description & Notes:</h4>
                     <p>Each group has different voting power. User can belong to 2 or more groups, their voting power adds up.
@@ -78,12 +63,9 @@
                     <hr>
                     <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
                 </div>
-
                 <br>
                 <br>
                 <br>
-
-
             </div>
         </div>
     </div>

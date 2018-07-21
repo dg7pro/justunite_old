@@ -8,7 +8,7 @@
     @include('layouts.partials.fb-comment')
     <div class="jumbotron color4">
         <div class="container">
-            <h1 class="display-3">{{$party->name}}</h1>
+            <h2 class="display-4">{{$party->name}}</h2>
             <p><b>Information about the party is given below such as parties founders, top leaders and headquarter etc</b></p>
             {{--<p><a href="#" role="button" class="btn btn-outline-warning" >Learn more &raquo;</a></p>--}}
             <p><a href="{{$whatsapp}}" role="button" class="btn btn-outline-warning" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a></p>

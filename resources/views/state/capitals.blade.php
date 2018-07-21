@@ -37,7 +37,7 @@
 
                     </tbody>
                 </table>
-                <br>
+               {{-- <br>
                 <br>
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Description & Notes:</h4>
@@ -48,7 +48,8 @@
                 </div>
 
                 <br>
-                <br>
+                <br>--}}
+                @include('layouts.partials.apply')
                 <br>
 
             </div>

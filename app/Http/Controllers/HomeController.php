@@ -120,6 +120,16 @@ class HomeController extends Controller
         return view('election',compact('hiContent','engContent'));
     }
 
+    public function letterToCandidates(){
+
+        $hiContent = Content::query()->where([
+            ['page','=','letterpage'],
+            ['slug','=','hindi']
+        ])->first();
+
+        return view('letter-to-candidates',compact('hiContent'));
+    }
+
 
 
 

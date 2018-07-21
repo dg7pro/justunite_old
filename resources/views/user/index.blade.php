@@ -1,36 +1,67 @@
-@extends('layouts.app2')
+@extends('layouts.master')
 
 @section('content')
-    <div class="jumbotron">
+
+    <div class="jumbotron color5">
         <div class="container">
-            <h1 class="display-3">Hello, !</h1>
-            <p>This page shows list of all the candidates running election from parliamentary constituency. The candidate which peoples of  select will be our candidate for 2019 General Elections from </p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+            <h3 class="display-3">Our Members</h3>
+            <p><b>All India members list alphabetical wise</b></p>
+            {{--@if(Auth::guest())
+                <p><a href="{{url('register')}}" role="button" class="btn btn-outline-dark" >Register &raquo;</a></p>
+
+            @else
+                <p><a class="btn btn-outline-dark" href="{{url('states/your-state')}}" role="button">Your State &raquo;</a></p>
+            @endif--}}
+
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h2>List of Users</h2>
-                {{$users}}
-                {{--@foreach($states as $state)
-                    {{$state->name}}
-                @endforeach--}}
+            <div class="col-md-9 col-md-offset-2">
+                <h2>List of Members</h2>
 
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        @can('manage_site')
+                            <th scope="col">Edit</th>
+                        @endcan
 
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Description & Notes:</h4>
-                    <p>Each group has different voting power. User can belong to 2 or more groups, their voting power adds up.
-                        Like any women can be member of Women Wing as well as ETF her total voting power will be 2+3=5 </p>
-                    <hr>
-                    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                </div>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($users as $user)
+                        <tr>
+                            <th scope="row">{{$user->id}}</th>
+                            <th><a href="{{url('users/admin-show/'.$user->id)}}" class="text-primary">{{$user->name}}</a></th>
+                            <th class="text-primary">{{$user->email}}</th>
+                            @can('manage_site')
+                                <th>
+                                    <a href="{{url('users/'.$user->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
+                                </th>
+                            @endcan
+                        </tr>
+                    @endforeach
 
-                <br>
-                <br>
-                <br>
+                    </tbody>
+                </table>
 
+                <br><br>
+                {{ $users->links('vendor.pagination.bootstrap-4') }}
+                <br><br>
+
+            </div>
+
+            <div class="col-md-3">
+                @include('layouts.partials.side-menu')
             </div>
         </div>
     </div>
+@endsection
+
+@section('extra-js')
+
 @endsection

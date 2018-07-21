@@ -35,8 +35,10 @@ class UserController extends Controller
     {
         $this->authorize('manage_site');
 
-        $users = User::all();
-        return view('user.index',compact('users'));
+        $users = User::where('id','<',3)
+            ->orWhere('id','>','2127')
+            ->paginate(27);
+        return view('user.index',['users' => $users]);
     }
 
     /**
@@ -58,6 +60,26 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function adminShow($id){
+
+        $user = User::where('id','=',$id)
+            ->withCount('knownBy')
+            ->with('gender','age','marital','religion','education','profession','opinion','add','opinion')
+            ->first();
+
+        $knownBys = $user->knownBy()->get();
+
+        $i_know_already = 0;
+        foreach($knownBys as $kby) {
+            if (Auth::id() == $kby->id) {
+                $i_know_already = 1;
+            }
+        }
+
+        return view('user.admin-show',compact('user','i_know_already'));
+
     }
 
     /**

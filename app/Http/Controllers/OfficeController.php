@@ -140,14 +140,14 @@ class OfficeController extends Controller
 
     public function removePost(Office $office){
 
-        /*$constituencies = Constituency::all();
+        $constituencies = Constituency::all();
         foreach ($constituencies as $constituency){
             $office->constituencies()->detach($constituency->id);
         }
         //Flash Message
         Session::flash('message', 'Post revoked successfully!');
         // Redirect Back
-        return redirect()->back();*/
+        return redirect()->back();
 
         /* Above is Important code commented out don't delete it */
 

@@ -6,6 +6,7 @@
         <div class="container">
             <h2 class="display-4">Just Unite</h2>
             <h2 class="display-4">जस्ट यूनाइट</h2>
+
         </div>
     </div>
     <div class="container">
@@ -25,22 +26,30 @@
                     {!! $hiContent->matter !!}
                 </div>
 
-                <hr>
-
-                <div id="{{$engContent->slug}}">
-
-                    <div class="alert alert-info" role="alert">
-                        <h3 class="alert-heading">
-                            {{$engContent->title}}
-                            <a href="#hindi" role="button" class="btn btn-outline-info js-scroll-trigger">Read in Hindi</a>
-                        </h3>
-                    </div>
-
-                    <img src="{{asset('images/abraham-lincoln.jpg')}}"><br><br>
-                    {!! $engContent->matter !!}
+                <div class="alert alert-secondary" role="alert">
+                    <h4 class="alert-heading">निवेदन:</h4>
+                    <p>राष्ट्रीय आम बैठक 15 अगस्त 2018 के लगभग आयोजित की जाएगी
+                        इस बैठक में इन मुदद्दो पे चर्चा होगी
+                        <br>
+                        1. सभी समस्याएं जीसका देश अभी सामना कर रही हैं,<br>
+                        2. तीसरे मोर्चे के गठन की संभावना<br>
+                        3. 2019 आम चुनाव के लिए एजेंडा<br>
+                    </p>
+                    <p>
+                        मैं आप सभी को इस चर्चा में सम्लित होने और अपने मूल्यवान सुझाव देने का अनुरोध करता हूं
+                        बैठक में भाग लेने के लिए भागीदारी शुल्क रुपये 2000/ - है।
+                        तिथि और स्थान जल्द ही सूचित किया जाएगा।
+                        अधिक जानकारी के लिए कृपया संपर्क करें - 8887610230
+                    </p>
+                    <hr>
+                    <p>
+                        श्री धनंजय गुप्ता
+                        ~आयोजन सचिव
+                        (जस्ट यूनाइट)
+                        <a href="{{url('/')}}" role="button" class="btn btn-outline-success" >अधिक जानिए</a>
+                    </p>
                 </div>
 
-                <br>
                 <br>
             </div>
 

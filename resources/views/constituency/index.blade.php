@@ -4,7 +4,7 @@
 
     <div class="jumbotron color3">
         <div class="container">
-            <h1 class="display-3">Loksabha Seats</h1>
+            <h2 class="display-4">Loksabha Seats</h2>
             <p><b>The page shows list of all the parliamentary constituency in India. Total their are 543 seats</b></p>
             @if(Auth::guest())
                 <p>

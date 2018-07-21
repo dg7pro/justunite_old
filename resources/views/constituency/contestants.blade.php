@@ -6,10 +6,9 @@
         <br><br>
         <div class="row">
             <div class="col-md-9">
-                <h2>
-                    2014 Results: {{$constituency->pc_name}}
-                    <a href="{{$whatsapp}}" role="button" class="btn btn-outline-success" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a>
-                </h2>
+                <h3>
+                    2014 Loksabha Election Result: <i class="text-primary">{{$constituency->pc_name}}</i>
+                </h3>
 
                 <table class="table table-bordered table-condensed">
                     <thead class="thead-light">
@@ -39,10 +38,14 @@
                     @endforeach
                     </tbody>
                 </table>
-                <br><br>
 
 
-                {{--{{ $users->links('vendor.pagination.bootstrap-4') }}--}}
+                <br>
+                <br>
+                @include('layouts.partials.track')
+                <br>
+                <br>
+
 
             </div>
             <div class="col-md-3">
@@ -55,33 +58,55 @@
 
 @section('extra-js')
 
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="{{asset('js/initial.min.js')}}"></script>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            $('.demo').initial({
-                name: 'Name', // Name of the user
-                charCount: 1, // Number of characherts to be shown in the picture.
-                textColor: '#ffffff', // Color of the text
-                seed: 1, // randomize background color
-                height: 100,
-                width: 100,
-                fontSize: 70,
-                fontWeight: 500,
-                fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
-                radius: 50,
-            });
-        })
-    </script>
-    <script>
-        function ConfirmVoteChange() {
+        $(document).ready(function() {
+            $('select[name="state"]').on('change', function() {
+                var stateID = $(this).val();
+                if(stateID) {
+                    $.ajax({
+                        url: 'states/ajax/'+stateID,
+                        type: "GET",
+                        dataType: "json",
+                        success:function(data) {
 
-            var x = confirm("You have already voted, do you want to change your vote?");
-            if (x)
-                return true;
-            else
-                return false;
-        }
+                            //console.log(data);
+                            $('select[name="constituency"]').html('<option value="">Select Constituency</option>');
+                            $.each(data, function(key, value) {
+                                $('select[name="constituency"]').append('<option value="'+ key +'">'+ value +'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('select[name="constituency"]').empty();
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select[name="state"]').on('change', function() {
+                var stateID = $(this).val();
+                if(stateID) {
+                    $.ajax({
+                        url: 'constituencies/contestants/states/ajax/'+stateID,
+                        type: "GET",
+                        dataType: "json",
+                        success:function(data) {
+
+                            //console.log(data);
+                            $('select[name="constituency"]').html('<option value="">Select Constituency</option>');
+                            $.each(data, function(key, value) {
+                                $('select[name="constituency"]').append('<option value="'+ key +'">'+ value +'</option>');
+                            });
+                        }
+                    });
+                }else{
+                    $('select[name="constituency"]').empty();
+                }
+            });
+        });
     </script>
 
 @endsection

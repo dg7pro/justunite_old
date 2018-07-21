@@ -3,7 +3,7 @@
 @section('content')
     <div class="jumbotron color5">
         <div class="container">
-            <h1 class="display-3">{{$state->name2}}</h1>
+            <h2 class="display-4">{{$state->name2}}</h2>
             <p><b>Information about the {{$state->name2}} is given below. Active parties in the state and loksabha constituencies are also listed</b></p>
             <p><a class="btn btn-outline-dark" href="{{url('members')}}" role="button">All Members &raquo;</a></p>
         </div>
@@ -18,12 +18,12 @@
                 </h2>
                 <div style="height: 70vh; overflow: auto">
                     <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col" colspan="2" class="text-primary">The State of {{$state->name2}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                        <thead>
+                        <tr>
+                            <th scope="col" colspan="2" class="text-primary">The State of {{$state->name2}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         <tr><th>Name: </th><th>{{$state->name2}}</th></tr>
                         <tr><th>Capital: </th><th>{{$state->capital}}</th></tr>
                         <tr><th>Population: </th><th>{{number_format($state->population)}}</th></tr>
@@ -63,8 +63,8 @@
                             </th>
                         </tr>
                         <tr><th>Governor: </th><th>{{$state->governor}}</th></tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
                 <br>
                 <div>
@@ -163,7 +163,36 @@
 
                 <br>
                 <br>
-                @include('layouts.partials.track')
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">Track your CONSTITUENCY:</h4>
+                    <br>
+                    <form method="POST" action="{{url('constituency/track')}}">
+                        {{ csrf_field() }}
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <select name="state" id="state" class="form-control">
+                                        <option value="">Select State...</option>
+                                        @foreach($states as $state)
+                                            <option value="{{$state->id}}">{{$state->name2}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+
+                                    <select id="constituency" name="constituency" class="form-control">
+                                        <option value="">Select State first...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Go to your Constituency</button>
+                    </form>
+                </div>
                 <br>
                 <br>
 
@@ -213,17 +242,14 @@
             });
         });
     </script>
-
-
-   <script type="text/javascript">
-       $('.the-end').on('click', function () {
-           $.alert({
-               title: 'The End !',
-               content: 'You have reached the edge !',
-               type: 'red'
-           });
-       });
-   </script>
-
+    <script type="text/javascript">
+        $('.the-end').on('click', function () {
+            $.alert({
+                title: 'The End !',
+                content: 'You have reached the edge !',
+                type: 'red'
+            });
+        });
+    </script>
 
 @endsection

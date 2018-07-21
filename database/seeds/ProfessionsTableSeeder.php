@@ -33,12 +33,17 @@ class ProfessionsTableSeeder extends Seeder
         ]);
 
         App\Profession::query()->create([
+            'category'=>'Self Employed',
+            'details'=>'Some details about profession'
+        ]);
+
+        App\Profession::query()->create([
             'category'=>'Unemployed',
             'details'=>'Some details about profession'
         ]);
 
         App\Profession::query()->create([
-            'category'=>'Self Employed',
+            'category'=>'Student',
             'details'=>'Some details about profession'
         ]);
     }

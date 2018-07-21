@@ -59,6 +59,18 @@ class Constituency extends Model
             ->select('offices.id','offices.name','users.name as pivot_user_name');
     }
 
+    public function applications(){
+
+        return $this->belongsToMany('App\Office')
+            ->withPivot('user_id','active')
+            ->where([
+                ['user_id','!=',null],
+                ['active','!=',1]
+            ])
+            ->join('users','user_id','users.id')
+            ->select('offices.id','offices.name','users.name as pivot_user_name');
+    }
+
     /**
      * returns offices which are allocated to users
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

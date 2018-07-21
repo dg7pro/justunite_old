@@ -11,7 +11,7 @@
     @include('layouts.partials.fb-comment')
     <div class="jumbotron color2">
         <div class="container">
-            <h1 class="display-3">{{$problem->title}}</h1>
+            <h2 class="display-4">{{$problem->title}}</h2>
             <p><b>Do not vote for the leader who cannot solve these listed 27 problems</b></p>
             {{--<p><a href="#" role="button" class="btn btn-outline-warning" >Learn more &raquo;</a></p>--}}
             <p><a href="{{url('problems')}}" role="button" class="btn btn-outline-dark" >Most Serious Problem &raquo;</a></p>

@@ -29,6 +29,7 @@ Route::get('states/states/ajax/{id}','StateController@stateAjax');
 Route::get('constituency/states/ajax/{id}','StateController@stateAjax');
 Route::get('blurbs/states/ajax/{id}','StateController@stateAjax');
 Route::get('blurbs/constituencies/states/ajax/{id}','StateController@stateAjax');
+Route::get('constituencies/contestants/states/ajax/{id}','StateController@stateAjax');
 
 
 Route::get('blurbs/constituencies/{id}','BlurbController@blurbConstituencies');
@@ -45,6 +46,7 @@ Route::post('blurbs/upload-image','BlurbController@uploadImage');
 Route::get('constituencies/your-constituency','ConstituencyController@yourConstituency');
 Route::post('constituency/track','ConstituencyController@track');
 Route::get('constituencies/{id}/contestants','ConstituencyController@contestants');
+Route::get('constituencies/contestants/{id}','ConstituencyController@contestants');
 
 Route::get('mygroup','GroupController@mygroup');
 Route::get('group/elect-president','GroupController@electPresident');
@@ -73,6 +75,8 @@ Route::get('offices/{office}/create-post','OfficeController@createPost');
 Route::get('offices/{office}/remove-post','OfficeController@removePost');
 
 Route::get('offices/{office}/apply-for','OfficeController@applyFor');
+
+Route::get('applications','ConstituencyController@applications');
 
 
 
@@ -125,6 +129,8 @@ Route::get('members','UserController@countMembers');
 Route::get('settings','UserController@settings');
 Route::post('hide-profile/{user}','UserController@hideUser');
 
+Route::get('users/admin-show/{id}','UserController@adminShow');
+
 Route::post('professions/like','ProfessionController@like');
 
 
@@ -138,9 +144,11 @@ Route::get('test','UserController@test');
 
 
 Route::get('constituencies/{constituency}/office-bearers','ConstituencyController@officeBearer');
+Route::get('constituencies/apply-for-post','ConstituencyController@applyForPost');
 
 Route::get('loksabha-election-2019','HomeController@loksabhaElection2019');
 Route::get('loksabha-election','HomeController@loksabhaElection');
+Route::get('letter-to-candidates','HomeController@letterToCandidates');
 
 
 

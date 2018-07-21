@@ -4,7 +4,7 @@
 
     <div class="jumbotron color2">
         <div class="container">
-            <h1 class="display-3">Problems</h1>
+            <h2 class="display-4">Problems</h2>
             <p>
                 <b>71 years, of Independence, more than 2000 national and regional Political Parties, but still unable
                     to solve these 27 major problems. Hope this time we chose Prime minister who can solve

@@ -3,7 +3,7 @@
 @section('content')
     <div class="jumbotron color3">
         <div class="container">
-            <h1 class="display-3">{{$constituency->pc_name}}</h1>
+            <h2 class="display-4">{{$constituency->pc_name}}</h2>
             <p>
                 <b>
                 @if($constituency->state->type == 1)
@@ -55,7 +55,7 @@
                 </div>
                 <br>
                 <h4 class="text-primary">Results of 2014 Elections:
-                    <a href="{{url('constituencies/'.$constituency->id.'/contestants')}}" role="button" class="btn btn-sm btn-outline-warning">
+                    <a href="{{url('constituencies/contestants/'.$constituency->id)}}" role="button" class="btn btn-sm btn-outline-warning">
                         <i class="fa fa-list" style="font-size:16px"></i> View list</a>
                    {{-- @if(Auth::guest())
                         <!-- Button trigger modal -->

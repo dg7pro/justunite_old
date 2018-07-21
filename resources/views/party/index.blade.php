@@ -4,7 +4,7 @@
 
     <div class="jumbotron color4">
         <div class="container">
-            <h1 class="display-3">Parties</h1>
+            <h2 class="display-4">Parties</h2>
             <p><b>This page shows list of all the important political parties in India</b></p>
             <p><a href="{{$whatsapp}}" role="button" class="btn btn-outline-warning" ><i class="fa fa-whatsapp"></i> Join Whatsapp</a></p>
         </div>

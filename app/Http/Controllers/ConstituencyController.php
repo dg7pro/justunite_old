@@ -173,6 +173,19 @@ class ConstituencyController extends Controller
         }
     }
 
+    public function applyForPost(){
+
+        if(Auth::user()->constituency_id == null){
+            Session::flash('message', 'Please select your State & Loksabha Constituency !');
+            return redirect('/home');
+        }
+        else{
+            return $this->officeBearer(Auth::user()->constituency_id);
+            //return redirect('constituencies/'.Auth::user()->constituency_id.'/office-bearers');
+        }
+
+    }
+
     /**
      * @param Request $request
      * @return mixed
@@ -191,6 +204,7 @@ class ConstituencyController extends Controller
 
     public function contestants($id){
 
+        $states = State::all();
         $constituency = Constituency::find($id);
         $contestants = Contestant::query()->where('constituency_id','=',$constituency->id)->with('gender')->get();
 
@@ -200,7 +214,7 @@ class ConstituencyController extends Controller
 
         //$constituency = $constituency->with('contestants.gender')->get();
 
-        return view('constituency.contestants',compact('constituency','contestants'));
+        return view('constituency.contestants',compact('constituency','contestants','states'));
     }
 
     public function officeBearer($id){
@@ -210,6 +224,14 @@ class ConstituencyController extends Controller
         //return $constituency;
         return view('constituency.office-bearer',compact('constituency'));
 
+    }
+
+    public function applications(){
+
+        $constituencies = Constituency::with('applications')->get(['id','pc_name']);
+
+        //return $constituencies;
+        return view('applications',compact('constituencies'));
     }
 
 
