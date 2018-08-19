@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         // Constant - Not affected by re-seeding
-        $this->call(GroupsTableSeeder::class);
+        /*$this->call(GroupsTableSeeder::class);
 
         $this->call(UsersTableSeeder::class);
         $this->call(PollsTableSeeder::class);
@@ -45,6 +45,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PtypesTableSeeder::class);
 
         $this->call(VotesTableSeeder::class);
+
+        $this->call(CategoriesTableSeeder::class);
+        $this->call(IndiansTableSeeder::class);*/
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 

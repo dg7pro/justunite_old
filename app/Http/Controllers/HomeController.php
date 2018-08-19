@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index','faq','privacyPolicy','loksabhaElection2019','loksabhaElection');
+        $this->middleware('auth')->except('index','faq','privacyPolicy','loksabhaElection2019','loksabhaElection','greatestIndiansEver');
     }
 
     /**
@@ -128,6 +128,11 @@ class HomeController extends Controller
         ])->first();
 
         return view('letter-to-candidates',compact('hiContent'));
+    }
+
+    public function greatestIndiansEver(){
+
+        return view('indians');
     }
 
 

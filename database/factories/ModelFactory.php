@@ -38,3 +38,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),*/
     ];
 });
+
+$factory->define(App\Indian::class, function (Faker\Generator $faker){
+
+    return [
+        'name' => $faker->name,
+        'suggested_by' => $faker->name,
+        'category_id' => function () {
+            // Get random category id
+            return App\Category::inRandomOrder()->first()->id;
+        },
+
+    ];
+
+});

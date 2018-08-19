@@ -23,6 +23,11 @@ Auth::routes();
 
 Route::get('/admin','AdminController@index')->name('admin');
 
+Route::post('like-indian','UserController@likeIndian');
+Route::post('unlike-indian','UserController@unlikeIndian');
+
+
+
 Route::get('states/ajax/{id}','StateController@stateAjax');
 Route::get('constituencies/states/ajax/{id}','StateController@stateAjax');
 Route::get('states/states/ajax/{id}','StateController@stateAjax');
@@ -122,6 +127,9 @@ Route::get('loginToLike/{id}','UserController@loginToLike');
 Route::post('users/like','UserController@like');
 Route::post('users/unlike','UserController@unlike');
 
+
+
+
 Route::get('states/{id}/members','UserController@stateMembers');
 Route::get('constituencies/{id}/members','UserController@constituencyMembers');
 Route::get('members','UserController@countMembers');
@@ -149,6 +157,7 @@ Route::get('constituencies/apply-for-post','ConstituencyController@applyForPost'
 Route::get('loksabha-election-2019','HomeController@loksabhaElection2019');
 Route::get('loksabha-election','HomeController@loksabhaElection');
 Route::get('letter-to-candidates','HomeController@letterToCandidates');
+Route::get('greatest-indians','IndianController@index');
 
 
 
@@ -169,10 +178,12 @@ Route::resource('contents','ContentController');
 Route::resource('ctypes','CtypeController');
 Route::resource('educations','EducationController');
 Route::resource('elections','ElectionController');
+Route::resource('elinks','ElinkController');
 Route::resource('faqs','FaqController');
 Route::resource('genders','GenderController');
 Route::resource('groups','GroupController');
 Route::resource('images','ImageController');
+Route::resource('indians','IndianController');
 Route::resource('languages','LanguageController');
 Route::resource('links','LinkController');
 Route::resource('maritals','MaritalController');

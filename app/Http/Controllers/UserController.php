@@ -363,7 +363,7 @@ class UserController extends Controller
             'age' => 'required',
             'profession' => 'required',
             'group' => 'required',*/
-            'mobile' => 'digits:10'
+            'mobile' => 'required|digits:10'
         ]);
     }
 
@@ -469,6 +469,52 @@ class UserController extends Controller
         //return $user;
 
 
+    }
+
+    public function likeIndian(Request $request){
+
+        $user = Auth::user();
+        //$unhide =false;
+        $count = $user->indians()->count();
+        if($count >= 7){
+            return response()->json(['message'=>'You can\'t like more than 7 Great Indians ', 'color'=>'red','safalta'=>false]);
+        }else {
+
+            $id = $request->alphaid;
+            $user->indians()->attach($id);
+            //$count==7?$unhide=true:$unhide=false;
+
+            /*Auth::user()->knows()->attach($id);
+
+            $user = User::where('id','=',$id)->first();
+            $known_by_count = $user->knownBy()->count();*/
+
+            //return response()->json(['message'=>'You have successfully liked ', 'id'=>$id, 'kbc'=>$known_by_count]);
+            //return response()->json(['message' => 'You have successfully liked ', 'id' => $id,'unhide'=>$unhide]);
+            return response()->json(['message' => 'You have successfully liked ', 'id' => $id,'color'=>'green','safalta'=>true]);
+        }
+    }
+
+    public function unlikeIndian(Request $request){
+
+        $user = Auth::user();
+        $count = $user->indians()->count();
+        if($count < 1){
+            return response()->json(['message'=>'You can\'t unlike less than 1  Great Indian','color'=>'red','safalta'=>false]);
+        }else {
+
+            $id = $request->alphaid;
+            $user->indians()->detach($id);
+            //$count==7?$unhide=true:$unhide=false;
+
+            /*Auth::user()->knows()->attach($id);
+
+            $user = User::where('id','=',$id)->first();
+            $known_by_count = $user->knownBy()->count();*/
+
+            //return response()->json(['message'=>'You have successfully liked ', 'id'=>$id, 'kbc'=>$known_by_count]);
+            return response()->json(['message' => 'You have successfully un-liked ','color'=>'green','id' => $id,'safalta'=>true]);
+        }
     }
 
 }

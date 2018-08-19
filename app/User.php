@@ -157,6 +157,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Profession');
     }
 
+    public function indians(){
+
+        return $this->belongsToMany('App\Indian');
+    }
+
 
 
 }
