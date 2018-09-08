@@ -31,11 +31,14 @@ class PartyController extends Controller
         $parties = Party::with('votes')->withCount('votes')
             ->orderBy('votes_count','desc')->get();
 
-        $national_parties = Party::with('votes')->where('ptype_id','=',1)->withCount('votes')
+       /* $national_parties = Party::with('votes')->where('ptype_id','=',1)->withCount('votes')
             ->orderBy('votes_count','desc')->get();
 
         $state_parties = Party::with('votes')->where('ptype_id','=',2)->withCount('votes')
-            ->orderBy('votes_count','desc')->get();
+            ->orderBy('votes_count','desc')->get();*/
+
+        $national_parties = Party::with('votes')->where('ptype_id','=',1)->withCount('votes')->get();
+        $state_parties = Party::with('votes')->where('ptype_id','=',2)->withCount('votes')->get();
 
         $receivedVotePartyId = null;
         foreach($parties as $party){
@@ -148,6 +151,31 @@ class PartyController extends Controller
             'details' => 'required',
 
         ]);
+    }
+
+    public function voteParty(Request $request){
+
+        $id = $request->partyid;
+        $cid = $request->currentid;
+
+        // Retrieve the current vote
+        // $currentOption = $request->currentOption;
+        if($cid==null){
+            $user = Auth::User();
+            $party = Party::query()->find($id);
+            $party->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
+
+            return response()->json(['message' => 'You have successfully voted ','color'=>'green','id' => $id,'cid'=>$cid, 'safalta'=>true]);
+            //return redirect()->back();
+        }else {
+            $party = Party::query()->find($cid);
+            $vote = $party->votes()->where('user_id', Auth::id())->first();
+            $vote->update(['votable_id' => $id]);
+            return response()->json(['message' => 'You have successfully voted ','color'=>'green','id' => $id,'cid'=>$cid, 'safalta'=>true]);
+            //return redirect()->back();
+        }
+
+        //return response()->json(['message' => 'You have successfully voted ','color'=>'green','id' => $id,'cid'=>$cid, 'safalta'=>true]);
     }
 
     public function vote(Request $request, $id){

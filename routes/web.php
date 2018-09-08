@@ -26,6 +26,8 @@ Route::get('/admin','AdminController@index')->name('admin');
 Route::post('like-indian','UserController@likeIndian');
 Route::post('unlike-indian','UserController@unlikeIndian');
 
+Route::post('vote-problem','ProblemController@voteProblem');
+Route::post('vote-party','PartyController@voteParty');
 
 
 Route::get('states/ajax/{id}','StateController@stateAjax');

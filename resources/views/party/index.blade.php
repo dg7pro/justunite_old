@@ -27,80 +27,56 @@
                         <th scope="col">Select</th>
                         @can('manage_site')
                             <th scope="col">Edit</th>
-                            {{--<th scope="col">Del</th>--}}
                         @endcan
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($national_parties as $party)
-
                         @if(Auth::guest())
                             <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <th class="text-primary">
-                                <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
-                                {{--@if($party->ptype_id ==1)
-                                    <span class="badge badge-danger">{{'National'}}</span>
-                                @endif--}}
-                            </th>
-                            <th class="text-primary">{{$party->votes_count}}</th>
-                            <td>
-                               {{-- <a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
-                                @php
-                                    Session(['lastUrl' => Request::fullUrl()])
-                                @endphp
---}}
-                                <button type="button" class="btn btn-info" style="font-size:16px" data-toggle="modal" data-target="#exampleModalCenter">
-                                    <i class="fa fa-thumbs-up"></i> Vote
-                                </button>
-
-                            </td>
-                        </tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <th class="text-primary">
+                                    <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
+                                </th>
+                                <th class="text-primary">{{$party->votes_count}}</th>
+                                <td>
+                                    <button type="button" class="btn btn-info" style="font-size:16px" data-toggle="modal" data-target="#exampleModalCenter">
+                                        <i class="fa fa-thumbs-up"></i> Vote
+                                    </button>
+                                </td>
+                            </tr>
                         @else
-                            @if($party->id == $receivedVotePartyId)
-                                {{--<tr style="background-color: #0d3625">--}}
-                                <tr style="background-color: #06b0cf">
-                                    <th scope="row">{{ $loop->iteration }}</th>
-                                    <th class="text-primary">
-                                        <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
-                                        {{--@if($party->ptype_id ==1)
-                                            <span class="badge badge-danger">{{'National'}}</span>
-                                        @endif--}}
-                                    </th>
-                                    <th class="text-primary">{{$party->votes_count}}</th>
-                                    <th><button type="submit" class="btn btn-default btn-xs disabled"> Voted</button></th>
-                                    @can('manage_site')
-                                        <th>
-                                            <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
-                                        </th>
-                                    @endcan
-                                </tr>
-                            @else
-                                <tr>
-                                    <th scope="row">{{ $loop->iteration }}</th>
-                                    <th class="text-primary">
-                                        <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
-                                       {{-- @if($party->ptype_id ==1)
-                                            <span class="badge badge-danger">{{'National'}}</span>
-                                        @endif--}}
-                                    </th>
-                                    <th class="text-primary">{{$party->votes_count}}</th>
-                                    <th>
-                                        <form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="{{$receivedVotePartyId != null ? 'return ConfirmVoteChange()' : ''}}">
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <th class="text-primary">
+                                    <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
+                                </th>
+                                <th class="text-primary">{{$party->votes_count}}</th>
+                                <th>
+                                    @if($party->id == $receivedVotePartyId)
+                                        {{--<button type="submit" class="btn btn-default btn-xs disabled"> Voted</button>--}}
+                                        <img src="{{asset('images/voted.png')}}" width="32em" height="32em"><b> voted</b>
+                                    @else
+                                        {{--<form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="{{$receivedVotePartyId != null ? 'return ConfirmVoteChange()' : ''}}">
                                             {{csrf_field()}}
                                             <input name="currentOption" type="hidden" value="{{$receivedVotePartyId}}">
                                             <button type="submit" id="vote" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
-                                        </form>
-                                    </th>
-                                    @can('manage_site')
-                                        <th>
-                                            <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
-                                        </th>
-                                    @endcan
-                                </tr>
-                            @endif
-                        @endif
+                                        </form>--}}
 
+                                        <form class="form-inline">
+                                            <input id="currentMsg" type="hidden" value="{{ ($receivedVotePartyId == '') ? 'Press Ok to Continue':'Are you sure you want to change your vote?' }}">
+                                            <input id="currentOption" type="hidden" value="{{$receivedVotePartyId}}">
+                                            <button type="submit" class="ajaxVote btn  btn-info" data-id="{{$party->id}}" ><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
+                                        </form>
+                                    @endif
+                                </th>
+                                @can('manage_site')
+                                    <th>
+                                        <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
+                                    </th>
+                                @endcan
+                            </tr>
+                        @endif
                     @endforeach
 
                     </tbody>
@@ -127,66 +103,43 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($state_parties as $party)
-
-                        @if(Auth::guest())
-                            <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <th class="text-primary">
-                                    <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
-                                    {{--@if($party->ptype_id ==1)
-                                        <span class="badge badge-danger">{{'National'}}</span>
-                                    @endif--}}
-                                </th>
-                                <th class="text-primary">{{$party->votes_count}}</th>
-                                <td>
-                                    {{--Important piece of code--}}
-                                    {{--<a class="btn btn-info" href="{{ url('loginToContinue') }}"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</a>
-                                    @php
-                                        Session(['lastUrl' => Request::fullUrl()])
-                                    @endphp--}}
-
-                                    <button type="button" class="btn btn-info" style="font-size:16px" data-toggle="modal" data-target="#exampleModalCenter">
-                                        <i class="fa fa-thumbs-up"></i> Vote
-                                    </button>
-
-                                </td>
-                            </tr>
-                        @else
-                            @if($party->id == $receivedVotePartyId)
-                                {{--<tr style="background-color: #0d3625">--}}
-                                <tr style="background-color: #06b0cf">
+                        @foreach($state_parties as $party)
+                            @if(Auth::guest())
+                                <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <th class="text-primary">
                                         <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
-                                        {{--@if($party->ptype_id ==1)
-                                            <span class="badge badge-danger">{{'National'}}</span>
-                                        @endif--}}
-                                    </th>
+                                                                        </th>
                                     <th class="text-primary">{{$party->votes_count}}</th>
-                                    <th><button type="submit" class="btn btn-default btn-xs disabled"> Voted</button></th>
-                                    @can('manage_site')
-                                        <th>
-                                            <a href="{{url('parties/'.$party->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
-                                        </th>
-                                    @endcan
+                                    <td>
+                                        <button type="button" class="btn btn-info" style="font-size:16px" data-toggle="modal" data-target="#exampleModalCenter">
+                                            <i class="fa fa-thumbs-up"></i> Vote
+                                        </button>
+                                    </td>
                                 </tr>
                             @else
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <th class="text-primary">
                                         <a href="{{url('parties/'.$party->id)}}">{{$party->name}}</a>
-                                        {{-- @if($party->ptype_id ==1)
-                                             <span class="badge badge-danger">{{'National'}}</span>
-                                         @endif--}}
                                     </th>
                                     <th class="text-primary">{{$party->votes_count}}</th>
                                     <th>
-                                        <form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="{{$receivedVotePartyId != null ? 'return ConfirmVoteChange()' : ''}}">
-                                            {{csrf_field()}}
-                                            <input name="currentOption" type="hidden" value="{{$receivedVotePartyId}}">
-                                            <button type="submit" id="vote" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
-                                        </form>
+                                        @if($party->id == $receivedVotePartyId)
+                                            {{--<button type="submit" class="btn btn-default btn-xs disabled"> Voted</button>--}}
+                                            <img src="{{asset('images/voted.png')}}" width="32em" height="32em"><b> voted</b>
+                                        @else
+                                            {{--<form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="{{$receivedVotePartyId != null ? 'return ConfirmVoteChange()' : ''}}">
+                                                {{csrf_field()}}
+                                                <input name="currentOption" type="hidden" value="{{$receivedVotePartyId}}">
+                                                <button type="submit" id="vote" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
+                                            </form>--}}
+                                            <form class="form-inline">
+                                                <input id="currentMsg" type="hidden" value="{{ ($receivedVotePartyId == '') ? 'Press Ok to Continue':'Are you sure you want to change your vote?' }}">
+                                                <input id="currentOption" type="hidden" value="{{$receivedVotePartyId}}">
+                                                <button type="submit" class="ajaxVote btn  btn-info" data-id="{{$party->id}}" ><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
+                                            </form>
+                                        @endif
                                     </th>
                                     @can('manage_site')
                                         <th>
@@ -195,10 +148,7 @@
                                     @endcan
                                 </tr>
                             @endif
-                        @endif
-
-                    @endforeach
-
+                        @endforeach
                     </tbody>
                 </table>
 
@@ -209,9 +159,9 @@
                 @if(Auth::guest())
                     <!-- Button trigger modal -->
 
-                       {{-- <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                            <i class="fa fa-list" style="font-size:16px"></i> View list
-                        </button>--}}
+                        {{-- <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                             <i class="fa fa-list" style="font-size:16px"></i> View list
+                         </button>--}}
                         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fa fa-list"> </i> List of Other Unrecognized Parties
                         </button>
@@ -235,7 +185,7 @@
 @endsection
 
 @section('extra-js')
-    <script>
+    {{--<script>
 
         function ConfirmDelete(){
 
@@ -254,5 +204,66 @@
             else
                 return false;
         }
+    </script>--}}
+
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+    <script>
+        jQuery(document).ready(function(){
+            jQuery('.ajaxVote').click(function(e){
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+
+                jQuery.ajax({
+                    beforeSend: function(){
+                        if(confirm($('#currentMsg').val()))
+                            return true;
+                        else
+                            return false;
+                    },
+
+                    url: "{{ url('/vote-party') }}",
+                    method: 'post',
+                    data: {
+                        partyid: $(this).data('id'),
+                        currentid: $('#currentOption').val()
+                    },
+                    /*success: function(result){
+                        console.log(result);
+                    }*/
+
+                    success: function(result){
+                        //jQuery('#likeCount').text(result.kbc);
+                        jQuery("[data-id='"+result.id+"']").replaceWith('<img src="{{asset('images/loader1.gif')}}" height="32px" width="32px" class="align-centre">');
+
+                        if(result.safalta == true){ // if true (1)
+                            setTimeout(function(){// wait for 5 secs(2)
+                                location.reload(); // then reload the page.(3)
+                            }, 1000);
+                        }
+
+                        $.confirm({
+                            title: 'Just Unite!',
+                            content: result.message,
+                            type: result.color,
+                            buttons: {
+                                omg: {
+                                    text: 'Thank you!',
+                                    btnClass: 'btn-'+result.color,
+                                },
+                                close: function () {
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
     </script>
 @endsection

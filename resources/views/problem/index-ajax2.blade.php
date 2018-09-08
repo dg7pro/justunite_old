@@ -54,29 +54,55 @@
                                 </td>
                             </tr>
                         @else
-                            <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <td>
-                                    <a href="{{url('problems/'.$problem->id)}}"><b class="text-primary">{{$problem->title}}</b></a>
-                                </td>
-                                <td><b  class="text-primary">{{$problem->votes_count}}</b></td>
-                                <td>
-                                    @if($problem->id == $receivedVoteProblemId)
-                                        <img src="{{asset('images/voted.png')}}" width="30em" height="30em"><b> voted</b>
-                                    @else
+                            @if($problem->id == $receivedVoteProblemId)
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td>
+                                        <a href="{{url('problems/'.$problem->id)}}"><b class="text-primary">{{$problem->title}}</b></a>
+                                    </td>
+                                    <td><b  class="text-primary">{{$problem->votes_count}}</b></td>
+                                    <td>
+                                       {{-- <img src="{{asset('images/vote.png')}}" width="30em" height="30em" class="mx-auto d-block">--}}
+                                        {{--<img src="{{asset('images/vote2.png')}}" width="30em" height="30em"><b>oted</b>--}}
+                                         {{--<img src="{{asset('images/vote.png')}}" width="30em" height="30em">--}}
+                                        <i class="fa fa-check" style="font-size: 25px; color: crimson">oted</i>
+                                        {{--<button type="submit" class="btn btn-default btn-xs disabled"> Voted</button>--}}
+                                    </td>
+                                    @can('manage_site')
+                                        <td>
+                                            <a href="{{url('problems/'.$problem->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
+                                        </td>
+                                    @endcan
+                                </tr>
+                            @else
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td>
+                                        <a href="{{url('problems/'.$problem->id)}}"><b class="text-primary">{{$problem->title}}</b></a>
+                                    </td>
+                                    <td><b class="text-primary">{{$problem->votes_count}}</b></td>
+                                    <td>
+                                        {{--<form method="post" action="{{url('problems/vote/'.$problem->id)}}" class="form-inline" onsubmit="{{ $receivedVoteProblemId != null ? 'return ConfirmVoteChange()' : ''}}">
+                                            {{csrf_field()}}
+                                            <input name="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
+                                            --}}{{--<button type="submit" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>--}}{{--
+                                            <button type="submit" class="ajaxVote btn btn-info btn-xs" data-id="{{$problem->id}}" ><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
+                                        </form>--}}
+
                                         <form class="form-inline">
-                                            <input id="currentMsg" type="hidden" value="{{ ($receivedVoteProblemId == '') ? 'Press Ok to Continue':'Are you sure you want to change your vote?' }}">
                                             <input id="currentOption" type="hidden" value="{{$receivedVoteProblemId}}">
+                                            {{--<button type="submit" class="btn btn-info btn-xs"><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>--}}
                                             <button type="submit" class="ajaxVote btn  btn-info" data-id="{{$problem->id}}" ><i class="fa fa-thumbs-up" style="font-size:16px"></i> Vote</button>
                                         </form>
-                                    @endif
-                                </td>
-                                @can('manage_site')
-                                    <td>
-                                        <a href="{{url('problems/'.$problem->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
                                     </td>
-                                @endcan
-                            </tr>
+                                    @can('manage_site')
+                                        <td>
+                                            <a href="{{url('problems/'.$problem->id.'/edit')}}" role="button" class="btn btn-sm btn-outline-info">Edit</a>
+                                        </td>
+
+                                    @endcan
+                                </tr>
+                            @endif
                         @endif
 
                     @endforeach
@@ -89,7 +115,8 @@
 
                 <br>
                 <br>
-
+                {{--<p><a href="{{url('problems/voting')}}" role="button" class="btn btn-outline-dark" >Most Serious Problem &raquo;</a></p>
+                <br>--}}
             </div>
             <div class="col-md-3">
                 @include('layouts.partials.side-menu')
@@ -151,7 +178,7 @@
 
                 jQuery.ajax({
                     beforeSend: function(){
-                        if(confirm($('#currentMsg').val()))
+                        if(confirm("Are you sure ?"))
                             return true;
                         else
                             return false;
@@ -169,7 +196,7 @@
 
                     success: function(result){
                         //jQuery('#likeCount').text(result.kbc);
-                        jQuery("[data-id='"+result.id+"']").replaceWith('<img src="{{asset('images/loader1.gif')}}" height="30px" width="30px" class="align-centre">');
+                        jQuery("[data-id='"+result.id+"']").replaceWith('<img src="{{asset('images/loader1.gif')}}" height="20px" width="20px" class="align-centre">');
 
                         if(result.safalta == true){ // if true (1)
                             setTimeout(function(){// wait for 5 secs(2)

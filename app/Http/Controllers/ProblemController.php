@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Image;
 use App\Problem;
 Use App\State;
-use http\Url;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +28,8 @@ class ProblemController extends Controller
     public function index()
     {
         $problems = Problem::with('votes')->withCount('votes')
-            ->orderBy('votes_count','desc')->get();
+            //->orderBy('votes_count','desc')
+            ->get();
 
         $receivedVoteProblemId = null;
         foreach($problems as $problem){
@@ -41,7 +41,7 @@ class ProblemController extends Controller
         }
         $states = State::all();
 
-        return view('problem.index2',compact('problems','receivedVoteProblemId','states'));
+        return view('problem.index',compact('problems','receivedVoteProblemId','states'));
 
     }
 
@@ -154,6 +154,33 @@ class ProblemController extends Controller
             'title'=>'required',
             'notes' => 'required',
         ]);
+    }
+
+    public function voteProblem(Request $request){
+
+        $id = $request->problemid;
+        $cid = $request->currentid;
+
+        // Retrieve the current vote
+        // $currentOption = $request->currentOption;
+        if($cid==null){
+            $user = Auth::User();
+            $problem = Problem::query()->find($id);
+            $problem->votes()->create(['user_id'=>$user->id,'credits'=>$user->credits]);
+
+            return response()->json(['message' => 'You have successfully voted ','color'=>'green','id' => $id,'cid'=>$cid, 'safalta'=>true]);
+            //return redirect()->back();
+        }else {
+            $problem = Problem::query()->find($cid);
+            $vote = $problem->votes()->where('user_id', Auth::id())->first();
+            $vote->update(['votable_id' => $id]);
+            return response()->json(['message' => 'You have successfully voted ','color'=>'green','id' => $id,'cid'=>$cid, 'safalta'=>true]);
+            //return redirect()->back();
+        }
+
+        //return response()->json(['message' => 'You have successfully voted ','color'=>'green','id' => $id,'cid'=>$cid, 'safalta'=>true]);
+
+
     }
 
     public function ajaxVote(Request $request, $id){
