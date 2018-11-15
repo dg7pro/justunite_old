@@ -14,6 +14,7 @@ use App\State;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 
 class HomeController extends Controller
@@ -133,6 +134,34 @@ class HomeController extends Controller
     public function greatestIndiansEver(){
 
         return view('indians');
+    }
+
+    public function constitution(){
+
+        //$contents = Content::query()->where('page','=','electionpage')->orderBy('id','desc')->get();
+        $hiContent = Content::query()->where([
+            ['page','=','electionpage'],
+            ['slug','=','hindi']
+        ])->first();
+
+        $engContent = Content::query()->where([
+            ['page','=','constitution'],
+            ['slug','=','english']
+        ])->first();
+        return view('home.constitution',compact('hiContent','engContent'));
+    }
+
+    public function constitutionPDF(){
+
+        //$filename = 'app\public\saibaba.pdf';
+        //$path = storage_path($filename);
+        $filename = 'storage/saibaba.pdf';
+        $path = public_path($filename);
+
+        return Response::make(file_get_contents($path), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$filename.'"'
+        ]);
     }
 
 

@@ -127,7 +127,7 @@
                                     <th>
                                         @if($party->id == $receivedVotePartyId)
                                             {{--<button type="submit" class="btn btn-default btn-xs disabled"> Voted</button>--}}
-                                            <img src="{{asset('images/voted.png')}}" width="32em" height="32em"><b> voted</b>
+                                            <img src="{{asset('images/voted.png')}}" width="32em" height="32em"><b> Voted</b>
                                         @else
                                             {{--<form method="post" action="{{url('parties/vote/'.$party->id)}}" class="form-inline" onsubmit="{{$receivedVotePartyId != null ? 'return ConfirmVoteChange()' : ''}}">
                                                 {{csrf_field()}}

@@ -160,6 +160,8 @@ Route::get('loksabha-election-2019','HomeController@loksabhaElection2019');
 Route::get('loksabha-election','HomeController@loksabhaElection');
 Route::get('letter-to-candidates','HomeController@letterToCandidates');
 Route::get('greatest-indians','IndianController@index');
+Route::get('constitution','HomeController@constitution');
+Route::get('constitution-pdf','HomeController@constitutionPDF');
 
 
 

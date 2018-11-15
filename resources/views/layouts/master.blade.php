@@ -290,6 +290,19 @@
 </script>
 <script src="//cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
 <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5ad17dfabc190a0013e2a6dd&product=inline-share-buttons' async='async'></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Disable cut copy paste
+        $('body').bind('cut copy paste', function (e) {
+            e.preventDefault();
+        });
+
+        //Disable mouse right click
+        $("body").on("contextmenu",function(e){
+            return false;
+        });
+    });
+</script>
 @yield('extra-js')
 @yield('some-more-js')
 
