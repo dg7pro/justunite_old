@@ -19,7 +19,16 @@ use Illuminate\Support\Facades\File;*/
     var_dump($query->sql);
 });*/
 
+Route::get('/','HomeController@index');
+
 Auth::routes();
+
+Route::get('verify-email','VerifyController@showVerifyEmailPage');
+Route::post('verify-email','VerifyController@verifyEmail')->name('verifyEmail');
+
+Route::group(['middleware'=>'VerifyEmail'],function (){
+    // Forcing User to verify their email by restricting access to certain routes
+});
 
 Route::get('/admin','AdminController@index')->name('admin');
 
@@ -58,7 +67,6 @@ Route::get('constituencies/contestants/{id}','ConstituencyController@contestants
 Route::get('mygroup','GroupController@mygroup');
 Route::get('group/elect-president','GroupController@electPresident');
 
-Route::get('/','HomeController@index');
 Route::get('/home', 'HomeController@home')->name('home');
 Route::get('/cancel', 'HomeController@cancel')->name('cancel');
 Route::get('/faq','HomeController@faq');

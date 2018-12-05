@@ -44,6 +44,7 @@
                                 <td class="text-primary">
                                     {{Auth::User()->email}}
                                     {{--<button type="submit" class="btn btn-outline-info btn-sm">Verify</button>--}}
+                                    <a href="{{url('verify-email')}}" role="button" class="btn btn-outline-warning btn-sm">Verify</a>
                                 </td>
                             </tr>
                             <tr>

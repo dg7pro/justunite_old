@@ -2,8 +2,12 @@
 
 namespace App;
 
+use App\Mail\OTPMail;
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -15,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'uuid','invisible'
+        'name', 'email', 'password', 'uuid', 'invisible', 'em_verified', 'mb_verified'
     ];
 
     /**
@@ -160,6 +164,53 @@ class User extends Authenticatable
     public function indians(){
 
         return $this->belongsToMany('App\Indian');
+    }
+
+    /**
+     * Function gets back the OTP stored in Cache
+     * for matching and further use
+     * @return mixed
+     */
+    public function OTP(){
+
+        return Cache::get($this->OTPKey());
+    }
+
+    /**
+     * Function just creates and returns the OTP Key for specific user
+     * Example of Key is OTP_for_27 means OTP for User with id 27
+     * @return string
+     */
+    public function OTPKey(){
+
+        return "OTP_for_{$this->id}";
+    }
+
+    /**
+     * Function to cache the OTP
+     * This function puts the OTP a random 4 digits no. into cache memory
+     * @return int
+     */
+    public function cacheTheOTP(){
+
+        $OTP = rand(1000,9999);
+        Cache::put([$this->OTPKey()=>$OTP],Carbon::now()->addMinutes(15));
+        return $OTP;
+
+    }
+
+    public function userEmail(){
+
+        return $this->email;
+    }
+
+    /**
+     * Function mails the OTP to specific user
+     * on user email
+     */
+    public function sendOTP(){
+
+        Mail::to($this->userEmail())->send(new OTPMail($this->cacheTheOTP()));
     }
 
 
