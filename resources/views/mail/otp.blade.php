@@ -1,9 +1,9 @@
 @component('mail::message')
 # Introduction
 
-Your OTP is {{ $OTP }}
+Your One Time Password (OTP) is {{ $OTP }}
 
-@component('mail::button', ['url' => ''])
+@component('mail::button', ['url' => $OTP])
 Button Text
 @endcomponent
 

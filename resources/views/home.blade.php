@@ -41,10 +41,16 @@
                             <tbody>
                             <tr>
                                 <td width="30%">Email:</td>
-                                <td class="text-primary">
-                                    {{Auth::User()->email}}
+                                <td>
+                                    <span class="text-primary">{{Auth::User()->email}}</span>
                                     {{--<button type="submit" class="btn btn-outline-info btn-sm">Verify</button>--}}
-                                    <a href="{{url('verify-email')}}" role="button" class="btn btn-outline-warning btn-sm">Verify</a>
+                                    {{--<span class="badge badge-primary">Primary</span>--}}
+                                    @if(Auth::User()->em_verified)
+                                        <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"> </i> Verified</span>
+                                        {{--<span class="badge badge-primary">Primary</span>--}}
+                                    @else
+                                        <a href="{{url('verify-email')}}" role="button" class="badge badge-danger">Verify</a>
+                                    @endif
                                 </td>
                             </tr>
                             <tr>

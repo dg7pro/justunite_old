@@ -30,6 +30,9 @@ Route::group(['middleware'=>'VerifyEmail'],function (){
     // Forcing User to verify their email by restricting access to certain routes
 });
 
+Route::get('message-users','MessageController@create');
+Route::post('message-users/{msg}','MessageController@sendMessage');
+
 Route::get('/admin','AdminController@index')->name('admin');
 
 Route::post('like-indian','UserController@likeIndian');
@@ -199,6 +202,7 @@ Route::resource('indians','IndianController');
 Route::resource('languages','LanguageController');
 Route::resource('links','LinkController');
 Route::resource('maritals','MaritalController');
+Route::resource('messages','MessageController');
 Route::resource('offices','OfficeController');
 Route::resource('opinions','OpinionController');
 Route::resource('options','OptionController');
