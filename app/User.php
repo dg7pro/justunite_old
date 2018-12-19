@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Mail\OTPMail;
+use App\Notifications\MobileVerificationOTP;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -212,6 +213,70 @@ class User extends Authenticatable
 
         Mail::to($this->userEmail())->send(new OTPMail($this->cacheTheOTP()));
     }
+
+
+    /*
+     * Below are all the functions of mobile
+     * verification through sending One Time Password
+     * (OTP)on user's mobile
+     *
+     * */
+
+    /**
+     * Function gets back the OTP stored in Cache
+     * for matching and further use
+     * @return mixed
+     */
+    /*public function mbOTP(){
+
+        return Cache::get($this->mbOTPKey());
+    }*/
+
+    /**
+     * Function just creates and returns the OTP Key for specific user
+     * Example of Key is OTP_for_27 means OTP for User with id 27
+     * @return string
+     */
+    /*public function mbOTPKey(){
+
+        return "mbOTP_for_{$this->id}";
+    }*/
+
+    /**
+     * Function to cache the OTP
+     * This function puts the OTP a random 4 digits no. into cache memory
+     * @return int
+     */
+   /* public function cacheTheMbOTP(){
+
+        $mbOTP = rand(1000,9999);
+        Cache::put([$this->mbOTPKey()=>$mbOTP],Carbon::now()->addMinutes(15));
+        return $mbOTP;
+
+    }*/
+
+    /*public function userMobile(){
+
+        return $this->mobile;
+    }*/
+
+    /**
+     * Function mails the OTP to specific user
+     * on user email
+     */
+    public function sendMobileOTP(){
+
+        $this->notify(new MobileVerificationOTP($this->cacheTheOTP()));
+
+        //Mail::to($this->userMobile())->send(new OTPMail($this->cacheTheOTP()));
+    }
+
+    public function routeNotificationForKarix()
+    {
+        $mb = '+91'.$this->mobile;
+        return $mb;
+    }
+
 
 
 

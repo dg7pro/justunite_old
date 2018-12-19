@@ -4,8 +4,8 @@
 
     <div class="container">
         <br>
-        @include('layouts.alerts.success')
-        @include('layouts.alerts.error')
+        @include('layouts.alerts.flash')
+        @include('layouts.alerts.errors')
         <div class="row">
             <div class="col-md-9">
                 <br>

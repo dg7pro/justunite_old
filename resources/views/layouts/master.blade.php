@@ -275,6 +275,7 @@
 
 @include('layouts.partials.nav')
 @include('layouts.partials.header')
+@include('layouts.partials.verification-navbar')
 @yield('content')
 @include('layouts.partials.footer')
 

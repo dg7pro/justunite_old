@@ -6,15 +6,31 @@
         .table-borderless th {
             border: 0;
         }
+
+        a.disabled {
+            /* Make the disabled links grayish*/
+            color: gray;
+            /* And disable the pointer events */
+            pointer-events: none;
+        }
     </style>
 @endsection
 
 @section('content')
+
+    {{--<nav class="navbar navbar-light bg-info">
+        <form class="form-inline">
+            <div class="input-group">
+                <input type="text" class="form-control mr-sm-2" placeholder="Enter OTP" aria-label="Username" aria-describedby="basic-addon1">
+                <button class="btn btn-dark my-2 my-sm-0" type="submit">Submit</button>
+            </div>
+        </form>
+    </nav>--}}
     <div class="container">
         <br>
         <br>
-        @include('layouts.alerts.success')
-        @include('layouts.alerts.error')
+        @include('layouts.alerts.flash')
+        @include('layouts.alerts.errors')
         <div class="row">
             <div class="col-md-9">
 
@@ -39,6 +55,19 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {{--<tr>
+                                <nav class="navbar navbar-light bg-info">
+                                    <form class="form-inline center-block">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">Enter 4 digits</span>
+                                            </div>
+                                            <input type="text" class="form-control  mr-sm-2" placeholder="OTP" aria-label="Username" aria-describedby="basic-addon1">
+                                            <button class="btn btn-dark" type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </nav>
+                            </tr>--}}
                             <tr>
                                 <td width="30%">Email:</td>
                                 <td>
@@ -49,7 +78,7 @@
                                         <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"> </i> Verified</span>
                                         {{--<span class="badge badge-primary">Primary</span>--}}
                                     @else
-                                        <a href="{{url('verify-email')}}" role="button" class="badge badge-danger">Verify</a>
+                                        <a href="{{url('verify-email')}}" role="button" class="badge badge-danger {{Cache::has('OTP_for_'.Auth::User()->id)? 'disabled' : ''}}">Verify</a>
                                     @endif
                                 </td>
                             </tr>
@@ -59,11 +88,36 @@
                                     @if(Auth::User()->mobile)
                                         <a href="#" class="text-primary">{{Auth::User()->mobile}}</a>
                                         {{--<button type="submit" class="btn btn-outline-info btn-sm">Verify</button>--}}
+                                        @if(Auth::User()->mb_verified)
+                                            <span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"> </i> Verified</span>
+                                        @else
+                                            @if(Auth::User()->em_verified)
+                                               {{-- <a href="{{url('verify-mobile')}}" role="button" class="badge badge-warning">Verify</a>--}}
+                                                <a href="{{url('verify-mobile')}}" role="button" class="badge badge-warning {{Cache::has('OTP_for_'.Auth::User()->id)? 'disabled' : ''}} ">Verify</a>
+                                            @endif
+                                        @endif
                                     @else
                                         <i><a href="#constituency" class="text-primary js-scroll-trigger">Enter...</a></i>
                                     @endif
                                 </td>
                             </tr>
+                            {{--<tr>
+                                <nav class="navbar navbar-light bg-info">
+                                    <form class="form-inline">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control mr-sm-2" placeholder="Enter OTP" aria-label="Username" aria-describedby="basic-addon1">
+                                            <button class="btn btn-dark my-2 my-sm-0" type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </nav>
+                                <nav class="navbar navbar-light bg-light justify-content-between">
+                                    <a class="navbar-brand">Navbar</a>
+                                    <form class="form-inline">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                    </form>
+                                </nav>
+                            </tr>--}}
                             <tr>
                                 <td width="30%">Constituency:</td>
                                 <td>
@@ -167,11 +221,14 @@
                                     <label for="group">Mobile No:</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroupPrepend">
-                                        <i class="fa fa-phone" aria-hidden="true"></i>
-                                    </span>
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="input-group-text" id="inputGroupPrepend">
+                                                <b>+91</b>
+                                            </span>
                                         </div>
-                                        <input type="text" name="mobile" id="mobile" class="form-control" value="{{Auth::user()->mobile}}">
+                                        <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Enter 10 digit number" value="{{Auth::user()->mobile}}">
                                     </div>
                                 </div>
 

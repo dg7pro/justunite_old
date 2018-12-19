@@ -7,8 +7,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7">
-                @include('layouts.alerts.success')
-                @include('layouts.alerts.error')
+                @include('layouts.alerts.flash')
+                @include('layouts.alerts.errors')
                 <h2>Edit Links</h2>
                     <form method="POST" action="{{url('links/'.$link->id)}}">
 

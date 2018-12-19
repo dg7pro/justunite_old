@@ -14,33 +14,73 @@ class VerifyController extends Controller
 {
     public function showVerifyEmailPage(){
 
+        return view('verify-email');
+
+    }
+
+    public function sendVerificationEmail(){
+
         if(auth()->user()->em_verified == 1){
-            Session::flash('message', 'You have already verified your email!');
-            //return redirect()->back();
+            Session::flash('warning', 'You have already verified your email!');
             return back();
         }
-        //dd($OTP);
-       /* $OTP = rand(1000,9999);
-        Cache::put(['OTP'=>$OTP],Carbon::now()->addMinutes(5));
-        Mail::to('justunite007@gmail.com')->send(new OTPMail($OTP));*/
-
         auth()->user()->sendOTP();
-        return view('verify-otp');
+        Session::flash('message', 'One Time Password(OTP) successfully send to your Email!');
+        return $this->showVerifyEmailPage();
 
     }
 
     public function verifyEmail(Request $request){
 
-        //dd(request('otp'));
-
-        //return Cache::get('OTP');
         if($request->otp == Cache::get(auth()->user()->OTPKey())){
 
             Auth::user()->update(['em_verified' => true]);
-            //return response(null,201);
-            Session::flash('message', 'Welcome! You have successfully verified your email!');
+            Cache::forget(auth()->user()->OTPKey());
+            Session::flash('success', 'Welcome! You have successfully verified your email!');
             return redirect('home');
+
+        }else{
+            Session::flash('error', 'Oops! You have entered the wrong OTP');
+            //return $this->showVerifyEmailPage();
+            return back();
         }
-        return 'Not Ok';
+    }
+
+    /*
+     * Mobile Verification
+     * */
+
+    public function showVerifyMobilePage(){
+
+        return view('verify-mobile');
+
+    }
+
+    public function sendVerificationSMS(){
+
+        if(auth()->user()->mb_verified == 1){
+            Session::flash('message', 'You have already verified your mobile!');
+            return back();
+        }
+        auth()->user()->sendMobileOTP();
+        Session::flash('success', 'One Time Password(OTP) successfully send on your Mobile number! You may receive sms within 5 min');
+        return $this->showVerifyMobilePage();
+    }
+
+    public function verifyMobile(Request $request){
+
+        if($request->otp == Cache::get(auth()->user()->OTPKey())){
+
+            Auth::user()->update(['mb_verified' => true]);
+            Cache::forget(auth()->user()->OTPKey());
+            Session::flash('success', 'Welcome! You have successfully verified your mobile number!');
+            return redirect('home');
+
+        }else{
+
+            Session::flash('error', 'Oops! You have entered the wrong OTP');
+            //return $this->showVerifyMobilePage();
+            return back();
+        }
     }
 }

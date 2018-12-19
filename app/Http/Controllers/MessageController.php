@@ -185,7 +185,8 @@ class MessageController extends Controller
 
             case 'notify':
 
-                $users = User::all();
+                //$users = User::all();
+                $users = User::whereNotBetween('id',[3,2127])->get();
                 $when = Carbon::now()->addSeconds(2);
                 Notification::send($users, (new NotifyAllUsers($request))->delay($when));
                 //$msg->update(['send'=>true]);
@@ -209,7 +210,8 @@ class MessageController extends Controller
 
             case 'message':
 
-                $users = User::all();
+                //$users = User::all();
+                $users = User::whereNotBetween('id',[3,2127])->get();
                 $when = Carbon::now()->addSeconds(2);
                 Notification::send($users, (new MessageAllUsers($request))->delay($when));
                 //$msg->update(['send'=>true]);
