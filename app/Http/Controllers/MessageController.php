@@ -176,7 +176,7 @@ class MessageController extends Controller
 
                 $user = Auth()->user();
                 $when = Carbon::now()->addSeconds(2);
-                Notification::send($user, (new NotifyAllUsers($request))->delay($when));
+                Notification::send($user, (new NotifyAllUsers($request->all()))->delay($when));
 
                 //Flash Message
                 Session::flash('message', 'Notification send successfully!');
@@ -188,7 +188,7 @@ class MessageController extends Controller
                 //$users = User::all();
                 $users = User::whereNotBetween('id',[3,2127])->get();
                 $when = Carbon::now()->addSeconds(2);
-                Notification::send($users, (new NotifyAllUsers($request))->delay($when));
+                Notification::send($users, (new NotifyAllUsers($request->all()))->delay($when));
                 //$msg->update(['send'=>true]);
                 $msg->increment('send');
 
@@ -201,7 +201,7 @@ class MessageController extends Controller
 
                 $user = Auth()->user();
                 $when = Carbon::now()->addSeconds(2);
-                Notification::send($user, (new MessageAllUsers($request))->delay($when));
+                Notification::send($user, (new MessageAllUsers($request->all()))->delay($when));
 
                 //Flash Message
                 Session::flash('message', 'Message send successfully!');
@@ -213,7 +213,7 @@ class MessageController extends Controller
                 //$users = User::all();
                 $users = User::whereNotBetween('id',[3,2127])->get();
                 $when = Carbon::now()->addSeconds(2);
-                Notification::send($users, (new MessageAllUsers($request))->delay($when));
+                Notification::send($users, (new MessageAllUsers($request->all()))->delay($when));
                 //$msg->update(['send'=>true]);
                 $msg->increment('send');
 

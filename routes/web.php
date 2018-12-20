@@ -23,20 +23,6 @@ Route::get('/','HomeController@index');
 
 Auth::routes();
 
-use App\User;
-
-Route::get('test-route',function (){
-    //return Auth::User()->routeNotificationForKarix();
-    //return Cache::get('OTP_for_'.Auth::User()->id);
-
-    //return $users = User::where('id','<',3)->count();
-    //return $users = User::whereNotBetween()
-    //return User::all('id','name');
-
-    $users = User::whereNotBetween('id',[3,2127])->get(['id','name']);
-    return $users;
-});
-
 Route::get('verify-email','VerifyController@sendVerificationEmail');
 Route::post('verify-email','VerifyController@verifyEmail')->name('verifyEmail');
 

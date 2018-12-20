@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,12 +13,11 @@ class MessageAllUsers extends Notification implements ShouldQueue
 
     public $request;
 
-
     /**
      * MessageAllUsers constructor.
-     * @param Request $request
+     * @param $request
      */
-    public function __construct(Request $request)
+    public function __construct($request)
     {
         $this->request = $request;
     }
@@ -43,9 +41,9 @@ class MessageAllUsers extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $sub = $this->request->subject;
-        $msg = $this->request->message;
-        $url = $this->request->url;
+        $sub = $this->request['subject'];
+        $msg = $this->request['message'];
+        $url = $this->request['url'];
 
         return (new MailMessage)
             ->subject($sub)
