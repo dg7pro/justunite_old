@@ -44,6 +44,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * Always capitalize the first name when we save it to the database
+     */
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = ucwords(strtolower($value));
+    }
+
+    /**
      * Get all of the user's votes.
      */
     public function votes()
@@ -276,6 +283,7 @@ class User extends Authenticatable
         $mb = '+91'.$this->mobile;
         return $mb;
     }
+
 
 
 
